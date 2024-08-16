@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="AppData" targetNamespace="http://tempuri.org/AppData.xsd" xmlns:mstns="http://tempuri.org/AppData.xsd" xmlns="http://tempuri.org/AppData.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="AppData" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="AppData" msprop:Generator_UserDSName="AppData">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="KHACH_HANG" msprop:Generator_TableClassName="KHACH_HANGDataTable" msprop:Generator_TableVarName="tableKHACH_HANG" msprop:Generator_TablePropName="KHACH_HANG" msprop:Generator_RowDeletingName="KHACH_HANGRowDeleting" msprop:Generator_RowChangingName="KHACH_HANGRowChanging" msprop:Generator_RowEvHandlerName="KHACH_HANGRowChangeEventHandler" msprop:Generator_RowDeletedName="KHACH_HANGRowDeleted" msprop:Generator_UserTableName="KHACH_HANG" msprop:Generator_RowChangedName="KHACH_HANGRowChanged" msprop:Generator_RowEvArgName="KHACH_HANGRowChangeEvent" msprop:Generator_RowClassName="KHACH_HANGRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="HoVaTen" msprop:Generator_ColumnVarNameInTable="columnHoVaTen" msprop:Generator_ColumnPropNameInRow="HoVaTen" msprop:Generator_ColumnPropNameInTable="HoVaTenColumn" msprop:Generator_UserColumnName="HoVaTen" type="xs:string" minOccurs="0" />
+              <xs:element name="GioiTinh" msprop:Generator_ColumnVarNameInTable="columnGioiTinh" msprop:Generator_ColumnPropNameInRow="GioiTinh" msprop:Generator_ColumnPropNameInTable="GioiTinhColumn" msprop:Generator_UserColumnName="GioiTinh" type="xs:boolean" minOccurs="0" />
+              <xs:element name="NgaySinh" msprop:Generator_ColumnVarNameInTable="columnNgaySinh" msprop:Generator_ColumnPropNameInRow="NgaySinh" msprop:Generator_ColumnPropNameInTable="NgaySinhColumn" msprop:Generator_UserColumnName="NgaySinh" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="SoCCCD" msprop:Generator_ColumnVarNameInTable="columnSoCCCD" msprop:Generator_ColumnPropNameInRow="SoCCCD" msprop:Generator_ColumnPropNameInTable="SoCCCDColumn" msprop:Generator_UserColumnName="SoCCCD" type="xs:string" />
+              <xs:element name="DiaChi" msprop:Generator_ColumnVarNameInTable="columnDiaChi" msprop:Generator_ColumnPropNameInRow="DiaChi" msprop:Generator_ColumnPropNameInTable="DiaChiColumn" msprop:Generator_UserColumnName="DiaChi" type="xs:string" minOccurs="0" />
+              <xs:element name="SoDienThoai" msprop:Generator_ColumnVarNameInTable="columnSoDienThoai" msprop:Generator_ColumnPropNameInRow="SoDienThoai" msprop:Generator_ColumnPropNameInTable="SoDienThoaiColumn" msprop:Generator_UserColumnName="SoDienThoai" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="KHACH_HANG_PrimaryKey" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:KHACH_HANG" />
+      <xs:field xpath="mstns:SoCCCD" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>
