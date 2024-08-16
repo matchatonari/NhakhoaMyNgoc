@@ -24,6 +24,26 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="DON_HANG" msprop:Generator_TableClassName="DON_HANGDataTable" msprop:Generator_TableVarName="tableDON_HANG" msprop:Generator_RowChangedName="DON_HANGRowChanged" msprop:Generator_TablePropName="DON_HANG" msprop:Generator_RowDeletingName="DON_HANGRowDeleting" msprop:Generator_RowChangingName="DON_HANGRowChanging" msprop:Generator_RowEvHandlerName="DON_HANGRowChangeEventHandler" msprop:Generator_RowDeletedName="DON_HANGRowDeleted" msprop:Generator_RowClassName="DON_HANGRow" msprop:Generator_UserTableName="DON_HANG" msprop:Generator_RowEvArgName="DON_HANGRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="NgayKham" msprop:Generator_ColumnVarNameInTable="columnNgayKham" msprop:Generator_ColumnPropNameInRow="NgayKham" msprop:Generator_ColumnPropNameInTable="NgayKhamColumn" msprop:Generator_UserColumnName="NgayKham" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="SoCCCD" msprop:Generator_ColumnVarNameInTable="columnSoCCCD" msprop:Generator_ColumnPropNameInRow="SoCCCD" msprop:Generator_ColumnPropNameInTable="SoCCCDColumn" msprop:Generator_UserColumnName="SoCCCD" type="xs:string" minOccurs="0" />
+              <xs:element name="NoiDungDieuTri" msprop:Generator_ColumnVarNameInTable="columnNoiDungDieuTri" msprop:Generator_ColumnPropNameInRow="NoiDungDieuTri" msprop:Generator_ColumnPropNameInTable="NoiDungDieuTriColumn" msprop:Generator_UserColumnName="NoiDungDieuTri" type="xs:string" minOccurs="0" />
+              <xs:element name="GiamGia" msprop:Generator_ColumnVarNameInTable="columnGiamGia" msprop:Generator_ColumnPropNameInRow="GiamGia" msprop:Generator_ColumnPropNameInTable="GiamGiaColumn" msprop:Generator_UserColumnName="GiamGia" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="MUC_DON_HANG" msprop:Generator_TableClassName="MUC_DON_HANGDataTable" msprop:Generator_TableVarName="tableMUC_DON_HANG" msprop:Generator_RowChangedName="MUC_DON_HANGRowChanged" msprop:Generator_TablePropName="MUC_DON_HANG" msprop:Generator_RowDeletingName="MUC_DON_HANGRowDeleting" msprop:Generator_RowChangingName="MUC_DON_HANGRowChanging" msprop:Generator_RowEvHandlerName="MUC_DON_HANGRowChangeEventHandler" msprop:Generator_RowDeletedName="MUC_DON_HANGRowDeleted" msprop:Generator_RowClassName="MUC_DON_HANGRow" msprop:Generator_UserTableName="MUC_DON_HANG" msprop:Generator_RowEvArgName="MUC_DON_HANGRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="NoiDung" msprop:Generator_ColumnVarNameInTable="columnNoiDung" msprop:Generator_ColumnPropNameInRow="NoiDung" msprop:Generator_ColumnPropNameInTable="NoiDungColumn" msprop:Generator_UserColumnName="NoiDung" type="xs:string" minOccurs="0" />
+              <xs:element name="SoTien" msprop:Generator_ColumnVarNameInTable="columnSoTien" msprop:Generator_ColumnPropNameInRow="SoTien" msprop:Generator_ColumnPropNameInTable="SoTienColumn" msprop:Generator_UserColumnName="SoTien" type="xs:string" minOccurs="0" />
+              <xs:element name="NgayKham" msprop:Generator_ColumnVarNameInTable="columnNgayKham" msprop:Generator_ColumnPropNameInRow="NgayKham" msprop:Generator_ColumnPropNameInTable="NgayKhamColumn" msprop:Generator_UserColumnName="NgayKham" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="SoCCCD" msprop:Generator_ColumnVarNameInTable="columnSoCCCD" msprop:Generator_ColumnPropNameInRow="SoCCCD" msprop:Generator_ColumnPropNameInTable="SoCCCDColumn" msprop:Generator_UserColumnName="SoCCCD" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
     <xs:unique name="KHACH_HANG_PrimaryKey" msdata:PrimaryKey="true">
@@ -31,4 +51,11 @@
       <xs:field xpath="mstns:SoCCCD" />
     </xs:unique>
   </xs:element>
+  <xs:annotation>
+    <xs:appinfo>
+      <msdata:Relationship name="SoCCCD_DON_HANG" msdata:parent="KHACH_HANG" msdata:child="DON_HANG" msdata:parentkey="SoCCCD" msdata:childkey="SoCCCD" msprop:Generator_UserChildTable="DON_HANG" msprop:Generator_ChildPropName="GetDON_HANGRows" msprop:Generator_UserRelationName="SoCCCD_DON_HANG" msprop:Generator_RelationVarName="relationSoCCCD_DON_HANG" msprop:Generator_UserParentTable="KHACH_HANG" msprop:Generator_ParentPropName="KHACH_HANGRow" />
+      <msdata:Relationship name="SoCCCD_MUC_DON_HANG" msdata:parent="DON_HANG" msdata:child="MUC_DON_HANG" msdata:parentkey="SoCCCD" msdata:childkey="SoCCCD" msprop:Generator_UserChildTable="MUC_DON_HANG" msprop:Generator_ChildPropName="GetMUC_DON_HANGRowsBySoCCCD_MUC_DON_HANG" msprop:Generator_UserRelationName="SoCCCD_MUC_DON_HANG" msprop:Generator_RelationVarName="relationSoCCCD_MUC_DON_HANG" msprop:Generator_UserParentTable="DON_HANG" msprop:Generator_ParentPropName="DON_HANGRowBySoCCCD_MUC_DON_HANG" />
+      <msdata:Relationship name="NgayKham_MUC_DON_HANG" msdata:parent="DON_HANG" msdata:child="MUC_DON_HANG" msdata:parentkey="NgayKham" msdata:childkey="NgayKham" msprop:Generator_UserChildTable="MUC_DON_HANG" msprop:Generator_ChildPropName="GetMUC_DON_HANGRowsByNgayKham_MUC_DON_HANG" msprop:Generator_UserRelationName="NgayKham_MUC_DON_HANG" msprop:Generator_ParentPropName="DON_HANGRowByDON_HANG_MUC_DON_HANG" msprop:Generator_RelationVarName="relationNgayKham_MUC_DON_HANG" msprop:Generator_UserParentTable="DON_HANG" />
+    </xs:appinfo>
+  </xs:annotation>
 </xs:schema>
