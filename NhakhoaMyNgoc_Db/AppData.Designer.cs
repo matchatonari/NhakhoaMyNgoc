@@ -26,15 +26,9 @@ namespace NhakhoaMyNgoc_Db {
         
         private KHACH_HANGDataTable tableKHACH_HANG;
         
-        private DON_HANGDataTable tableDON_HANG;
-        
         private MUC_DON_HANGDataTable tableMUC_DON_HANG;
         
-        private global::System.Data.DataRelation relationSoCCCD_DON_HANG;
-        
-        private global::System.Data.DataRelation relationSoCCCD_MUC_DON_HANG;
-        
-        private global::System.Data.DataRelation relationNgayKham_MUC_DON_HANG;
+        private global::System.Data.DataRelation relationSoCCCD;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -67,9 +61,6 @@ namespace NhakhoaMyNgoc_Db {
                 if ((ds.Tables["KHACH_HANG"] != null)) {
                     base.Tables.Add(new KHACH_HANGDataTable(ds.Tables["KHACH_HANG"]));
                 }
-                if ((ds.Tables["DON_HANG"] != null)) {
-                    base.Tables.Add(new DON_HANGDataTable(ds.Tables["DON_HANG"]));
-                }
                 if ((ds.Tables["MUC_DON_HANG"] != null)) {
                     base.Tables.Add(new MUC_DON_HANGDataTable(ds.Tables["MUC_DON_HANG"]));
                 }
@@ -98,16 +89,6 @@ namespace NhakhoaMyNgoc_Db {
         public KHACH_HANGDataTable KHACH_HANG {
             get {
                 return this.tableKHACH_HANG;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Browsable(false)]
-        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public DON_HANGDataTable DON_HANG {
-            get {
-                return this.tableDON_HANG;
             }
         }
         
@@ -191,9 +172,6 @@ namespace NhakhoaMyNgoc_Db {
                 if ((ds.Tables["KHACH_HANG"] != null)) {
                     base.Tables.Add(new KHACH_HANGDataTable(ds.Tables["KHACH_HANG"]));
                 }
-                if ((ds.Tables["DON_HANG"] != null)) {
-                    base.Tables.Add(new DON_HANGDataTable(ds.Tables["DON_HANG"]));
-                }
                 if ((ds.Tables["MUC_DON_HANG"] != null)) {
                     base.Tables.Add(new MUC_DON_HANGDataTable(ds.Tables["MUC_DON_HANG"]));
                 }
@@ -236,21 +214,13 @@ namespace NhakhoaMyNgoc_Db {
                     this.tableKHACH_HANG.InitVars();
                 }
             }
-            this.tableDON_HANG = ((DON_HANGDataTable)(base.Tables["DON_HANG"]));
-            if ((initTable == true)) {
-                if ((this.tableDON_HANG != null)) {
-                    this.tableDON_HANG.InitVars();
-                }
-            }
             this.tableMUC_DON_HANG = ((MUC_DON_HANGDataTable)(base.Tables["MUC_DON_HANG"]));
             if ((initTable == true)) {
                 if ((this.tableMUC_DON_HANG != null)) {
                     this.tableMUC_DON_HANG.InitVars();
                 }
             }
-            this.relationSoCCCD_DON_HANG = this.Relations["SoCCCD_DON_HANG"];
-            this.relationSoCCCD_MUC_DON_HANG = this.Relations["SoCCCD_MUC_DON_HANG"];
-            this.relationNgayKham_MUC_DON_HANG = this.Relations["NgayKham_MUC_DON_HANG"];
+            this.relationSoCCCD = this.Relations["SoCCCD"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -263,33 +233,17 @@ namespace NhakhoaMyNgoc_Db {
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
             this.tableKHACH_HANG = new KHACH_HANGDataTable();
             base.Tables.Add(this.tableKHACH_HANG);
-            this.tableDON_HANG = new DON_HANGDataTable();
-            base.Tables.Add(this.tableDON_HANG);
             this.tableMUC_DON_HANG = new MUC_DON_HANGDataTable();
             base.Tables.Add(this.tableMUC_DON_HANG);
-            this.relationSoCCCD_DON_HANG = new global::System.Data.DataRelation("SoCCCD_DON_HANG", new global::System.Data.DataColumn[] {
+            this.relationSoCCCD = new global::System.Data.DataRelation("SoCCCD", new global::System.Data.DataColumn[] {
                         this.tableKHACH_HANG.SoCCCDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableDON_HANG.SoCCCDColumn}, false);
-            this.Relations.Add(this.relationSoCCCD_DON_HANG);
-            this.relationSoCCCD_MUC_DON_HANG = new global::System.Data.DataRelation("SoCCCD_MUC_DON_HANG", new global::System.Data.DataColumn[] {
-                        this.tableDON_HANG.SoCCCDColumn}, new global::System.Data.DataColumn[] {
                         this.tableMUC_DON_HANG.SoCCCDColumn}, false);
-            this.Relations.Add(this.relationSoCCCD_MUC_DON_HANG);
-            this.relationNgayKham_MUC_DON_HANG = new global::System.Data.DataRelation("NgayKham_MUC_DON_HANG", new global::System.Data.DataColumn[] {
-                        this.tableDON_HANG.NgayKhamColumn}, new global::System.Data.DataColumn[] {
-                        this.tableMUC_DON_HANG.NgayKhamColumn}, false);
-            this.Relations.Add(this.relationNgayKham_MUC_DON_HANG);
+            this.Relations.Add(this.relationSoCCCD);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private bool ShouldSerializeKHACH_HANG() {
-            return false;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerializeDON_HANG() {
             return false;
         }
         
@@ -356,9 +310,6 @@ namespace NhakhoaMyNgoc_Db {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public delegate void KHACH_HANGRowChangeEventHandler(object sender, KHACH_HANGRowChangeEvent e);
-        
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void DON_HANGRowChangeEventHandler(object sender, DON_HANGRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public delegate void MUC_DON_HANGRowChangeEventHandler(object sender, MUC_DON_HANGRowChangeEvent e);
@@ -696,298 +647,6 @@ namespace NhakhoaMyNgoc_Db {
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class DON_HANGDataTable : global::System.Data.TypedTableBase<DON_HANGRow> {
-            
-            private global::System.Data.DataColumn columnNgayKham;
-            
-            private global::System.Data.DataColumn columnSoCCCD;
-            
-            private global::System.Data.DataColumn columnNoiDungDieuTri;
-            
-            private global::System.Data.DataColumn columnGiamGia;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DON_HANGDataTable() {
-                this.TableName = "DON_HANG";
-                this.BeginInit();
-                this.InitClass();
-                this.EndInit();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal DON_HANGDataTable(global::System.Data.DataTable table) {
-                this.TableName = table.TableName;
-                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
-                    this.CaseSensitive = table.CaseSensitive;
-                }
-                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
-                    this.Locale = table.Locale;
-                }
-                if ((table.Namespace != table.DataSet.Namespace)) {
-                    this.Namespace = table.Namespace;
-                }
-                this.Prefix = table.Prefix;
-                this.MinimumCapacity = table.MinimumCapacity;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected DON_HANGDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
-                    base(info, context) {
-                this.InitVars();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn NgayKhamColumn {
-                get {
-                    return this.columnNgayKham;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn SoCCCDColumn {
-                get {
-                    return this.columnSoCCCD;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn NoiDungDieuTriColumn {
-                get {
-                    return this.columnNoiDungDieuTri;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn GiamGiaColumn {
-                get {
-                    return this.columnGiamGia;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            [global::System.ComponentModel.Browsable(false)]
-            public int Count {
-                get {
-                    return this.Rows.Count;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DON_HANGRow this[int index] {
-                get {
-                    return ((DON_HANGRow)(this.Rows[index]));
-                }
-            }
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event DON_HANGRowChangeEventHandler DON_HANGRowChanging;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event DON_HANGRowChangeEventHandler DON_HANGRowChanged;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event DON_HANGRowChangeEventHandler DON_HANGRowDeleting;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event DON_HANGRowChangeEventHandler DON_HANGRowDeleted;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void AddDON_HANGRow(DON_HANGRow row) {
-                this.Rows.Add(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DON_HANGRow AddDON_HANGRow(System.DateTime NgayKham, KHACH_HANGRow parentKHACH_HANGRowBySoCCCD_DON_HANG, string NoiDungDieuTri, int GiamGia) {
-                DON_HANGRow rowDON_HANGRow = ((DON_HANGRow)(this.NewRow()));
-                object[] columnValuesArray = new object[] {
-                        NgayKham,
-                        null,
-                        NoiDungDieuTri,
-                        GiamGia};
-                if ((parentKHACH_HANGRowBySoCCCD_DON_HANG != null)) {
-                    columnValuesArray[1] = parentKHACH_HANGRowBySoCCCD_DON_HANG[3];
-                }
-                rowDON_HANGRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowDON_HANGRow);
-                return rowDON_HANGRow;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public override global::System.Data.DataTable Clone() {
-                DON_HANGDataTable cln = ((DON_HANGDataTable)(base.Clone()));
-                cln.InitVars();
-                return cln;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Data.DataTable CreateInstance() {
-                return new DON_HANGDataTable();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal void InitVars() {
-                this.columnNgayKham = base.Columns["NgayKham"];
-                this.columnSoCCCD = base.Columns["SoCCCD"];
-                this.columnNoiDungDieuTri = base.Columns["NoiDungDieuTri"];
-                this.columnGiamGia = base.Columns["GiamGia"];
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            private void InitClass() {
-                this.columnNgayKham = new global::System.Data.DataColumn("NgayKham", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnNgayKham);
-                this.columnSoCCCD = new global::System.Data.DataColumn("SoCCCD", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnSoCCCD);
-                this.columnNoiDungDieuTri = new global::System.Data.DataColumn("NoiDungDieuTri", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnNoiDungDieuTri);
-                this.columnGiamGia = new global::System.Data.DataColumn("GiamGia", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnGiamGia);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DON_HANGRow NewDON_HANGRow() {
-                return ((DON_HANGRow)(this.NewRow()));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new DON_HANGRow(builder);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Type GetRowType() {
-                return typeof(DON_HANGRow);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanged(e);
-                if ((this.DON_HANGRowChanged != null)) {
-                    this.DON_HANGRowChanged(this, new DON_HANGRowChangeEvent(((DON_HANGRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanging(e);
-                if ((this.DON_HANGRowChanging != null)) {
-                    this.DON_HANGRowChanging(this, new DON_HANGRowChangeEvent(((DON_HANGRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleted(e);
-                if ((this.DON_HANGRowDeleted != null)) {
-                    this.DON_HANGRowDeleted(this, new DON_HANGRowChangeEvent(((DON_HANGRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleting(e);
-                if ((this.DON_HANGRowDeleting != null)) {
-                    this.DON_HANGRowDeleting(this, new DON_HANGRowChangeEvent(((DON_HANGRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void RemoveDON_HANGRow(DON_HANGRow row) {
-                this.Rows.Remove(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
-                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                AppData ds = new AppData();
-                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
-                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
-                any1.MinOccurs = new decimal(0);
-                any1.MaxOccurs = decimal.MaxValue;
-                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any1);
-                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
-                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
-                any2.MinOccurs = new decimal(1);
-                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any2);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
-                type.Attributes.Add(attribute1);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "DON_HANGDataTable";
-                type.Attributes.Add(attribute2);
-                type.Particle = sequence;
-                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
-                if (xs.Contains(dsSchema.TargetNamespace)) {
-                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
-                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
-                    try {
-                        global::System.Xml.Schema.XmlSchema schema = null;
-                        dsSchema.Write(s1);
-                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
-                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
-                            s2.SetLength(0);
-                            schema.Write(s2);
-                            if ((s1.Length == s2.Length)) {
-                                s1.Position = 0;
-                                s2.Position = 0;
-                                for (; ((s1.Position != s1.Length) 
-                                            && (s1.ReadByte() == s2.ReadByte())); ) {
-                                    ;
-                                }
-                                if ((s1.Position == s1.Length)) {
-                                    return type;
-                                }
-                            }
-                        }
-                    }
-                    finally {
-                        if ((s1 != null)) {
-                            s1.Close();
-                        }
-                        if ((s2 != null)) {
-                            s2.Close();
-                        }
-                    }
-                }
-                xs.Add(dsSchema);
-                return type;
-            }
-        }
-        
-        /// <summary>
-        ///Represents the strongly named DataTable class.
-        ///</summary>
-        [global::System.Serializable()]
-        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class MUC_DON_HANGDataTable : global::System.Data.TypedTableBase<MUC_DON_HANGRow> {
             
             private global::System.Data.DataColumn columnNoiDung;
@@ -997,6 +656,10 @@ namespace NhakhoaMyNgoc_Db {
             private global::System.Data.DataColumn columnNgayKham;
             
             private global::System.Data.DataColumn columnSoCCCD;
+            
+            private global::System.Data.DataColumn columnGiamGia;
+            
+            private global::System.Data.DataColumn columnThanhTien;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -1065,6 +728,22 @@ namespace NhakhoaMyNgoc_Db {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn GiamGiaColumn {
+                get {
+                    return this.columnGiamGia;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ThanhTienColumn {
+                get {
+                    return this.columnThanhTien;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1100,18 +779,17 @@ namespace NhakhoaMyNgoc_Db {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public MUC_DON_HANGRow AddMUC_DON_HANGRow(string NoiDung, string SoTien, DON_HANGRow parentDON_HANGRowByNgayKham_MUC_DON_HANG, DON_HANGRow parentDON_HANGRowBySoCCCD_MUC_DON_HANG) {
+            public MUC_DON_HANGRow AddMUC_DON_HANGRow(string NoiDung, string SoTien, System.DateTime NgayKham, KHACH_HANGRow parentKHACH_HANGRowBySoCCCD, int GiamGia, int ThanhTien) {
                 MUC_DON_HANGRow rowMUC_DON_HANGRow = ((MUC_DON_HANGRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         NoiDung,
                         SoTien,
+                        NgayKham,
                         null,
-                        null};
-                if ((parentDON_HANGRowByNgayKham_MUC_DON_HANG != null)) {
-                    columnValuesArray[2] = parentDON_HANGRowByNgayKham_MUC_DON_HANG[0];
-                }
-                if ((parentDON_HANGRowBySoCCCD_MUC_DON_HANG != null)) {
-                    columnValuesArray[3] = parentDON_HANGRowBySoCCCD_MUC_DON_HANG[1];
+                        GiamGia,
+                        ThanhTien};
+                if ((parentKHACH_HANGRowBySoCCCD != null)) {
+                    columnValuesArray[3] = parentKHACH_HANGRowBySoCCCD[3];
                 }
                 rowMUC_DON_HANGRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowMUC_DON_HANGRow);
@@ -1139,6 +817,8 @@ namespace NhakhoaMyNgoc_Db {
                 this.columnSoTien = base.Columns["SoTien"];
                 this.columnNgayKham = base.Columns["NgayKham"];
                 this.columnSoCCCD = base.Columns["SoCCCD"];
+                this.columnGiamGia = base.Columns["GiamGia"];
+                this.columnThanhTien = base.Columns["ThanhTien"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1152,6 +832,10 @@ namespace NhakhoaMyNgoc_Db {
                 base.Columns.Add(this.columnNgayKham);
                 this.columnSoCCCD = new global::System.Data.DataColumn("SoCCCD", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSoCCCD);
+                this.columnGiamGia = new global::System.Data.DataColumn("GiamGia", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnGiamGia);
+                this.columnThanhTien = new global::System.Data.DataColumn("ThanhTien", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnThanhTien);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1445,172 +1129,12 @@ namespace NhakhoaMyNgoc_Db {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DON_HANGRow[] GetDON_HANGRows() {
-                if ((this.Table.ChildRelations["SoCCCD_DON_HANG"] == null)) {
-                    return new DON_HANGRow[0];
-                }
-                else {
-                    return ((DON_HANGRow[])(base.GetChildRows(this.Table.ChildRelations["SoCCCD_DON_HANG"])));
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Represents strongly named DataRow class.
-        ///</summary>
-        public partial class DON_HANGRow : global::System.Data.DataRow {
-            
-            private DON_HANGDataTable tableDON_HANG;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal DON_HANGRow(global::System.Data.DataRowBuilder rb) : 
-                    base(rb) {
-                this.tableDON_HANG = ((DON_HANGDataTable)(this.Table));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public System.DateTime NgayKham {
-                get {
-                    try {
-                        return ((global::System.DateTime)(this[this.tableDON_HANG.NgayKhamColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'NgayKham\' in table \'DON_HANG\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableDON_HANG.NgayKhamColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string SoCCCD {
-                get {
-                    try {
-                        return ((string)(this[this.tableDON_HANG.SoCCCDColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'SoCCCD\' in table \'DON_HANG\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableDON_HANG.SoCCCDColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string NoiDungDieuTri {
-                get {
-                    try {
-                        return ((string)(this[this.tableDON_HANG.NoiDungDieuTriColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'NoiDungDieuTri\' in table \'DON_HANG\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableDON_HANG.NoiDungDieuTriColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int GiamGia {
-                get {
-                    try {
-                        return ((int)(this[this.tableDON_HANG.GiamGiaColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'GiamGia\' in table \'DON_HANG\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableDON_HANG.GiamGiaColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public KHACH_HANGRow KHACH_HANGRow {
-                get {
-                    return ((KHACH_HANGRow)(this.GetParentRow(this.Table.ParentRelations["SoCCCD_DON_HANG"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["SoCCCD_DON_HANG"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsNgayKhamNull() {
-                return this.IsNull(this.tableDON_HANG.NgayKhamColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetNgayKhamNull() {
-                this[this.tableDON_HANG.NgayKhamColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsSoCCCDNull() {
-                return this.IsNull(this.tableDON_HANG.SoCCCDColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetSoCCCDNull() {
-                this[this.tableDON_HANG.SoCCCDColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsNoiDungDieuTriNull() {
-                return this.IsNull(this.tableDON_HANG.NoiDungDieuTriColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetNoiDungDieuTriNull() {
-                this[this.tableDON_HANG.NoiDungDieuTriColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsGiamGiaNull() {
-                return this.IsNull(this.tableDON_HANG.GiamGiaColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetGiamGiaNull() {
-                this[this.tableDON_HANG.GiamGiaColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public MUC_DON_HANGRow[] GetMUC_DON_HANGRowsBySoCCCD_MUC_DON_HANG() {
-                if ((this.Table.ChildRelations["SoCCCD_MUC_DON_HANG"] == null)) {
+            public MUC_DON_HANGRow[] GetMUC_DON_HANGRows() {
+                if ((this.Table.ChildRelations["SoCCCD"] == null)) {
                     return new MUC_DON_HANGRow[0];
                 }
                 else {
-                    return ((MUC_DON_HANGRow[])(base.GetChildRows(this.Table.ChildRelations["SoCCCD_MUC_DON_HANG"])));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public MUC_DON_HANGRow[] GetMUC_DON_HANGRowsByNgayKham_MUC_DON_HANG() {
-                if ((this.Table.ChildRelations["NgayKham_MUC_DON_HANG"] == null)) {
-                    return new MUC_DON_HANGRow[0];
-                }
-                else {
-                    return ((MUC_DON_HANGRow[])(base.GetChildRows(this.Table.ChildRelations["NgayKham_MUC_DON_HANG"])));
+                    return ((MUC_DON_HANGRow[])(base.GetChildRows(this.Table.ChildRelations["SoCCCD"])));
                 }
             }
         }
@@ -1695,23 +1219,44 @@ namespace NhakhoaMyNgoc_Db {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DON_HANGRow DON_HANGRowBySoCCCD_MUC_DON_HANG {
+            public int GiamGia {
                 get {
-                    return ((DON_HANGRow)(this.GetParentRow(this.Table.ParentRelations["SoCCCD_MUC_DON_HANG"])));
+                    try {
+                        return ((int)(this[this.tableMUC_DON_HANG.GiamGiaColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'GiamGia\' in table \'MUC_DON_HANG\' is DBNull.", e);
+                    }
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["SoCCCD_MUC_DON_HANG"]);
+                    this[this.tableMUC_DON_HANG.GiamGiaColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DON_HANGRow DON_HANGRowByDON_HANG_MUC_DON_HANG {
+            public int ThanhTien {
                 get {
-                    return ((DON_HANGRow)(this.GetParentRow(this.Table.ParentRelations["NgayKham_MUC_DON_HANG"])));
+                    try {
+                        return ((int)(this[this.tableMUC_DON_HANG.ThanhTienColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ThanhTien\' in table \'MUC_DON_HANG\' is DBNull.", e);
+                    }
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["NgayKham_MUC_DON_HANG"]);
+                    this[this.tableMUC_DON_HANG.ThanhTienColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public KHACH_HANGRow KHACH_HANGRow {
+                get {
+                    return ((KHACH_HANGRow)(this.GetParentRow(this.Table.ParentRelations["SoCCCD"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["SoCCCD"]);
                 }
             }
             
@@ -1762,6 +1307,30 @@ namespace NhakhoaMyNgoc_Db {
             public void SetSoCCCDNull() {
                 this[this.tableMUC_DON_HANG.SoCCCDColumn] = global::System.Convert.DBNull;
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsGiamGiaNull() {
+                return this.IsNull(this.tableMUC_DON_HANG.GiamGiaColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetGiamGiaNull() {
+                this[this.tableMUC_DON_HANG.GiamGiaColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsThanhTienNull() {
+                return this.IsNull(this.tableMUC_DON_HANG.ThanhTienColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetThanhTienNull() {
+                this[this.tableMUC_DON_HANG.ThanhTienColumn] = global::System.Convert.DBNull;
+            }
         }
         
         /// <summary>
@@ -1784,40 +1353,6 @@ namespace NhakhoaMyNgoc_Db {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public KHACH_HANGRow Row {
-                get {
-                    return this.eventRow;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataRowAction Action {
-                get {
-                    return this.eventAction;
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Row event argument class
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class DON_HANGRowChangeEvent : global::System.EventArgs {
-            
-            private DON_HANGRow eventRow;
-            
-            private global::System.Data.DataRowAction eventAction;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DON_HANGRowChangeEvent(DON_HANGRow row, global::System.Data.DataRowAction action) {
-                this.eventRow = row;
-                this.eventAction = action;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DON_HANGRow Row {
                 get {
                     return this.eventRow;
                 }
