@@ -661,6 +661,10 @@ namespace NhakhoaMyNgoc_Db {
             
             private global::System.Data.DataColumn columnThanhTien;
             
+            private global::System.Data.DataColumn columnSoLuong;
+            
+            private global::System.Data.DataColumn columnMaMucDonHang;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public MUC_DON_HANGDataTable() {
@@ -744,6 +748,22 @@ namespace NhakhoaMyNgoc_Db {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn SoLuongColumn {
+                get {
+                    return this.columnSoLuong;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn MaMucDonHangColumn {
+                get {
+                    return this.columnMaMucDonHang;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -779,7 +799,7 @@ namespace NhakhoaMyNgoc_Db {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public MUC_DON_HANGRow AddMUC_DON_HANGRow(string NoiDung, string SoTien, System.DateTime NgayKham, KHACH_HANGRow parentKHACH_HANGRowBySoCCCD, int GiamGia, int ThanhTien) {
+            public MUC_DON_HANGRow AddMUC_DON_HANGRow(string NoiDung, int SoTien, System.DateTime NgayKham, KHACH_HANGRow parentKHACH_HANGRowBySoCCCD, int GiamGia, int ThanhTien, short SoLuong, string MaMucDonHang) {
                 MUC_DON_HANGRow rowMUC_DON_HANGRow = ((MUC_DON_HANGRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         NoiDung,
@@ -787,13 +807,22 @@ namespace NhakhoaMyNgoc_Db {
                         NgayKham,
                         null,
                         GiamGia,
-                        ThanhTien};
+                        ThanhTien,
+                        SoLuong,
+                        MaMucDonHang};
                 if ((parentKHACH_HANGRowBySoCCCD != null)) {
                     columnValuesArray[3] = parentKHACH_HANGRowBySoCCCD[3];
                 }
                 rowMUC_DON_HANGRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowMUC_DON_HANGRow);
                 return rowMUC_DON_HANGRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public MUC_DON_HANGRow FindByMaMucDonHang(string MaMucDonHang) {
+                return ((MUC_DON_HANGRow)(this.Rows.Find(new object[] {
+                            MaMucDonHang})));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -819,6 +848,8 @@ namespace NhakhoaMyNgoc_Db {
                 this.columnSoCCCD = base.Columns["SoCCCD"];
                 this.columnGiamGia = base.Columns["GiamGia"];
                 this.columnThanhTien = base.Columns["ThanhTien"];
+                this.columnSoLuong = base.Columns["SoLuong"];
+                this.columnMaMucDonHang = base.Columns["MaMucDonHang"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -826,7 +857,7 @@ namespace NhakhoaMyNgoc_Db {
             private void InitClass() {
                 this.columnNoiDung = new global::System.Data.DataColumn("NoiDung", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnNoiDung);
-                this.columnSoTien = new global::System.Data.DataColumn("SoTien", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnSoTien = new global::System.Data.DataColumn("SoTien", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSoTien);
                 this.columnNgayKham = new global::System.Data.DataColumn("NgayKham", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnNgayKham);
@@ -836,6 +867,14 @@ namespace NhakhoaMyNgoc_Db {
                 base.Columns.Add(this.columnGiamGia);
                 this.columnThanhTien = new global::System.Data.DataColumn("ThanhTien", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnThanhTien);
+                this.columnSoLuong = new global::System.Data.DataColumn("SoLuong", typeof(short), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSoLuong);
+                this.columnMaMucDonHang = new global::System.Data.DataColumn("MaMucDonHang", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMaMucDonHang);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("MUC_DON_HANGKey", new global::System.Data.DataColumn[] {
+                                this.columnMaMucDonHang}, true));
+                this.columnMaMucDonHang.AllowDBNull = false;
+                this.columnMaMucDonHang.Unique = true;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1171,10 +1210,10 @@ namespace NhakhoaMyNgoc_Db {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string SoTien {
+            public int SoTien {
                 get {
                     try {
-                        return ((string)(this[this.tableMUC_DON_HANG.SoTienColumn]));
+                        return ((int)(this[this.tableMUC_DON_HANG.SoTienColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'SoTien\' in table \'MUC_DON_HANG\' is DBNull.", e);
@@ -1246,6 +1285,33 @@ namespace NhakhoaMyNgoc_Db {
                 }
                 set {
                     this[this.tableMUC_DON_HANG.ThanhTienColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public short SoLuong {
+                get {
+                    try {
+                        return ((short)(this[this.tableMUC_DON_HANG.SoLuongColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'SoLuong\' in table \'MUC_DON_HANG\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableMUC_DON_HANG.SoLuongColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string MaMucDonHang {
+                get {
+                    return ((string)(this[this.tableMUC_DON_HANG.MaMucDonHangColumn]));
+                }
+                set {
+                    this[this.tableMUC_DON_HANG.MaMucDonHangColumn] = value;
                 }
             }
             
@@ -1330,6 +1396,18 @@ namespace NhakhoaMyNgoc_Db {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetThanhTienNull() {
                 this[this.tableMUC_DON_HANG.ThanhTienColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsSoLuongNull() {
+                return this.IsNull(this.tableMUC_DON_HANG.SoLuongColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetSoLuongNull() {
+                this[this.tableMUC_DON_HANG.SoLuongColumn] = global::System.Convert.DBNull;
             }
         }
         

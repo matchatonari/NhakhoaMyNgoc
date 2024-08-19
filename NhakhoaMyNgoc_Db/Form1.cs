@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace NhakhoaMyNgoc_Db
 {
@@ -50,9 +51,54 @@ namespace NhakhoaMyNgoc_Db
             }
         }
 
+        private string layHash()
+        {
+            // Generate a random byte array
+            byte[] randomBytes = new byte[32]; // 256 bits
+            RandomNumberGenerator rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomBytes);
+
+            // Compute the hash
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] hashBytes = sha256.ComputeHash(randomBytes);
+                string hash = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+                return hash;
+            }
+        }
+
         private void btnThemDonHang_Click(object sender, EventArgs e)
         {
-
+            // tính lại giá thành
+            nmThanhTien.Value = nmSoTien.Value * nmSoLuong.Value - nmGiamGia.Value;
+            // kiểm tra khách hàng có trong db chưa? chưa thì thêm vào.
+            DataRow searchResult = App.KHACH_HANG.Rows.Find(txtSoCCCD.Text);
+            if (searchResult == null)
+            {
+                DataRow newGuest = App.KHACH_HANG.NewRow();
+                newGuest["HoVaTen"] = cboHoVaTen.Text;
+                newGuest["GioiTinh"] = cbGioiTinh.Checked;
+                newGuest["NgaySinh"] = dtpkNgaySinh.Value;
+                newGuest["SoCCCD"] = txtSoCCCD.Text;
+                newGuest["DiaChi"] = cboDiaChi.Text;
+                newGuest["SoDienThoai"] = txtSoDienThoai.Text;
+                App.KHACH_HANG.Rows.Add(newGuest);
+            }
+            // thêm nội dung điều trị
+            DataRow newItem = App.MUC_DON_HANG.NewRow();
+            newItem["NoiDung"] = txtNoiDungDieuTri.Text;
+            newItem["SoTien"] = nmSoTien.Value;
+            newItem["NgayKham"] = dtpkNgayKham.Value;
+            newItem["SoCCCD"] = txtSoCCCD.Text;
+            newItem["GiamGia"] = nmGiamGia.Value;
+            newItem["ThanhTien"] = nmThanhTien.Value;
+            newItem["SoLuong"] = nmSoLuong.Value;
+            newItem["MaMucDonHang"] = layHash();
+            App.MUC_DON_HANG.Rows.Add(newItem);
+            dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
+            dgvDonHang.DataSource = null;
+            dgvDonHang.DataSource = App.MUC_DON_HANG;
+            dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -84,6 +130,8 @@ namespace NhakhoaMyNgoc_Db
 
         private void btnTimDonHang_Click(object sender, EventArgs e)
         {
+            // tránh lỗi khi đang load dữ liệu
+            dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
             // tìm theo số cccd
             if (txtSoCCCD.Text != string.Empty)
                 layDuLieuTuSoCCCD();
@@ -110,11 +158,52 @@ namespace NhakhoaMyNgoc_Db
                     }
                 }
             }
+            dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
         }
 
         private void cboHoVaTen_TextChanged(object sender, EventArgs e)
         {
             cboDiaChi.Text = txtSoCCCD.Text = txtSoDienThoai.Text = string.Empty;
+        }
+
+        private void dgvDonHang_SelectionChanged(object sender, EventArgs e)
+        {
+            int sum = 0;
+            foreach (DataGridViewRow row in dgvDonHang.SelectedRows)
+                sum += Convert.ToInt32(row.Cells[dgvDonHang.Columns.Count - 1].Value);
+            lblThanhTien.Text = string.Format("Thành tiền: {0:#,###0}đ", sum);
+        }
+
+        private void nmSoTien_ValueChanged(object sender, EventArgs e)
+        {
+            nmThanhTien.Value = nmSoTien.Value * nmSoLuong.Value - nmGiamGia.Value;
+        }
+
+        private void nmSoLuong_ValueChanged(object sender, EventArgs e)
+        {
+            nmThanhTien.Value = nmSoTien.Value * nmSoLuong.Value - nmGiamGia.Value;
+        }
+
+        private void nmGiamGia_ValueChanged(object sender, EventArgs e)
+        {
+            nmThanhTien.Value = nmSoTien.Value * nmSoLuong.Value - nmGiamGia.Value;
+        }
+
+        private void btnXoaDonHang_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có chắc muốn xoá các mục này không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                foreach (DataGridViewRow row in dgvDonHang.SelectedRows)
+                {
+                    DataRow selectedRow = App.MUC_DON_HANG.Rows.Find(row.Cells[0].Value);
+                    selectedRow.Delete();
+                }
+                App.MUC_DON_HANG.AcceptChanges();
+                dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
+                dgvDonHang.DataSource = null;
+                dgvDonHang.DataSource = App.MUC_DON_HANG;
+                dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
+            }
         }
     }
 }
