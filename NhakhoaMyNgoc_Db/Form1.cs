@@ -42,6 +42,7 @@ namespace NhakhoaMyNgoc_Db
                 txtSoDienThoai.Text = searchResult["SoDienThoai"].ToString();
                 DataRow[] history = App.MUC_DON_HANG.Select(string.Format("SoCCCD = '{0}'", txtSoCCCD.Text));
                 mUCDONHANGBindingSource.DataSource = history;
+                dgvDonHang.DataSource = mUCDONHANGBindingSource;
             }
             else
             {
@@ -97,7 +98,8 @@ namespace NhakhoaMyNgoc_Db
             App.MUC_DON_HANG.Rows.Add(newItem);
             dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
             dgvDonHang.DataSource = null;
-            dgvDonHang.DataSource = App.MUC_DON_HANG;
+            dgvDonHang.DataSource = mUCDONHANGBindingSource;
+            layDuLieuTuSoCCCD();
             dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
         }
 
@@ -193,15 +195,17 @@ namespace NhakhoaMyNgoc_Db
         {
             if (MessageBox.Show("Bạn có chắc muốn xoá các mục này không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                foreach (DataGridViewRow row in dgvDonHang.SelectedRows)
-                {
-                    DataRow selectedRow = App.MUC_DON_HANG.Rows.Find(row.Cells[0].Value);
-                    selectedRow.Delete();
-                }
-                App.MUC_DON_HANG.AcceptChanges();
                 dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
+                DataRow[] selectedRows = new DataRow[dgvDonHang.SelectedRows.Count];
+                int i = 0;
+                foreach (DataGridViewRow row in dgvDonHang.SelectedRows)
+                    selectedRows[i++] = App.MUC_DON_HANG.Rows.Find(row.Cells[0].Value);
                 dgvDonHang.DataSource = null;
-                dgvDonHang.DataSource = App.MUC_DON_HANG;
+                for (int j = 0; j < i; j++)
+                    selectedRows[j].Delete();
+                App.MUC_DON_HANG.AcceptChanges();
+                dgvDonHang.DataSource = mUCDONHANGBindingSource;
+                layDuLieuTuSoCCCD();
                 dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
             }
         }
