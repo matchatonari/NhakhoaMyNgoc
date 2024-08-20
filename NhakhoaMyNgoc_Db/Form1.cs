@@ -161,6 +161,17 @@ namespace NhakhoaMyNgoc_Db
                 }
             }
             dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
+            // vô hiệu hoá nút xoá và sửa nếu không có đơn hàng nào
+            if (dgvDonHang.Rows.Count == 0)
+            {
+                btnXoaDonHang.Enabled = false;
+                btnSuaDonHang.Enabled = false;
+            }
+            else
+            {
+                btnXoaDonHang.Enabled = true;
+                btnSuaDonHang.Enabled = true;
+            }
         }
 
         private void cboHoVaTen_TextChanged(object sender, EventArgs e)
@@ -198,6 +209,7 @@ namespace NhakhoaMyNgoc_Db
                 dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
                 DataRow[] selectedRows = new DataRow[dgvDonHang.SelectedRows.Count];
                 int i = 0;
+                // tránh lỗi RowNotInTableException
                 foreach (DataGridViewRow row in dgvDonHang.SelectedRows)
                     selectedRows[i++] = App.MUC_DON_HANG.Rows.Find(row.Cells[0].Value);
                 dgvDonHang.DataSource = null;
@@ -207,6 +219,49 @@ namespace NhakhoaMyNgoc_Db
                 dgvDonHang.DataSource = mUCDONHANGBindingSource;
                 layDuLieuTuSoCCCD();
                 dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
+            }
+        }
+
+        private void btnSuaDonHang_Click(object sender, EventArgs e)
+        {
+            dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
+            DataRow selectedRow = App.MUC_DON_HANG.Rows.Find(dgvDonHang.SelectedRows[0].Cells[0].Value);
+            selectedRow["NgayKham"] = dtpkNgayKham.Value;
+            selectedRow["SoTien"] = nmSoTien.Value;
+            selectedRow["SoLuong"] = nmSoLuong.Value;
+            selectedRow["GiamGia"] = nmGiamGia.Value;
+            selectedRow["ThanhTien"] = nmThanhTien.Value;
+            dgvDonHang.DataSource = null;
+            App.MUC_DON_HANG.AcceptChanges();
+            dgvDonHang.DataSource = mUCDONHANGBindingSource;
+            layDuLieuTuSoCCCD();
+            dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
+        }
+
+        private void btnSuaThongTinKhachHang_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có chắc muốn sửa thông tin của khách hàng không?\nLưu ý: Nếu phải sửa số CCCD, thực hiện sửa số CCCD trước, sau đó nhấn 'Sửa thông tin', sau đó mới sửa những thông tin khác, rồi lại nhấn 'Sửa thông tin' một lần nữa.", "Xác nhận sửa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                DataRow searchResult = App.KHACH_HANG.Rows.Find(txtSoCCCD.Text);
+                if (searchResult != null)
+                {
+                    // nếu cccd chưa bị sửa
+                    searchResult["HoVaTen"] = cboHoVaTen.Text;
+                    searchResult["GioiTinh"] = cbGioiTinh.Checked;
+                    searchResult["NgaySinh"] = dtpkNgaySinh.Value;
+                    searchResult["DiaChi"] = cboDiaChi.Text;
+                    searchResult["SoDienThoai"] = txtSoDienThoai.Text;
+                }
+                else
+                {
+                    // nếu cccd đã bị sửa
+                    DataRow[] anotherSearchResult = App.KHACH_HANG.Select(string.Format("HoVaTen = '{0}' AND GioiTinh = '{1}' AND NgaySinh = '{2}' AND DiaChi = '{3}' AND SoDienThoai = '{4}'", cboHoVaTen.Text, cbGioiTinh.Checked, dtpkNgaySinh.Value, cboDiaChi.Text, txtSoDienThoai.Text));
+                    if (anotherSearchResult.Length > 0)
+                        anotherSearchResult[0]["SoCCCD"] = txtSoCCCD.Text;
+                    else
+                        MessageBox.Show("Sửa thông tin thất bại. Có thể bạn đã làm sai quy trình sửa, hoặc khách hàng này chưa có trong cơ sở dữ liệu của bạn.", "Không thể sửa thông tin", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                App.KHACH_HANG.AcceptChanges();
             }
         }
     }
