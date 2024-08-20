@@ -40,9 +40,8 @@ namespace NhakhoaMyNgoc_Db
                 dtpkNgaySinh.Value = DateTime.Parse(searchResult["NgaySinh"].ToString());
                 cboDiaChi.Text = searchResult["DiaChi"].ToString();
                 txtSoDienThoai.Text = searchResult["SoDienThoai"].ToString();
-                DataRow[] history = App.MUC_DON_HANG.Select(string.Format("SoCCCD = '{0}'", txtSoCCCD.Text));
+                DataRow[] history = App.MUC_DON_HANG.Select(string.Format("SoCCCD = '{0}'", txtSoCCCD.Text), "NgayKham ASC");
                 mUCDONHANGBindingSource.DataSource = history;
-                dgvDonHang.DataSource = mUCDONHANGBindingSource;
             }
             else
             {
@@ -96,8 +95,9 @@ namespace NhakhoaMyNgoc_Db
             newItem["SoLuong"] = nmSoLuong.Value;
             newItem["MaMucDonHang"] = layHash();
             App.MUC_DON_HANG.Rows.Add(newItem);
-            dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
+            App.MUC_DON_HANG.AcceptChanges();
             dgvDonHang.DataSource = null;
+            dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
             dgvDonHang.DataSource = mUCDONHANGBindingSource;
             layDuLieuTuSoCCCD();
             dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
@@ -105,6 +105,7 @@ namespace NhakhoaMyNgoc_Db
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // lưu dữ liệu và xuất ra file xml
             kHACHHANGBindingSource.EndEdit();
             mUCDONHANGBindingSource.EndEdit();
             App.KHACH_HANG.AcceptChanges();
@@ -161,16 +162,14 @@ namespace NhakhoaMyNgoc_Db
                 }
             }
             dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
-            // vô hiệu hoá nút xoá và sửa nếu không có đơn hàng nào
+            // vô hiệu hoá nút xoá nếu không có đơn hàng nào
             if (dgvDonHang.Rows.Count == 0)
             {
                 btnXoaDonHang.Enabled = false;
-                btnSuaDonHang.Enabled = false;
             }
             else
             {
                 btnXoaDonHang.Enabled = true;
-                btnSuaDonHang.Enabled = true;
             }
         }
 
@@ -215,27 +214,12 @@ namespace NhakhoaMyNgoc_Db
                 dgvDonHang.DataSource = null;
                 for (int j = 0; j < i; j++)
                     selectedRows[j].Delete();
+                // rebind
                 App.MUC_DON_HANG.AcceptChanges();
                 dgvDonHang.DataSource = mUCDONHANGBindingSource;
                 layDuLieuTuSoCCCD();
                 dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
             }
-        }
-
-        private void btnSuaDonHang_Click(object sender, EventArgs e)
-        {
-            dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
-            DataRow selectedRow = App.MUC_DON_HANG.Rows.Find(dgvDonHang.SelectedRows[0].Cells[0].Value);
-            selectedRow["NgayKham"] = dtpkNgayKham.Value;
-            selectedRow["SoTien"] = nmSoTien.Value;
-            selectedRow["SoLuong"] = nmSoLuong.Value;
-            selectedRow["GiamGia"] = nmGiamGia.Value;
-            selectedRow["ThanhTien"] = nmThanhTien.Value;
-            dgvDonHang.DataSource = null;
-            App.MUC_DON_HANG.AcceptChanges();
-            dgvDonHang.DataSource = mUCDONHANGBindingSource;
-            layDuLieuTuSoCCCD();
-            dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
         }
 
         private void btnSuaThongTinKhachHang_Click(object sender, EventArgs e)
@@ -262,6 +246,26 @@ namespace NhakhoaMyNgoc_Db
                         MessageBox.Show("Sửa thông tin thất bại. Có thể bạn đã làm sai quy trình sửa, hoặc khách hàng này chưa có trong cơ sở dữ liệu của bạn.", "Không thể sửa thông tin", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 App.KHACH_HANG.AcceptChanges();
+            }
+        }
+
+        private void dgvDonHang_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvDonHang.Rows.Count > 0)
+            {
+                // lấy đơn hàng dựa theo mã
+                DataRow searchResult = App.MUC_DON_HANG.Rows.Find(dgvDonHang.Rows[e.RowIndex].Cells[0].Value);
+                searchResult[dgvDonHang.Columns[e.ColumnIndex].Name] = dgvDonHang.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                searchResult["ThanhTien"] = Convert.ToInt32(dgvDonHang.Rows[e.RowIndex].Cells[3].Value) * 
+                    Convert.ToInt32(dgvDonHang.Rows[e.RowIndex].Cells[4].Value) - 
+                    Convert.ToInt32(dgvDonHang.Rows[e.RowIndex].Cells[6].Value);
+                // rebind
+                App.MUC_DON_HANG.AcceptChanges();
+                dgvDonHang.DataSource = null;
+                dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
+                dgvDonHang.DataSource = mUCDONHANGBindingSource;
+                layDuLieuTuSoCCCD();
+                dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
             }
         }
     }
