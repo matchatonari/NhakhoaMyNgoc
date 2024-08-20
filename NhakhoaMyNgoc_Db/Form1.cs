@@ -69,38 +69,43 @@ namespace NhakhoaMyNgoc_Db
 
         private void btnThemDonHang_Click(object sender, EventArgs e)
         {
-            // tính lại giá thành
-            nmThanhTien.Value = nmSoTien.Value * nmSoLuong.Value - nmGiamGia.Value;
-            // kiểm tra khách hàng có trong db chưa? chưa thì thêm vào.
-            DataRow searchResult = App.KHACH_HANG.Rows.Find(txtSoCCCD.Text);
-            if (searchResult == null)
+            if (txtNoiDungDieuTri.Text == string.Empty || txtSoCCCD.Text == string.Empty)
+                MessageBox.Show("Thêm đơn hàng thất bại. Điền đầy đủ thông tin và nhấn nút 'Tìm' để tải đầy đủ dữ liệu trước khi thêm.", "Thêm đơn hàng thất bại", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else
             {
-                DataRow newGuest = App.KHACH_HANG.NewRow();
-                newGuest["HoVaTen"] = cboHoVaTen.Text;
-                newGuest["GioiTinh"] = cbGioiTinh.Checked;
-                newGuest["NgaySinh"] = dtpkNgaySinh.Value;
-                newGuest["SoCCCD"] = txtSoCCCD.Text;
-                newGuest["DiaChi"] = cboDiaChi.Text;
-                newGuest["SoDienThoai"] = txtSoDienThoai.Text;
-                App.KHACH_HANG.Rows.Add(newGuest);
+                // tính lại giá thành
+                nmThanhTien.Value = nmSoTien.Value * nmSoLuong.Value - nmGiamGia.Value;
+                // kiểm tra khách hàng có trong db chưa? chưa thì thêm vào.
+                DataRow searchResult = App.KHACH_HANG.Rows.Find(txtSoCCCD.Text);
+                if (searchResult == null)
+                {
+                    DataRow newGuest = App.KHACH_HANG.NewRow();
+                    newGuest["HoVaTen"] = cboHoVaTen.Text;
+                    newGuest["GioiTinh"] = cbGioiTinh.Checked;
+                    newGuest["NgaySinh"] = dtpkNgaySinh.Value;
+                    newGuest["SoCCCD"] = txtSoCCCD.Text;
+                    newGuest["DiaChi"] = cboDiaChi.Text;
+                    newGuest["SoDienThoai"] = txtSoDienThoai.Text;
+                    App.KHACH_HANG.Rows.Add(newGuest);
+                }
+                // thêm nội dung điều trị
+                DataRow newItem = App.MUC_DON_HANG.NewRow();
+                newItem["NoiDung"] = txtNoiDungDieuTri.Text;
+                newItem["SoTien"] = nmSoTien.Value;
+                newItem["NgayKham"] = dtpkNgayKham.Value;
+                newItem["SoCCCD"] = txtSoCCCD.Text;
+                newItem["GiamGia"] = nmGiamGia.Value;
+                newItem["ThanhTien"] = nmThanhTien.Value;
+                newItem["SoLuong"] = nmSoLuong.Value;
+                newItem["MaMucDonHang"] = layHash();
+                App.MUC_DON_HANG.Rows.Add(newItem);
+                App.MUC_DON_HANG.AcceptChanges();
+                dgvDonHang.DataSource = null;
+                dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
+                dgvDonHang.DataSource = mUCDONHANGBindingSource;
+                layDuLieuTuSoCCCD();
+                dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
             }
-            // thêm nội dung điều trị
-            DataRow newItem = App.MUC_DON_HANG.NewRow();
-            newItem["NoiDung"] = txtNoiDungDieuTri.Text;
-            newItem["SoTien"] = nmSoTien.Value;
-            newItem["NgayKham"] = dtpkNgayKham.Value;
-            newItem["SoCCCD"] = txtSoCCCD.Text;
-            newItem["GiamGia"] = nmGiamGia.Value;
-            newItem["ThanhTien"] = nmThanhTien.Value;
-            newItem["SoLuong"] = nmSoLuong.Value;
-            newItem["MaMucDonHang"] = layHash();
-            App.MUC_DON_HANG.Rows.Add(newItem);
-            App.MUC_DON_HANG.AcceptChanges();
-            dgvDonHang.DataSource = null;
-            dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
-            dgvDonHang.DataSource = mUCDONHANGBindingSource;
-            layDuLieuTuSoCCCD();
-            dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -138,26 +143,29 @@ namespace NhakhoaMyNgoc_Db
             // tìm theo số cccd
             if (txtSoCCCD.Text != string.Empty)
                 layDuLieuTuSoCCCD();
-            if (cboHoVaTen.Text != string.Empty)
+            else
             {
-                if (cboDiaChi.Text != string.Empty)
+                if (cboHoVaTen.Text != string.Empty)
                 {
-                    DataRow[] peopleFound = App.KHACH_HANG.Select(string.Format("HoVaTen = '{0}' AND DiaChi = '{1}'", cboHoVaTen.Text, cboDiaChi.Text));
-                    txtSoCCCD.Text = peopleFound[0]["SoCCCD"].ToString();
-                    layDuLieuTuSoCCCD();
-                }
-                else
-                {
-                    // tìm theo tên
-                    DataRow[] addressesFound = App.KHACH_HANG.Select(string.Format("HoVaTen = '{0}'", cboHoVaTen.Text));
-                    cboDiaChi.DataSource = addressesFound;
-                    cboDiaChi.DisplayMember = "DiaChi";
-                    // nếu chỉ có 1 địa chỉ
-                    if (cboDiaChi.Items.Count == 1)
+                    if (cboDiaChi.Text != string.Empty)
                     {
                         DataRow[] peopleFound = App.KHACH_HANG.Select(string.Format("HoVaTen = '{0}' AND DiaChi = '{1}'", cboHoVaTen.Text, cboDiaChi.Text));
                         txtSoCCCD.Text = peopleFound[0]["SoCCCD"].ToString();
                         layDuLieuTuSoCCCD();
+                    }
+                    else
+                    {
+                        // tìm theo tên
+                        DataRow[] addressesFound = App.KHACH_HANG.Select(string.Format("HoVaTen = '{0}'", cboHoVaTen.Text));
+                        cboDiaChi.DataSource = addressesFound;
+                        cboDiaChi.DisplayMember = "DiaChi";
+                        // nếu chỉ có 1 địa chỉ
+                        if (cboDiaChi.Items.Count == 1)
+                        {
+                            DataRow[] peopleFound = App.KHACH_HANG.Select(string.Format("HoVaTen = '{0}' AND DiaChi = '{1}'", cboHoVaTen.Text, cboDiaChi.Text));
+                            txtSoCCCD.Text = peopleFound[0]["SoCCCD"].ToString();
+                            layDuLieuTuSoCCCD();
+                        }
                     }
                 }
             }
@@ -239,11 +247,18 @@ namespace NhakhoaMyNgoc_Db
                 else
                 {
                     // nếu cccd đã bị sửa
-                    DataRow[] anotherSearchResult = App.KHACH_HANG.Select(string.Format("HoVaTen = '{0}' AND GioiTinh = '{1}' AND NgaySinh = '{2}' AND DiaChi = '{3}' AND SoDienThoai = '{4}'", cboHoVaTen.Text, cbGioiTinh.Checked, dtpkNgaySinh.Value, cboDiaChi.Text, txtSoDienThoai.Text));
-                    if (anotherSearchResult.Length > 0)
-                        anotherSearchResult[0]["SoCCCD"] = txtSoCCCD.Text;
+                    if (cboHoVaTen.Text == string.Empty ||
+                        cboDiaChi.Text == string.Empty ||
+                        txtSoDienThoai.Text == string.Empty)
+                        MessageBox.Show("Kiểm tra đầy đủ thông tin trước khi sửa.", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else
-                        MessageBox.Show("Sửa thông tin thất bại. Có thể bạn đã làm sai quy trình sửa, hoặc khách hàng này chưa có trong cơ sở dữ liệu của bạn.", "Không thể sửa thông tin", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    {
+                        DataRow[] anotherSearchResult = App.KHACH_HANG.Select(string.Format("HoVaTen = '{0}' AND GioiTinh = '{1}' AND NgaySinh = '{2}' AND DiaChi = '{3}' AND SoDienThoai = '{4}'", cboHoVaTen.Text, cbGioiTinh.Checked, dtpkNgaySinh.Value, cboDiaChi.Text, txtSoDienThoai.Text));
+                        if (anotherSearchResult.Length > 0)
+                            anotherSearchResult[0]["SoCCCD"] = txtSoCCCD.Text;
+                        else
+                            MessageBox.Show("Sửa thông tin thất bại. Có thể bạn đã làm sai quy trình sửa, hoặc khách hàng này chưa có trong cơ sở dữ liệu của bạn.", "Không thể sửa thông tin", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 App.KHACH_HANG.AcceptChanges();
             }
