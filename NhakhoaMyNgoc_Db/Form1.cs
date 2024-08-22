@@ -32,12 +32,14 @@ namespace NhakhoaMyNgoc_Db
         private void layDuLieuTuSoCCCD()
         {
             // lấy thông tin từ txtSoCCCD
-            DataRow searchResult = App.KHACH_HANG.Rows.Find(txtSoCCCD.Text);
+            string soCCCD = txtSoCCCD.Text;
+            DataRow searchResult = App.KHACH_HANG.Rows.Find(soCCCD);
             if (searchResult != null)
             {
                 cboHoVaTen.Text = searchResult["HoVaTen"].ToString();
                 cbGioiTinh.Checked = (bool)searchResult["GioiTinh"];
                 dtpkNgaySinh.Value = DateTime.Parse(searchResult["NgaySinh"].ToString());
+                txtSoCCCD.Text = soCCCD;
                 cboDiaChi.Text = searchResult["DiaChi"].ToString();
                 txtSoDienThoai.Text = searchResult["SoDienThoai"].ToString();
                 DataRow[] history = App.MUC_DON_HANG.Select(string.Format("SoCCCD = '{0}'", txtSoCCCD.Text), "NgayKham ASC");
@@ -48,6 +50,7 @@ namespace NhakhoaMyNgoc_Db
                 cboHoVaTen.Text = cboDiaChi.Text = txtSoCCCD.Text = string.Empty;
                 dtpkNgaySinh.Value = DateTime.Now;
                 cbGioiTinh.Checked = false;
+                mUCDONHANGBindingSource.DataSource = null;
             }
         }
 
@@ -148,6 +151,9 @@ namespace NhakhoaMyNgoc_Db
             DataTable distinctNames = App.KHACH_HANG.DefaultView.ToTable(true, "HoVaTen");
             cboHoVaTen.DataSource = distinctNames;
             cboHoVaTen.DisplayMember = "HoVaTen";
+            DataTable distinctAddresses = App.KHACH_HANG.DefaultView.ToTable(true, "DiaChi");
+            cboDiaChi.DataSource = distinctAddresses;
+            cboDiaChi.DisplayMember = "DiaChi";
             // đưa tên các vật tồn kho vào combobox tên vật liệu nhập kho
             cboTenVatLieuNhapKho.DataSource = App.TON_KHO;
             cboTenVatLieuNhapKho.DisplayMember = "TenVatLieu";
@@ -169,8 +175,11 @@ namespace NhakhoaMyNgoc_Db
                     if (cboDiaChi.Text != string.Empty)
                     {
                         DataRow[] peopleFound = App.KHACH_HANG.Select(string.Format("HoVaTen = '{0}' AND DiaChi = '{1}'", cboHoVaTen.Text, cboDiaChi.Text));
-                        txtSoCCCD.Text = peopleFound[0]["SoCCCD"].ToString();
-                        layDuLieuTuSoCCCD();
+                        if (peopleFound.Length > 0)
+                        {
+                            txtSoCCCD.Text = peopleFound[0]["SoCCCD"].ToString();
+                            layDuLieuTuSoCCCD();
+                        }
                     }
                     else
                     {
@@ -198,11 +207,6 @@ namespace NhakhoaMyNgoc_Db
             {
                 btnXoaDonHang.Enabled = true;
             }
-        }
-
-        private void cboHoVaTen_TextChanged(object sender, EventArgs e)
-        {
-            cboDiaChi.Text = txtSoCCCD.Text = txtSoDienThoai.Text = string.Empty;
         }
 
         private void dgvDonHang_SelectionChanged(object sender, EventArgs e)
@@ -251,7 +255,7 @@ namespace NhakhoaMyNgoc_Db
 
         private void btnSuaThongTinKhachHang_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Bạn có chắc muốn sửa thông tin của khách hàng không?\nLưu ý: Nếu phải sửa số CCCD, thực hiện sửa số CCCD trước, sau đó nhấn 'Sửa thông tin', sau đó mới sửa những thông tin khác, rồi lại nhấn 'Sửa thông tin' một lần nữa.", "Xác nhận sửa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Bạn có chắc muốn sửa thông tin của khách hàng không?\n**Lưu ý**\nNếu phải sửa số CCCD, thực hiện sửa số CCCD trước, sau đó nhấn 'Sửa thông tin', sau đó mới sửa những thông tin khác, rồi lại nhấn 'Sửa thông tin' một lần nữa.\nNếu đổi tên, sau khi nhấn 'Sửa thông tin' hãy nhấn 'Tìm' một lần nữa để tải lại tên.", "Xác nhận sửa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 DataRow searchResult = App.KHACH_HANG.Rows.Find(txtSoCCCD.Text);
                 if (searchResult != null)
@@ -274,12 +278,24 @@ namespace NhakhoaMyNgoc_Db
                     {
                         DataRow[] anotherSearchResult = App.KHACH_HANG.Select(string.Format("HoVaTen = '{0}' AND GioiTinh = '{1}' AND NgaySinh = '{2}' AND DiaChi = '{3}' AND SoDienThoai = '{4}'", cboHoVaTen.Text, cbGioiTinh.Checked, dtpkNgaySinh.Value.Date, cboDiaChi.Text, txtSoDienThoai.Text));
                         if (anotherSearchResult.Length > 0)
+                        {
+                            // sửa các đơn hàng có dính cccd
+                            DataRow[] fixID = App.MUC_DON_HANG.Select(string.Format("SoCCCD = '{0}'", anotherSearchResult[0]["SoCCCD"]));
+                            foreach (DataRow row in fixID)
+                                row["SoCCCD"] = txtSoCCCD.Text;
+                            // sửa cccd
                             anotherSearchResult[0]["SoCCCD"] = txtSoCCCD.Text;
+                        }
                         else
                             MessageBox.Show("Sửa thông tin thất bại. Có thể bạn đã làm sai quy trình sửa, hoặc khách hàng này chưa có trong cơ sở dữ liệu của bạn.", "Không thể sửa thông tin", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 App.KHACH_HANG.AcceptChanges();
+                // nạp lại tên trong trường hợp đổi tên
+                cboHoVaTen.DataSource = null;
+                DataTable distinctNames = App.KHACH_HANG.DefaultView.ToTable(true, "HoVaTen");
+                cboHoVaTen.DataSource = distinctNames;
+                cboHoVaTen.DisplayMember = "HoVaTen";
             }
         }
 
@@ -292,7 +308,7 @@ namespace NhakhoaMyNgoc_Db
                 searchResult[dgvDonHang.Columns[e.ColumnIndex].Name] = dgvDonHang.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
                 searchResult["ThanhTien"] = Convert.ToInt32(dgvDonHang.Rows[e.RowIndex].Cells[4].Value) * 
                     Convert.ToInt32(dgvDonHang.Rows[e.RowIndex].Cells[5].Value) - 
-                    Convert.ToInt32(dgvDonHang.Rows[e.RowIndex].Cells[7].Value);
+                    Convert.ToInt32(dgvDonHang.Rows[e.RowIndex].Cells[6].Value);
                 // rebind
                 App.MUC_DON_HANG.AcceptChanges();
                 dgvDonHang.DataSource = null;
