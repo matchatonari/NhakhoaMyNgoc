@@ -82,7 +82,7 @@ namespace NhakhoaMyNgoc_Db
                     DataRow newGuest = App.KHACH_HANG.NewRow();
                     newGuest["HoVaTen"] = cboHoVaTen.Text;
                     newGuest["GioiTinh"] = cbGioiTinh.Checked;
-                    newGuest["NgaySinh"] = dtpkNgaySinh.Value;
+                    newGuest["NgaySinh"] = dtpkNgaySinh.Value.Date;
                     newGuest["SoCCCD"] = txtSoCCCD.Text;
                     newGuest["DiaChi"] = cboDiaChi.Text;
                     newGuest["SoDienThoai"] = txtSoDienThoai.Text;
@@ -92,7 +92,7 @@ namespace NhakhoaMyNgoc_Db
                 DataRow newItem = App.MUC_DON_HANG.NewRow();
                 newItem["NoiDung"] = txtNoiDungDieuTri.Text;
                 newItem["SoTien"] = nmSoTien.Value;
-                newItem["NgayKham"] = dtpkNgayKham.Value;
+                newItem["NgayKham"] = dtpkNgayKham.Value.Date;
                 newItem["SoCCCD"] = txtSoCCCD.Text;
                 newItem["GiamGia"] = nmGiamGia.Value;
                 newItem["ThanhTien"] = nmThanhTien.Value;
@@ -113,27 +113,46 @@ namespace NhakhoaMyNgoc_Db
             // lưu dữ liệu và xuất ra file xml
             kHACHHANGBindingSource.EndEdit();
             mUCDONHANGBindingSource.EndEdit();
+            dONNHAPBindingSource.EndEdit();
             App.KHACH_HANG.AcceptChanges();
             App.MUC_DON_HANG.AcceptChanges();
-            App.KHACH_HANG.WriteXml(string.Format("{0}//db_KHACHHANG.xml", Application.StartupPath));
-            App.MUC_DON_HANG.WriteXml(string.Format("{0}//db_MUCDONHANG.xml", Application.StartupPath));
+            App.DON_NHAP.AcceptChanges();
+            App.TON_KHO.AcceptChanges();
+            App.KHACH_HANG.WriteXml(string.Format("{0}//xml//KHACHHANG.xml", Application.StartupPath));
+            App.MUC_DON_HANG.WriteXml(string.Format("{0}//xml//MUCDONHANG.xml", Application.StartupPath));
+            App.DON_NHAP.WriteXml(string.Format("{0}//xml//DONNHAP.xml", Application.StartupPath));
+            App.TON_KHO.WriteXml(string.Format("{0}//xml//TONKHO.xml", Application.StartupPath));
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             // load dữ liệu khách hàng, đơn hàng
-            string db_KhachHang = string.Format("{0}//db_KHACHHANG.xml", Application.StartupPath);
-            string db_MucDonHang = string.Format("{0}//db_MUCDONHANG.xml", Application.StartupPath);
+            string db_KhachHang = string.Format("{0}//xml//KHACHHANG.xml", Application.StartupPath);
+            string db_MucDonHang = string.Format("{0}//xml//MUCDONHANG.xml", Application.StartupPath);
+            string db_DonNhap = string.Format("{0}//xml//DONNHAP.xml", Application.StartupPath);
+            string db_TonKho = string.Format("{0}//xml//TONKHO.xml", Application.StartupPath);
             if (File.Exists(db_KhachHang))
                 App.KHACH_HANG.ReadXml(db_KhachHang);
             if (File.Exists(db_MucDonHang))
                 App.MUC_DON_HANG.ReadXml(db_MucDonHang);
+            if (File.Exists(db_DonNhap))
+                App.DON_NHAP.ReadXml(db_DonNhap);
+            if (File.Exists(db_TonKho))
+                App.TON_KHO.ReadXml(db_TonKho);
+
             kHACHHANGBindingSource.DataSource = App.KHACH_HANG;
+            mUCDONHANGBindingSource.DataSource = App.MUC_DON_HANG;
+            dONNHAPBindingSource.DataSource = App.DON_NHAP;
 
             // đưa dữ liệu khách hàng vào combobox họ và tên
             DataTable distinctNames = App.KHACH_HANG.DefaultView.ToTable(true, "HoVaTen");
             cboHoVaTen.DataSource = distinctNames;
             cboHoVaTen.DisplayMember = "HoVaTen";
+            // đưa tên các vật tồn kho vào combobox tên vật liệu nhập kho
+            cboTenVatLieuNhapKho.DataSource = App.TON_KHO;
+            cboTenVatLieuNhapKho.DisplayMember = "TenVatLieu";
+            // set date of ngaynhapden >= ngaynhaptu
+            dtpkNgayNhapDen.MinDate = dtpkNgayNhapTu.Value.Date;
         }
 
         private void btnTimDonHang_Click(object sender, EventArgs e)
@@ -240,7 +259,7 @@ namespace NhakhoaMyNgoc_Db
                     // nếu cccd chưa bị sửa
                     searchResult["HoVaTen"] = cboHoVaTen.Text;
                     searchResult["GioiTinh"] = cbGioiTinh.Checked;
-                    searchResult["NgaySinh"] = dtpkNgaySinh.Value;
+                    searchResult["NgaySinh"] = dtpkNgaySinh.Value.Date;
                     searchResult["DiaChi"] = cboDiaChi.Text;
                     searchResult["SoDienThoai"] = txtSoDienThoai.Text;
                 }
@@ -253,7 +272,7 @@ namespace NhakhoaMyNgoc_Db
                         MessageBox.Show("Kiểm tra đầy đủ thông tin trước khi sửa.", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else
                     {
-                        DataRow[] anotherSearchResult = App.KHACH_HANG.Select(string.Format("HoVaTen = '{0}' AND GioiTinh = '{1}' AND NgaySinh = '{2}' AND DiaChi = '{3}' AND SoDienThoai = '{4}'", cboHoVaTen.Text, cbGioiTinh.Checked, dtpkNgaySinh.Value, cboDiaChi.Text, txtSoDienThoai.Text));
+                        DataRow[] anotherSearchResult = App.KHACH_HANG.Select(string.Format("HoVaTen = '{0}' AND GioiTinh = '{1}' AND NgaySinh = '{2}' AND DiaChi = '{3}' AND SoDienThoai = '{4}'", cboHoVaTen.Text, cbGioiTinh.Checked, dtpkNgaySinh.Value.Date, cboDiaChi.Text, txtSoDienThoai.Text));
                         if (anotherSearchResult.Length > 0)
                             anotherSearchResult[0]["SoCCCD"] = txtSoCCCD.Text;
                         else
@@ -271,9 +290,9 @@ namespace NhakhoaMyNgoc_Db
                 // lấy đơn hàng dựa theo mã
                 DataRow searchResult = App.MUC_DON_HANG.Rows.Find(dgvDonHang.Rows[e.RowIndex].Cells[0].Value);
                 searchResult[dgvDonHang.Columns[e.ColumnIndex].Name] = dgvDonHang.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-                searchResult["ThanhTien"] = Convert.ToInt32(dgvDonHang.Rows[e.RowIndex].Cells[3].Value) * 
-                    Convert.ToInt32(dgvDonHang.Rows[e.RowIndex].Cells[4].Value) - 
-                    Convert.ToInt32(dgvDonHang.Rows[e.RowIndex].Cells[6].Value);
+                searchResult["ThanhTien"] = Convert.ToInt32(dgvDonHang.Rows[e.RowIndex].Cells[4].Value) * 
+                    Convert.ToInt32(dgvDonHang.Rows[e.RowIndex].Cells[5].Value) - 
+                    Convert.ToInt32(dgvDonHang.Rows[e.RowIndex].Cells[7].Value);
                 // rebind
                 App.MUC_DON_HANG.AcceptChanges();
                 dgvDonHang.DataSource = null;
@@ -281,6 +300,142 @@ namespace NhakhoaMyNgoc_Db
                 dgvDonHang.DataSource = mUCDONHANGBindingSource;
                 layDuLieuTuSoCCCD();
                 dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
+            }
+        }
+
+        private void cbNgayNhapDen_CheckedChanged(object sender, EventArgs e)
+        {
+            dtpkNgayNhapDen.Enabled = cbNgayNhapDen.Checked;
+        }
+
+        private void nmSoLuongVatLieu_ValueChanged(object sender, EventArgs e)
+        {
+            nmThanhTienVatLieu.Value = nmSoLuongVatLieu.Value * nmDonGiaVatLieu.Value;
+        }
+
+        private void nmDonGiaVatLieu_ValueChanged(object sender, EventArgs e)
+        {
+            nmThanhTienVatLieu.Value = nmSoLuongVatLieu.Value * nmDonGiaVatLieu.Value;
+        }
+
+        private void btnThemDonNhap_Click(object sender, EventArgs e)
+        {
+            if (cboTenVatLieuNhapKho.Text == string.Empty)
+                MessageBox.Show("Nhập dữ liệu thất bại. Điền đầy đủ thông tin trước khi thêm.", "Nhập dữ liệu thất bại", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else
+            {
+                string tenVatLieu = cboTenVatLieuNhapKho.Text;
+                // tính lại giá thành
+                nmThanhTienVatLieu.Value = nmDonGiaVatLieu.Value * nmSoLuongVatLieu.Value;
+                // kiểm tra vật liệu có trong db chưa? chưa thì thêm vào.
+                DataRow searchResult = App.TON_KHO.Rows.Find(cboTenVatLieuNhapKho.Text);
+                if (searchResult == null)
+                {
+                    DataRow newUniqueItem = App.TON_KHO.NewRow();
+                    newUniqueItem["TenVatLieu"] = tenVatLieu;
+                    newUniqueItem["SoLuong"] = nmSoLuongVatLieu.Value;
+                    newUniqueItem["ThanhTien"] = nmThanhTienVatLieu.Value;
+                    App.TON_KHO.Rows.Add(newUniqueItem);
+                }
+                // thêm đơn nhập/xuất
+                DataRow newItem = App.DON_NHAP.NewRow();
+                newItem["TenVatLieu"] = tenVatLieu;
+                newItem["DonGia"] = nmDonGiaVatLieu.Value;
+                newItem["NgayNhap"] = dtpkNgayNhapTu.Value.Date;
+                newItem["ThanhTien"] = nmThanhTienVatLieu.Value;
+                newItem["SoLuong"] = nmSoLuongVatLieu.Value;
+                newItem["MaDonNhap"] = layHash();
+                App.DON_NHAP.Rows.Add(newItem);
+                App.DON_NHAP.AcceptChanges();
+                dgvDonNhap.DataSource = null;
+                //dgvDonNhap.SelectionChanged -= dgvDonHang_SelectionChanged;
+                dgvDonNhap.DataSource = dONNHAPBindingSource;
+                //dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
+
+                // cập nhật số hàng trong kho
+                DataRow currentGood = App.TON_KHO.Rows.Find(tenVatLieu);
+                int currentNumber = Convert.ToInt32(currentGood["SoLuong"]) + (int)nmSoLuongVatLieu.Value;
+                currentGood["SoLuong"] = currentNumber;
+                // công thức mới: không phụ thuộc vào đơn giá được lưu trong CSDL
+                int newCost = Convert.ToInt32(currentGood["ThanhTien"]) + (int)nmSoLuongVatLieu.Value * (int)nmDonGiaVatLieu.Value;
+                currentGood["ThanhTien"] = newCost;
+
+                cboTenVatLieuNhapKho.Text = tenVatLieu;
+            }
+        }
+
+        private void btnXoaDonNhap_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có chắc muốn xoá các mục này không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                //dgvDonHang.SelectionChanged -= dgvDonNhap_SelectionChanged;
+                DataRow[] selectedRows = new DataRow[dgvDonNhap.SelectedRows.Count];
+                int i = 0;
+                // tránh lỗi RowNotInTableException
+                foreach (DataGridViewRow row in dgvDonNhap.SelectedRows)
+                {
+                    selectedRows[i] = App.DON_NHAP.Rows.Find(row.Cells[5].Value);
+
+                    // cập nhật số hàng còn trong kho
+                    DataRow currentItem = App.TON_KHO.Rows.Find(row.Cells[1].Value.ToString().Trim());
+                    int currentNumber = Convert.ToInt32(currentItem["SoLuong"]) - Convert.ToInt32(selectedRows[i]["SoLuong"]);
+                    currentItem["SoLuong"] = currentNumber;
+                    int newCost = Convert.ToInt32(currentItem["ThanhTien"]) - Convert.ToInt32(row.Cells[2].Value) * Convert.ToInt32(row.Cells[3].Value);
+                    currentItem["ThanhTien"] = newCost;
+
+                    i++;
+                }
+                dgvDonNhap.DataSource = null;
+                for (int j = 0; j < i; j++)
+                    selectedRows[j].Delete();
+                // rebind
+                App.DON_NHAP.AcceptChanges();
+                dgvDonNhap.DataSource = dONNHAPBindingSource;
+               // dgvDonNhap.SelectionChanged += dgvDonNhap_SelectionChanged;
+            }
+        }
+
+        private void btnTimDonNhap_Click(object sender, EventArgs e)
+        {
+            if (cbNgayNhapDen.Checked)
+            {
+                DataRow[] searchResult = App.DON_NHAP.Select(string.Format("NgayNhap >= #{0}# AND NgayNhap <= #{1}#", dtpkNgayNhapTu.Value.Date, dtpkNgayNhapDen.Value.Date));
+                dONNHAPBindingSource.DataSource = searchResult;
+            }
+            else
+            {
+                DataRow[] searchResult = App.DON_NHAP.Select(string.Format("NgayNhap = #{0}#", dtpkNgayNhapTu.Value.Date));
+                dONNHAPBindingSource.DataSource = searchResult;
+            }
+        }
+
+        private void dtpkNgayNhapTu_ValueChanged(object sender, EventArgs e)
+        {
+            dtpkNgayNhapDen.MinDate = dtpkNgayNhapTu.Value.Date;
+        }
+
+        private void dgvDonNhap_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvDonNhap.Rows.Count > 0)
+            {
+                // lấy đơn hàng dựa theo mã
+                DataRow searchResult = App.DON_NHAP.Rows.Find(dgvDonNhap.Rows[e.RowIndex].Cells[5].Value);
+                // set lại trong database
+                searchResult[dgvDonNhap.Columns[e.ColumnIndex].Name.Replace("VatLieu", "")] = dgvDonNhap.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                int newCost = Convert.ToInt32(dgvDonNhap.Rows[e.RowIndex].Cells[2].Value) *
+                    Convert.ToInt32(dgvDonNhap.Rows[e.RowIndex].Cells[3].Value);
+                int change = Convert.ToInt32(searchResult["ThanhTien"]) - newCost;
+                searchResult["ThanhTien"] = newCost;
+                // tính lại tồn kho
+                DataRow obj = App.TON_KHO.Rows.Find(dgvDonNhap.Rows[e.RowIndex].Cells[1].Value.ToString().Trim());
+                int currentCost = Convert.ToInt32(obj["ThanhTien"]) - change;
+                obj["ThanhTien"] = currentCost;
+                // rebind
+                App.DON_NHAP.AcceptChanges();
+                dgvDonNhap.DataSource = null;
+                //dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
+                dgvDonNhap.DataSource = dONNHAPBindingSource;
+                //dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
             }
         }
     }
