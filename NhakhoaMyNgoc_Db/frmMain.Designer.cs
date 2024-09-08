@@ -1,6 +1,6 @@
 ﻿namespace NhakhoaMyNgoc_Db
 {
-    partial class Form1
+    partial class frmMain
     {
         /// <summary>
         /// Required designer variable.
@@ -37,7 +37,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -1286,24 +1286,24 @@
             // hướngDẫnSửDụngToolStripMenuItem
             // 
             this.hướngDẫnSửDụngToolStripMenuItem.Name = "hướngDẫnSửDụngToolStripMenuItem";
-            this.hướngDẫnSửDụngToolStripMenuItem.Size = new System.Drawing.Size(188, 24);
+            this.hướngDẫnSửDụngToolStripMenuItem.Size = new System.Drawing.Size(144, 24);
             this.hướngDẫnSửDụngToolStripMenuItem.Text = "Hướng dẫn";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(185, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(141, 6);
             // 
             // kíchHoạtPhầnMềmToolStripMenuItem
             // 
             this.kíchHoạtPhầnMềmToolStripMenuItem.Name = "kíchHoạtPhầnMềmToolStripMenuItem";
-            this.kíchHoạtPhầnMềmToolStripMenuItem.Size = new System.Drawing.Size(188, 24);
+            this.kíchHoạtPhầnMềmToolStripMenuItem.Size = new System.Drawing.Size(144, 24);
             this.kíchHoạtPhầnMềmToolStripMenuItem.Text = "Kích hoạt";
             // 
             // msiKiemTraCapNhat
             // 
             this.msiKiemTraCapNhat.Name = "msiKiemTraCapNhat";
-            this.msiKiemTraCapNhat.Size = new System.Drawing.Size(188, 24);
+            this.msiKiemTraCapNhat.Size = new System.Drawing.Size(144, 24);
             this.msiKiemTraCapNhat.Text = "Cập nhật";
             this.msiKiemTraCapNhat.Click += new System.EventHandler(this.msiKiemTraCapNhat_Click);
             // 
@@ -1339,7 +1339,7 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // Form1
+            // frmMain
             // 
             this.AcceptButton = this.btnTimDonHang;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1350,7 +1350,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
+            this.Name = "frmMain";
             this.Text = "Nha khoa Mỹ Ngọc v1.0.0";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -1514,8 +1514,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.PictureBox pictureBox1;
-
-
     }
 }
 

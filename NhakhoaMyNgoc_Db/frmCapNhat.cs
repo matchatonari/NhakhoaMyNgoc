@@ -20,8 +20,8 @@ namespace NhakhoaMyNgoc_Db
         {
             int newVersionMajor, newVersionMinor, newVersionBuild;
             WebClient client = new WebClient();
-            //client.DownloadFile("https://gist.githubusercontent.com/matchatonari/809e7cbabbf91269fca9d9735352db22/raw/cb7c8cd374aad12774cffd09c5861f23897a1d54/checkForUpdates.xml",
-            //        Application.StartupPath + "\\res\\checkForUpdates.xml");
+            client.DownloadFile("https://gist.githubusercontent.com/matchatonari/809e7cbabbf91269fca9d9735352db22/raw/cb7c8cd374aad12774cffd09c5861f23897a1d54/checkForUpdates.xml",
+                    Application.StartupPath + "\\res\\checkForUpdates.xml");
 
             string xmlContent = File.ReadAllText(Application.StartupPath + "\\res\\checkForUpdates.xml");
             xmlContent = xmlContent.Replace("&", "&amp;");

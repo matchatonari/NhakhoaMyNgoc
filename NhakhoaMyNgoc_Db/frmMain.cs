@@ -3,12 +3,13 @@ using System.Data;
 using System.Windows.Forms;
 using System.IO;
 using System.Security.Cryptography;
+using System.Reflection;
 
 namespace NhakhoaMyNgoc_Db
 {
-    public partial class Form1 : Form
+    public partial class frmMain : Form
     {
-        public Form1()
+        public frmMain()
         {
             InitializeComponent();
         }
@@ -124,6 +125,10 @@ namespace NhakhoaMyNgoc_Db
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // set phiên bản
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+            this.Text = string.Format("Nha khoa Mỹ Ngọc v{0}.{1}.{2}", version.Major, version.Minor, version.Build);
+
             // load dữ liệu khách hàng, đơn hàng
             string db_KhachHang = string.Format("{0}//xml//KHACHHANG.xml", Application.StartupPath);
             string db_MucDonHang = string.Format("{0}//xml//MUCDONHANG.xml", Application.StartupPath);
