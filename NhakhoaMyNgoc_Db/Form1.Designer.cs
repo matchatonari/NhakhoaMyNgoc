@@ -185,9 +185,9 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
@@ -213,6 +213,7 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(17, 17);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblThanhTien});
             this.statusStrip1.Location = new System.Drawing.Point(3, 633);
@@ -228,9 +229,9 @@
             // 
             // panel3
             // 
-            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.Controls.Add(this.dgvDonHang);
             this.panel3.Location = new System.Drawing.Point(654, 3);
             this.panel3.Name = "panel3";
@@ -266,6 +267,7 @@
             this.dgvDonHang.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvDonHang.Location = new System.Drawing.Point(0, 0);
             this.dgvDonHang.Name = "dgvDonHang";
+            this.dgvDonHang.RowHeadersWidth = 43;
             this.dgvDonHang.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvDonHang.Size = new System.Drawing.Size(507, 630);
             this.dgvDonHang.TabIndex = 42;
@@ -342,8 +344,8 @@
             // 
             // panel2
             // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.panel2.Controls.Add(this.btnXoaDonHang);
             this.panel2.Controls.Add(this.groupBox4);
             this.panel2.Controls.Add(this.groupBox1);
@@ -703,8 +705,8 @@
             // 
             // panel6
             // 
-            this.panel6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.panel6.Controls.Add(this.dtpkNgayNhapDen);
             this.panel6.Controls.Add(this.cbNgayNhapDen);
             this.panel6.Controls.Add(this.nmThanhTienVatLieu);
@@ -902,9 +904,9 @@
             // 
             // panel5
             // 
-            this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel5.Controls.Add(this.dgvDonNhap);
             this.panel5.Location = new System.Drawing.Point(579, 3);
             this.panel5.Name = "panel5";
@@ -929,6 +931,7 @@
             this.dgvDonNhap.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvDonNhap.Location = new System.Drawing.Point(0, 0);
             this.dgvDonNhap.Name = "dgvDonNhap";
+            this.dgvDonNhap.RowHeadersWidth = 43;
             this.dgvDonNhap.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvDonNhap.Size = new System.Drawing.Size(585, 649);
             this.dgvDonNhap.TabIndex = 14;
@@ -997,8 +1000,8 @@
             // 
             // panel9
             // 
-            this.panel9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.panel9.Controls.Add(this.groupBox3);
             this.panel9.Controls.Add(this.groupBox2);
             this.panel9.Location = new System.Drawing.Point(3, 3);
@@ -1234,9 +1237,9 @@
             // 
             // panel8
             // 
-            this.panel8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel8.Controls.Add(this.dataGridView3);
             this.panel8.Location = new System.Drawing.Point(492, 6);
             this.panel8.Name = "panel8";
@@ -1249,6 +1252,7 @@
             this.dataGridView3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView3.Location = new System.Drawing.Point(0, 0);
             this.dataGridView3.Name = "dataGridView3";
+            this.dataGridView3.RowHeadersWidth = 43;
             this.dataGridView3.Size = new System.Drawing.Size(669, 646);
             this.dataGridView3.TabIndex = 36;
             // 
@@ -1259,6 +1263,7 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(17, 17);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.giúpĐỡToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -1281,25 +1286,25 @@
             // hướngDẫnSửDụngToolStripMenuItem
             // 
             this.hướngDẫnSửDụngToolStripMenuItem.Name = "hướngDẫnSửDụngToolStripMenuItem";
-            this.hướngDẫnSửDụngToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.hướngDẫnSửDụngToolStripMenuItem.Text = "Hướng dẫn sử dụng";
+            this.hướngDẫnSửDụngToolStripMenuItem.Size = new System.Drawing.Size(188, 24);
+            this.hướngDẫnSửDụngToolStripMenuItem.Text = "Hướng dẫn";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(193, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(185, 6);
             // 
             // kíchHoạtPhầnMềmToolStripMenuItem
             // 
             this.kíchHoạtPhầnMềmToolStripMenuItem.Name = "kíchHoạtPhầnMềmToolStripMenuItem";
-            this.kíchHoạtPhầnMềmToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.kíchHoạtPhầnMềmToolStripMenuItem.Text = "Kích hoạt phần mềm";
+            this.kíchHoạtPhầnMềmToolStripMenuItem.Size = new System.Drawing.Size(188, 24);
+            this.kíchHoạtPhầnMềmToolStripMenuItem.Text = "Kích hoạt";
             // 
             // msiKiemTraCapNhat
             // 
             this.msiKiemTraCapNhat.Name = "msiKiemTraCapNhat";
-            this.msiKiemTraCapNhat.Size = new System.Drawing.Size(196, 22);
-            this.msiKiemTraCapNhat.Text = "Kiểm tra cập nhật";
+            this.msiKiemTraCapNhat.Size = new System.Drawing.Size(188, 24);
+            this.msiKiemTraCapNhat.Text = "Cập nhật";
             this.msiKiemTraCapNhat.Click += new System.EventHandler(this.msiKiemTraCapNhat_Click);
             // 
             // panel1
@@ -1346,7 +1351,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Nha khoa Mỹ Ngọc v1.0";
+            this.Text = "Nha khoa Mỹ Ngọc v1.0.0";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
