@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Security.Cryptography;
+using System.Net;
 
 namespace NhakhoaMyNgoc_Db
 {
@@ -452,6 +453,15 @@ namespace NhakhoaMyNgoc_Db
                 //dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
                 dgvDonNhap.DataSource = dONNHAPBindingSource;
                 //dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
+            }
+        }
+
+        private void msiKiemTraCapNhat_Click(object sender, EventArgs e)
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            using (var client = new WebClient())
+            {
+                client.DownloadFile("https://gist.githubusercontent.com/matchatonari/809e7cbabbf91269fca9d9735352db22/raw/cb7c8cd374aad12774cffd09c5861f23897a1d54/checkForUpdates.xml", Application.StartupPath + "\\res\\checkForUpdates.xml");
             }
         }
     }
