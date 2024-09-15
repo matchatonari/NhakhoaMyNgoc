@@ -25,6 +25,9 @@ namespace NhakhoaMyNgoc_Db
             }
         }
 
+        int firstTimeLoadedSelectedCustomer = 0;
+        bool dgvKhachHangInit = false;
+
         private void layDuLieuTuSoCCCD()
         {
             // lấy thông tin từ txtSoCCCD
@@ -38,8 +41,20 @@ namespace NhakhoaMyNgoc_Db
                 txtSoCCCD.Text = soCCCD;
                 cboDiaChi.Text = searchResult["DiaChi"].ToString();
                 txtSoDienThoai.Text = searchResult["SoDienThoai"].ToString();
+                // lọc đơn hàng
                 DataRow[] history = App.MUC_DON_HANG.Select(string.Format("SoCCCD = '{0}'", txtSoCCCD.Text), "NgayKham ASC");
                 mUCDONHANGBindingSource.DataSource = history;
+                // không xoá datagridview nhưng chọn đúng người
+                dgvKhachHang.ClearSelection();
+                for (int i = 0; i < dgvKhachHang.Rows.Count; i++)
+                    if (dgvKhachHang.Rows[i].Cells[0].Value.ToString() == soCCCD)
+                    {
+                        if (!dgvKhachHangInit)
+                            firstTimeLoadedSelectedCustomer = i;
+                        else
+                            dgvKhachHang.Rows[i].Selected = true;
+                        break;
+                    }
             }
             else
             {
@@ -47,6 +62,7 @@ namespace NhakhoaMyNgoc_Db
                 dtpkNgaySinh.Value = DateTime.Now;
                 cbGioiTinh.Checked = false;
                 mUCDONHANGBindingSource.DataSource = null;
+                kHACHHANGBindingSource.DataSource = null;
             }
         }
 
@@ -66,32 +82,59 @@ namespace NhakhoaMyNgoc_Db
             }
         }
 
+        private void themKhachHang(bool errorMsg)
+        {
+            if (cboHoVaTen.Text == string.Empty || txtSoCCCD.Text == string.Empty || cboDiaChi.Text == string.Empty || txtSoDienThoai.Text == string.Empty)
+                MessageBox.Show("Chưa nhập đầy đủ thông tin. Kiểm tra lại thông tin và thử lại.", "Thêm khách hàng thất bại", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            // kiểm tra khách hàng có trong db chưa? chưa thì thêm vào.
+            DataRow searchResult = App.KHACH_HANG.Rows.Find(txtSoCCCD.Text);
+            if (searchResult == null)
+            {
+                DataRow newGuest = App.KHACH_HANG.NewRow();
+                newGuest["HoVaTen"] = cboHoVaTen.Text;
+                newGuest["GioiTinh"] = cbGioiTinh.Checked;
+                newGuest["NgaySinh"] = dtpkNgaySinh.Value;
+                newGuest["SoCCCD"] = txtSoCCCD.Text;
+                newGuest["DiaChi"] = cboDiaChi.Text;
+                newGuest["SoDienThoai"] = txtSoDienThoai.Text;
+                App.KHACH_HANG.Rows.Add(newGuest);
+                kHACHHANGBindingSource.DataSource = App.KHACH_HANG;
+                reloadComboboxDuLieuKhachHang();
+            }
+            else
+            {
+                if (errorMsg)
+                    MessageBox.Show("Số CCCD này đã tồn tại. Kiểm tra lại thông tin và thử lại", "Trùng số CCCD", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void reloadComboboxDuLieuKhachHang()
+        {
+            // đưa dữ liệu khách hàng vào combobox họ và tên
+            DataTable distinctNames = App.KHACH_HANG.DefaultView.ToTable(true, "HoVaTen");
+            cboHoVaTen.DataSource = distinctNames;
+            cboHoVaTen.DisplayMember = "HoVaTen";
+            DataTable distinctAddresses = App.KHACH_HANG.DefaultView.ToTable(true, "DiaChi");
+            cboDiaChi.DataSource = distinctAddresses;
+            cboDiaChi.DisplayMember = "DiaChi";
+        }
+
         private void btnThemDonHang_Click(object sender, EventArgs e)
         {
-            if (txtNoiDungDieuTri.Text == string.Empty || txtSoCCCD.Text == string.Empty)
+            if (txtNoiDungDieuTri.Text == string.Empty || txtSoCCCD.Text == string.Empty ||
+                cboHoVaTen.Text == string.Empty || txtSoCCCD.Text == string.Empty || cboDiaChi.Text == string.Empty || txtSoDienThoai.Text == string.Empty)
                 MessageBox.Show("Thêm đơn hàng thất bại. Điền đầy đủ thông tin và nhấn nút 'Tìm' để tải đầy đủ dữ liệu trước khi thêm.", "Thêm đơn hàng thất bại", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
             {
                 // tính lại giá thành
                 nmThanhTien.Value = nmSoTien.Value * nmSoLuong.Value - nmGiamGia.Value;
                 // kiểm tra khách hàng có trong db chưa? chưa thì thêm vào.
-                DataRow searchResult = App.KHACH_HANG.Rows.Find(txtSoCCCD.Text);
-                if (searchResult == null)
-                {
-                    DataRow newGuest = App.KHACH_HANG.NewRow();
-                    newGuest["HoVaTen"] = cboHoVaTen.Text;
-                    newGuest["GioiTinh"] = cbGioiTinh.Checked;
-                    newGuest["NgaySinh"] = dtpkNgaySinh.Value.Date;
-                    newGuest["SoCCCD"] = txtSoCCCD.Text;
-                    newGuest["DiaChi"] = cboDiaChi.Text;
-                    newGuest["SoDienThoai"] = txtSoDienThoai.Text;
-                    App.KHACH_HANG.Rows.Add(newGuest);
-                }
+                themKhachHang(false);
                 // thêm nội dung điều trị
                 DataRow newItem = App.MUC_DON_HANG.NewRow();
                 newItem["NoiDung"] = txtNoiDungDieuTri.Text;
                 newItem["SoTien"] = nmSoTien.Value;
-                newItem["NgayKham"] = dtpkNgayKham.Value.Date;
+                newItem["NgayKham"] = dtpkNgayKham.Value;
                 newItem["SoCCCD"] = txtSoCCCD.Text;
                 newItem["GiamGia"] = nmGiamGia.Value;
                 newItem["ThanhTien"] = nmThanhTien.Value;
@@ -125,6 +168,9 @@ namespace NhakhoaMyNgoc_Db
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            txtSoCCCD.Enter += (_sender, _e) => BeginInvoke(new Action(() => (_sender as TextBox).SelectAll()));
+            txtSoDienThoai.Enter += (_sender, _e) => BeginInvoke(new Action(() => (_sender as TextBox).SelectAll()));
+
             // set phiên bản
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             this.Text = string.Format("Nha khoa Mỹ Ngọc v{0}.{1}.{2}", version.Major, version.Minor, version.Build);
@@ -147,18 +193,12 @@ namespace NhakhoaMyNgoc_Db
             mUCDONHANGBindingSource.DataSource = App.MUC_DON_HANG;
             dONNHAPBindingSource.DataSource = App.DON_NHAP;
 
-            // đưa dữ liệu khách hàng vào combobox họ và tên
-            DataTable distinctNames = App.KHACH_HANG.DefaultView.ToTable(true, "HoVaTen");
-            cboHoVaTen.DataSource = distinctNames;
-            cboHoVaTen.DisplayMember = "HoVaTen";
-            DataTable distinctAddresses = App.KHACH_HANG.DefaultView.ToTable(true, "DiaChi");
-            cboDiaChi.DataSource = distinctAddresses;
-            cboDiaChi.DisplayMember = "DiaChi";
+            reloadComboboxDuLieuKhachHang();
             // đưa tên các vật tồn kho vào combobox tên vật liệu nhập kho
             cboTenVatLieuNhapKho.DataSource = App.TON_KHO;
             cboTenVatLieuNhapKho.DisplayMember = "TenVatLieu";
             // set date of ngaynhapden >= ngaynhaptu
-            dtpkNgayNhapDen.MinDate = dtpkNgayNhapTu.Value.Date;
+            dtpkNgayNhapDen.MinDate = dtpkNgayNhapTu.Value;
         }
 
         private void btnTimDonHang_Click(object sender, EventArgs e)
@@ -248,54 +288,9 @@ namespace NhakhoaMyNgoc_Db
                 // rebind
                 App.MUC_DON_HANG.AcceptChanges();
                 dgvDonHang.DataSource = mUCDONHANGBindingSource;
-                layDuLieuTuSoCCCD();
+                if (App.KHACH_HANG.FindBySoCCCD(txtSoCCCD.Text) != null)
+                    layDuLieuTuSoCCCD();
                 dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
-            }
-        }
-
-        private void btnSuaThongTinKhachHang_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Bạn có chắc muốn sửa thông tin của khách hàng không?\n**Lưu ý**\nNếu phải sửa số CCCD, thực hiện sửa số CCCD trước, sau đó nhấn 'Sửa thông tin', sau đó mới sửa những thông tin khác, rồi lại nhấn 'Sửa thông tin' một lần nữa.\nNếu đổi tên, sau khi nhấn 'Sửa thông tin' hãy nhấn 'Tìm' một lần nữa để tải lại tên.", "Xác nhận sửa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                DataRow searchResult = App.KHACH_HANG.Rows.Find(txtSoCCCD.Text);
-                if (searchResult != null)
-                {
-                    // nếu cccd chưa bị sửa
-                    searchResult["HoVaTen"] = cboHoVaTen.Text;
-                    searchResult["GioiTinh"] = cbGioiTinh.Checked;
-                    searchResult["NgaySinh"] = dtpkNgaySinh.Value.Date;
-                    searchResult["DiaChi"] = cboDiaChi.Text;
-                    searchResult["SoDienThoai"] = txtSoDienThoai.Text;
-                }
-                else
-                {
-                    // nếu cccd đã bị sửa
-                    if (cboHoVaTen.Text == string.Empty ||
-                        cboDiaChi.Text == string.Empty ||
-                        txtSoDienThoai.Text == string.Empty)
-                        MessageBox.Show("Kiểm tra đầy đủ thông tin trước khi sửa.", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    else
-                    {
-                        DataRow[] anotherSearchResult = App.KHACH_HANG.Select(string.Format("HoVaTen = '{0}' AND GioiTinh = '{1}' AND NgaySinh = '{2}' AND DiaChi = '{3}' AND SoDienThoai = '{4}'", cboHoVaTen.Text, cbGioiTinh.Checked, dtpkNgaySinh.Value.Date, cboDiaChi.Text, txtSoDienThoai.Text));
-                        if (anotherSearchResult.Length > 0)
-                        {
-                            // sửa các đơn hàng có dính cccd
-                            DataRow[] fixID = App.MUC_DON_HANG.Select(string.Format("SoCCCD = '{0}'", anotherSearchResult[0]["SoCCCD"]));
-                            foreach (DataRow row in fixID)
-                                row["SoCCCD"] = txtSoCCCD.Text;
-                            // sửa cccd
-                            anotherSearchResult[0]["SoCCCD"] = txtSoCCCD.Text;
-                        }
-                        else
-                            MessageBox.Show("Sửa thông tin thất bại. Có thể bạn đã làm sai quy trình sửa, hoặc khách hàng này chưa có trong cơ sở dữ liệu của bạn.", "Không thể sửa thông tin", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                App.KHACH_HANG.AcceptChanges();
-                // nạp lại tên trong trường hợp đổi tên
-                cboHoVaTen.DataSource = null;
-                DataTable distinctNames = App.KHACH_HANG.DefaultView.ToTable(true, "HoVaTen");
-                cboHoVaTen.DataSource = distinctNames;
-                cboHoVaTen.DisplayMember = "HoVaTen";
             }
         }
 
@@ -314,7 +309,8 @@ namespace NhakhoaMyNgoc_Db
                 dgvDonHang.DataSource = null;
                 dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
                 dgvDonHang.DataSource = mUCDONHANGBindingSource;
-                layDuLieuTuSoCCCD();
+                if (App.KHACH_HANG.FindBySoCCCD(txtSoCCCD.Text) != null)
+                    layDuLieuTuSoCCCD();
                 dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
             }
         }
@@ -357,7 +353,7 @@ namespace NhakhoaMyNgoc_Db
                 DataRow newItem = App.DON_NHAP.NewRow();
                 newItem["TenVatLieu"] = tenVatLieu;
                 newItem["DonGia"] = nmDonGiaVatLieu.Value;
-                newItem["NgayNhap"] = dtpkNgayNhapTu.Value.Date;
+                newItem["NgayNhap"] = dtpkNgayNhapTu.Value;
                 newItem["ThanhTien"] = nmThanhTienVatLieu.Value;
                 newItem["SoLuong"] = nmSoLuongVatLieu.Value;
                 newItem["MaDonNhap"] = layHash();
@@ -415,19 +411,19 @@ namespace NhakhoaMyNgoc_Db
         {
             if (cbNgayNhapDen.Checked)
             {
-                DataRow[] searchResult = App.DON_NHAP.Select(string.Format("NgayNhap >= #{0}# AND NgayNhap <= #{1}#", dtpkNgayNhapTu.Value.Date, dtpkNgayNhapDen.Value.Date));
+                DataRow[] searchResult = App.DON_NHAP.Select(string.Format("NgayNhap >= #{0}# AND NgayNhap <= #{1}#", dtpkNgayNhapTu.Value, dtpkNgayNhapDen.Value));
                 dONNHAPBindingSource.DataSource = searchResult;
             }
             else
             {
-                DataRow[] searchResult = App.DON_NHAP.Select(string.Format("NgayNhap = #{0}#", dtpkNgayNhapTu.Value.Date));
+                DataRow[] searchResult = App.DON_NHAP.Select(string.Format("NgayNhap = #{0}#", dtpkNgayNhapTu.Value));
                 dONNHAPBindingSource.DataSource = searchResult;
             }
         }
 
         private void dtpkNgayNhapTu_ValueChanged(object sender, EventArgs e)
         {
-            dtpkNgayNhapDen.MinDate = dtpkNgayNhapTu.Value.Date;
+            dtpkNgayNhapDen.MinDate = dtpkNgayNhapTu.Value;
         }
 
         private void dgvDonNhap_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -458,6 +454,61 @@ namespace NhakhoaMyNgoc_Db
         private void msiKiemTraCapNhat_Click(object sender, EventArgs e)
         {
             new frmCapNhat().Show();
+        }
+
+        private void btnThemKhachHang_Click(object sender, EventArgs e)
+        {
+            themKhachHang(true);
+        }
+
+        private void btnXoaKhachHang_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có chắc muốn xoá các mục này không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                DataRow[] selectedRows = new DataRow[dgvKhachHang.SelectedRows.Count];
+                int i = 0;
+                // tránh lỗi RowNotInTableException
+                foreach (DataGridViewRow row in dgvKhachHang.SelectedRows)
+                    selectedRows[i++] = App.KHACH_HANG.Rows.Find(row.Cells[0].Value);
+                dgvDonHang.DataSource = null;
+                for (int j = 0; j < i; j++)
+                    selectedRows[j].Delete();
+                // rebind
+                App.KHACH_HANG.AcceptChanges();
+                dgvKhachHang.DataSource = kHACHHANGBindingSource;
+                reloadComboboxDuLieuKhachHang();
+            }
+        }
+
+        private void dgvKhachHang_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvKhachHang.Rows.Count > 0)
+            {
+                // lấy khách hàng hàng dựa theo mã
+                DataRow searchResult = App.KHACH_HANG.Rows.Find(dgvKhachHang.Rows[e.RowIndex].Cells[0].Value);
+                searchResult[dgvKhachHang.Columns[e.ColumnIndex].Name] = dgvKhachHang.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                // rebind
+                App.KHACH_HANG.AcceptChanges();
+                dgvKhachHang.DataSource = kHACHHANGBindingSource;
+                reloadComboboxDuLieuKhachHang();
+            }
+        }
+
+        private void tbcDonHang_KhachHang_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // sửa lỗi bấm nút Tìm lần đầu tiên sau khi mở ứng dụng, không chọn khách hàng
+            if (tbcDonHang_KhachHang.SelectedIndex == 1 && !dgvKhachHangInit)
+            {
+                dgvKhachHang.Rows[0].Selected = false;
+                dgvKhachHang.Rows[firstTimeLoadedSelectedCustomer].Selected = true;
+            }
+            dgvKhachHangInit = true;
+        }
+
+        private void dgvDonHang_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (e.Control is TextBox textBox)
+                textBox.Multiline = true;
         }
     }
 }
