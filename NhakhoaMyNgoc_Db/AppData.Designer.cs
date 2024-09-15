@@ -735,6 +735,8 @@ namespace NhakhoaMyNgoc_Db {
             
             private global::System.Data.DataColumn columnMaMucDonHang;
             
+            private global::System.Data.DataColumn columnGhiChu;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public MUC_DON_HANGDataTable() {
@@ -834,6 +836,14 @@ namespace NhakhoaMyNgoc_Db {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn GhiChuColumn {
+                get {
+                    return this.columnGhiChu;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -869,7 +879,7 @@ namespace NhakhoaMyNgoc_Db {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public MUC_DON_HANGRow AddMUC_DON_HANGRow(string NoiDung, int SoTien, System.DateTime NgayKham, KHACH_HANGRow parentKHACH_HANGRowBySoCCCD, int GiamGia, int ThanhTien, short SoLuong, string MaMucDonHang) {
+            public MUC_DON_HANGRow AddMUC_DON_HANGRow(string NoiDung, int SoTien, System.DateTime NgayKham, KHACH_HANGRow parentKHACH_HANGRowBySoCCCD, int GiamGia, int ThanhTien, short SoLuong, string MaMucDonHang, string GhiChu) {
                 MUC_DON_HANGRow rowMUC_DON_HANGRow = ((MUC_DON_HANGRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         NoiDung,
@@ -879,7 +889,8 @@ namespace NhakhoaMyNgoc_Db {
                         GiamGia,
                         ThanhTien,
                         SoLuong,
-                        MaMucDonHang};
+                        MaMucDonHang,
+                        GhiChu};
                 if ((parentKHACH_HANGRowBySoCCCD != null)) {
                     columnValuesArray[3] = parentKHACH_HANGRowBySoCCCD[3];
                 }
@@ -920,6 +931,7 @@ namespace NhakhoaMyNgoc_Db {
                 this.columnThanhTien = base.Columns["ThanhTien"];
                 this.columnSoLuong = base.Columns["SoLuong"];
                 this.columnMaMucDonHang = base.Columns["MaMucDonHang"];
+                this.columnGhiChu = base.Columns["GhiChu"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -941,6 +953,8 @@ namespace NhakhoaMyNgoc_Db {
                 base.Columns.Add(this.columnSoLuong);
                 this.columnMaMucDonHang = new global::System.Data.DataColumn("MaMucDonHang", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMaMucDonHang);
+                this.columnGhiChu = new global::System.Data.DataColumn("GhiChu", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnGhiChu);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("MUC_DON_HANGKey", new global::System.Data.DataColumn[] {
                                 this.columnMaMucDonHang}, true));
                 this.columnMaMucDonHang.AllowDBNull = false;
@@ -2001,6 +2015,22 @@ namespace NhakhoaMyNgoc_Db {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string GhiChu {
+                get {
+                    if (this.IsGhiChuNull()) {
+                        return string.Empty;
+                    }
+                    else {
+                        return ((string)(this[this.tableMUC_DON_HANG.GhiChuColumn]));
+                    }
+                }
+                set {
+                    this[this.tableMUC_DON_HANG.GhiChuColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public KHACH_HANGRow KHACH_HANGRow {
                 get {
                     return ((KHACH_HANGRow)(this.GetParentRow(this.Table.ParentRelations["SoCCCD"])));
@@ -2092,6 +2122,18 @@ namespace NhakhoaMyNgoc_Db {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetSoLuongNull() {
                 this[this.tableMUC_DON_HANG.SoLuongColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsGhiChuNull() {
+                return this.IsNull(this.tableMUC_DON_HANG.GhiChuColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetGhiChuNull() {
+                this[this.tableMUC_DON_HANG.GhiChuColumn] = global::System.Convert.DBNull;
             }
         }
         

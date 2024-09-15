@@ -86,25 +86,28 @@ namespace NhakhoaMyNgoc_Db
         {
             if (cboHoVaTen.Text == string.Empty || txtSoCCCD.Text == string.Empty || cboDiaChi.Text == string.Empty || txtSoDienThoai.Text == string.Empty)
                 MessageBox.Show("Chưa nhập đầy đủ thông tin. Kiểm tra lại thông tin và thử lại.", "Thêm khách hàng thất bại", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            // kiểm tra khách hàng có trong db chưa? chưa thì thêm vào.
-            DataRow searchResult = App.KHACH_HANG.Rows.Find(txtSoCCCD.Text);
-            if (searchResult == null)
-            {
-                DataRow newGuest = App.KHACH_HANG.NewRow();
-                newGuest["HoVaTen"] = cboHoVaTen.Text;
-                newGuest["GioiTinh"] = cbGioiTinh.Checked;
-                newGuest["NgaySinh"] = dtpkNgaySinh.Value;
-                newGuest["SoCCCD"] = txtSoCCCD.Text;
-                newGuest["DiaChi"] = cboDiaChi.Text;
-                newGuest["SoDienThoai"] = txtSoDienThoai.Text;
-                App.KHACH_HANG.Rows.Add(newGuest);
-                kHACHHANGBindingSource.DataSource = App.KHACH_HANG;
-                reloadComboboxDuLieuKhachHang();
-            }
             else
             {
-                if (errorMsg)
-                    MessageBox.Show("Số CCCD này đã tồn tại. Kiểm tra lại thông tin và thử lại", "Trùng số CCCD", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // kiểm tra khách hàng có trong db chưa? chưa thì thêm vào.
+                DataRow searchResult = App.KHACH_HANG.Rows.Find(txtSoCCCD.Text);
+                if (searchResult == null)
+                {
+                    DataRow newGuest = App.KHACH_HANG.NewRow();
+                    newGuest["HoVaTen"] = cboHoVaTen.Text;
+                    newGuest["GioiTinh"] = cbGioiTinh.Checked;
+                    newGuest["NgaySinh"] = dtpkNgaySinh.Value;
+                    newGuest["SoCCCD"] = txtSoCCCD.Text;
+                    newGuest["DiaChi"] = cboDiaChi.Text;
+                    newGuest["SoDienThoai"] = txtSoDienThoai.Text;
+                    App.KHACH_HANG.Rows.Add(newGuest);
+                    kHACHHANGBindingSource.DataSource = App.KHACH_HANG;
+                    reloadComboboxDuLieuKhachHang();
+                }
+                else
+                {
+                    if (errorMsg)
+                        MessageBox.Show("Số CCCD này đã tồn tại. Kiểm tra lại thông tin và thử lại", "Trùng số CCCD", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -140,6 +143,7 @@ namespace NhakhoaMyNgoc_Db
                 newItem["ThanhTien"] = nmThanhTien.Value;
                 newItem["SoLuong"] = nmSoLuong.Value;
                 newItem["MaMucDonHang"] = layHash();
+                newItem["GhiChu"] = txtGhiChu.Text;
                 App.MUC_DON_HANG.Rows.Add(newItem);
                 App.MUC_DON_HANG.AcceptChanges();
                 dgvDonHang.DataSource = null;
@@ -238,22 +242,13 @@ namespace NhakhoaMyNgoc_Db
                 }
             }
             dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
-            // vô hiệu hoá nút xoá nếu không có đơn hàng nào
-            if (dgvDonHang.Rows.Count == 0)
-            {
-                btnXoaDonHang.Enabled = false;
-            }
-            else
-            {
-                btnXoaDonHang.Enabled = true;
-            }
         }
 
         private void dgvDonHang_SelectionChanged(object sender, EventArgs e)
         {
             int sum = 0;
             foreach (DataGridViewRow row in dgvDonHang.SelectedRows)
-                sum += Convert.ToInt32(row.Cells[dgvDonHang.Columns.Count - 1].Value);
+                sum += Convert.ToInt32(row.Cells["ThanhTien"].Value);
             lblThanhTien.Text = string.Format("Thành tiền: {0:#,###0}đ", sum);
         }
 
@@ -272,37 +267,14 @@ namespace NhakhoaMyNgoc_Db
             nmThanhTien.Value = nmSoTien.Value * nmSoLuong.Value - nmGiamGia.Value;
         }
 
-        private void btnXoaDonHang_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Bạn có chắc muốn xoá các mục này không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
-                DataRow[] selectedRows = new DataRow[dgvDonHang.SelectedRows.Count];
-                int i = 0;
-                // tránh lỗi RowNotInTableException
-                foreach (DataGridViewRow row in dgvDonHang.SelectedRows)
-                    selectedRows[i++] = App.MUC_DON_HANG.Rows.Find(row.Cells[0].Value);
-                dgvDonHang.DataSource = null;
-                for (int j = 0; j < i; j++)
-                    selectedRows[j].Delete();
-                // rebind
-                App.MUC_DON_HANG.AcceptChanges();
-                dgvDonHang.DataSource = mUCDONHANGBindingSource;
-                if (App.KHACH_HANG.FindBySoCCCD(txtSoCCCD.Text) != null)
-                    layDuLieuTuSoCCCD();
-                dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
-            }
-        }
-
         private void dgvDonHang_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (dgvDonHang.Rows.Count > 0)
             {
                 // lấy đơn hàng dựa theo mã
                 DataRow searchResult = App.MUC_DON_HANG.Rows.Find(dgvDonHang.Rows[e.RowIndex].Cells[0].Value);
-                searchResult[dgvDonHang.Columns[e.ColumnIndex].Name] = dgvDonHang.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-                searchResult["ThanhTien"] = Convert.ToInt32(dgvDonHang.Rows[e.RowIndex].Cells[4].Value) * 
-                    Convert.ToInt32(dgvDonHang.Rows[e.RowIndex].Cells[5].Value) - 
+                searchResult["ThanhTien"] = Convert.ToInt32(dgvDonHang.Rows[e.RowIndex].Cells[4].Value) *
+                    Convert.ToInt32(dgvDonHang.Rows[e.RowIndex].Cells[5].Value) -
                     Convert.ToInt32(dgvDonHang.Rows[e.RowIndex].Cells[6].Value);
                 // rebind
                 App.MUC_DON_HANG.AcceptChanges();
@@ -402,7 +374,7 @@ namespace NhakhoaMyNgoc_Db
                     selectedRows[j].Delete();
                 // rebind
                 App.DON_NHAP.AcceptChanges();
-                dgvDonNhap.DataSource = dONNHAPBindingSource;
+                dgvDonNhap.DataSource = App.DON_NHAP;
                // dgvDonNhap.SelectionChanged += dgvDonNhap_SelectionChanged;
             }
         }
@@ -433,7 +405,6 @@ namespace NhakhoaMyNgoc_Db
                 // lấy đơn hàng dựa theo mã
                 DataRow searchResult = App.DON_NHAP.Rows.Find(dgvDonNhap.Rows[e.RowIndex].Cells[5].Value);
                 // set lại trong database
-                searchResult[dgvDonNhap.Columns[e.ColumnIndex].Name.Replace("VatLieu", "")] = dgvDonNhap.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
                 int newCost = Convert.ToInt32(dgvDonNhap.Rows[e.RowIndex].Cells[2].Value) *
                     Convert.ToInt32(dgvDonNhap.Rows[e.RowIndex].Cells[3].Value);
                 int change = Convert.ToInt32(searchResult["ThanhTien"]) - newCost;
@@ -461,32 +432,12 @@ namespace NhakhoaMyNgoc_Db
             themKhachHang(true);
         }
 
-        private void btnXoaKhachHang_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Bạn có chắc muốn xoá các mục này không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                DataRow[] selectedRows = new DataRow[dgvKhachHang.SelectedRows.Count];
-                int i = 0;
-                // tránh lỗi RowNotInTableException
-                foreach (DataGridViewRow row in dgvKhachHang.SelectedRows)
-                    selectedRows[i++] = App.KHACH_HANG.Rows.Find(row.Cells[0].Value);
-                dgvDonHang.DataSource = null;
-                for (int j = 0; j < i; j++)
-                    selectedRows[j].Delete();
-                // rebind
-                App.KHACH_HANG.AcceptChanges();
-                dgvKhachHang.DataSource = kHACHHANGBindingSource;
-                reloadComboboxDuLieuKhachHang();
-            }
-        }
-
         private void dgvKhachHang_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (dgvKhachHang.Rows.Count > 0)
             {
                 // lấy khách hàng hàng dựa theo mã
                 DataRow searchResult = App.KHACH_HANG.Rows.Find(dgvKhachHang.Rows[e.RowIndex].Cells[0].Value);
-                searchResult[dgvKhachHang.Columns[e.ColumnIndex].Name] = dgvKhachHang.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
                 // rebind
                 App.KHACH_HANG.AcceptChanges();
                 dgvKhachHang.DataSource = kHACHHANGBindingSource;
@@ -509,6 +460,58 @@ namespace NhakhoaMyNgoc_Db
         {
             if (e.Control is TextBox textBox)
                 textBox.Multiline = true;
+        }
+
+        private void dgvDonHang_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete && dgvDonHang.SelectedRows.Count > 0)
+            {
+                if (MessageBox.Show("Bạn có chắc muốn xoá các mục này không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
+                    DataRow[] selectedRows = new DataRow[dgvDonHang.SelectedRows.Count];
+                    int i = 0;
+                    // tránh lỗi RowNotInTableException
+                    foreach (DataGridViewRow row in dgvDonHang.SelectedRows)
+                    {
+                        DataRow searchResult = App.MUC_DON_HANG.Rows.Find(row.Cells[0].Value);
+                        if (searchResult != null)
+                            selectedRows[i++] = searchResult;
+                    }
+                    dgvDonHang.DataSource = null;
+                    for (int j = 0; j < i; j++)
+                        selectedRows[j].Delete();
+                    // rebind
+                    App.MUC_DON_HANG.AcceptChanges();
+                    DataTable result = App.MUC_DON_HANG.Select(string.Format("SoCCCD = {0}", txtSoCCCD.Text)).CopyToDataTable();
+                    dgvDonHang.DataSource = result;
+                    if (App.KHACH_HANG.FindBySoCCCD(txtSoCCCD.Text) != null)
+                        layDuLieuTuSoCCCD();
+                    dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
+                }
+            }
+        }
+
+        private void dgvKhachHang_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete && dgvKhachHang.SelectedRows.Count > 0)
+            {
+                if (MessageBox.Show("Bạn có chắc muốn xoá các mục này không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    DataRow[] selectedRows = new DataRow[dgvKhachHang.SelectedRows.Count];
+                    int i = 0;
+                    // tránh lỗi RowNotInTableException
+                    foreach (DataGridViewRow row in dgvKhachHang.SelectedRows)
+                        selectedRows[i++] = App.KHACH_HANG.Rows.Find(row.Cells[0].Value);
+                    dgvDonHang.DataSource = null;
+                    for (int j = 0; j < i; j++)
+                        selectedRows[j].Delete();
+                    // rebind
+                    App.KHACH_HANG.AcceptChanges();
+                    dgvKhachHang.DataSource = App.KHACH_HANG;
+                    reloadComboboxDuLieuKhachHang();
+                }
+            }
         }
     }
 }
