@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Security.Cryptography;
 using System.Reflection;
+using System.Collections.Generic;
 
 namespace NhakhoaMyNgoc_Db
 {
@@ -511,6 +512,32 @@ namespace NhakhoaMyNgoc_Db
                     dgvKhachHang.DataSource = App.KHACH_HANG;
                     reloadComboboxDuLieuKhachHang();
                 }
+            }
+        }
+
+        private void dgvDonHang_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == dgvDonHang.Columns["btnChiTietDonHang"].Index && e.RowIndex >= 0)
+            {
+                DateTime date = DateTime.Parse(dgvDonHang.Rows[e.RowIndex].Cells["NgayKham"].Value.ToString()).Date;
+                DataRow[] orders = App.MUC_DON_HANG.Select(string.Format("SoCCCD = '{0}' AND NgayKham = '{1}'",
+                    dgvDonHang.Rows[e.RowIndex].Cells["SoCCCD"].Value,
+                    date));
+                List<string[]> printOrders = new List<string[]>();
+                foreach (DataRow order in orders)
+                {
+                    printOrders.Add(new string[] {
+                        order["NoiDung"].ToString(),
+                        Convert.ToInt32(order["SoLuong"]).ToString("N0"),
+                        Convert.ToInt32(order["SoTien"]).ToString("N0"),
+                        Convert.ToInt32(order["GiamGia"]).ToString("N0"),
+                        Convert.ToInt32(order["ThanhTien"]).ToString("N0")
+                    });
+                }
+                DataRow person = App.KHACH_HANG.FindBySoCCCD(dgvDonHang.Rows[e.RowIndex].Cells["SoCCCD"].Value.ToString());
+                DateTime birthdate = DateTime.Parse(person["NgaySinh"].ToString()).Date;
+                PDFTemplates.HoaDonDichVu(person["HoVaTen"].ToString(), (bool)person["GioiTinh"], birthdate.ToString("dd/MM/yyyy"), printOrders);
+                MessageBox.Show("Hoàn tất xuất hoá đơn dạng PDF.");
             }
         }
     }
