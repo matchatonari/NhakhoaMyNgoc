@@ -1,6 +1,6 @@
 ﻿namespace NhakhoaMyNgoc_Db
 {
-    partial class frmCapNhat
+    partial class frmUpdate
     {
         /// <summary>
         /// Required designer variable.

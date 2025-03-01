@@ -1,544 +1,491 @@
 ﻿using System;
 using System.Data;
 using System.Windows.Forms;
-using System.IO;
-using System.Security.Cryptography;
+using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 
 namespace NhakhoaMyNgoc_Db
 {
-    public partial class frmMain : Form
+    public partial class frm_Main : Form
     {
-        public frmMain()
+        public frm_Main()
         {
             InitializeComponent();
         }
 
-        static AppData db;
-        protected static AppData App
+        #region UTIL
+        void ClearReceiptBindings()
         {
-            get
-            {
-                if (db == null)
-                    db = new AppData();
-                return db;
-            }
+            txtReceipt_Notes.Text = string.Empty;
+            dgv_Receipt_Content.DataSource = null;
+            dtpkReceipt_Date.Value = dtpkReceipt_RevisitDate.Value = DateTime.Now;
+            btnSaveReceipt.Enabled = false;
         }
-
-        int firstTimeLoadedSelectedCustomer = 0;
-        bool dgvKhachHangInit = false;
-
-        private void layDuLieuTuSoCCCD()
+        DataTable QueryCustomer()
         {
-            // lấy thông tin từ txtSoCCCD
-            string soCCCD = txtSoCCCD.Text;
-            DataRow searchResult = App.KHACH_HANG.Rows.Find(soCCCD);
-            if (searchResult != null)
+            return Database.Query("Customer", null, new Dictionary<string, (bool, object)>
             {
-                cboHoVaTen.Text = searchResult["HoVaTen"].ToString();
-                cbGioiTinh.Checked = (bool)searchResult["GioiTinh"];
-                dtpkNgaySinh.Value = DateTime.Parse(searchResult["NgaySinh"].ToString());
-                txtSoCCCD.Text = soCCCD;
-                cboDiaChi.Text = searchResult["DiaChi"].ToString();
-                txtSoDienThoai.Text = searchResult["SoDienThoai"].ToString();
-                // lọc đơn hàng
-                DataRow[] history = App.MUC_DON_HANG.Select(string.Format("SoCCCD = '{0}'", txtSoCCCD.Text), "NgayKham ASC");
-                mUCDONHANGBindingSource.DataSource = history;
-                // không xoá datagridview nhưng chọn đúng người
-                dgvKhachHang.ClearSelection();
-                for (int i = 0; i < dgvKhachHang.Rows.Count; i++)
-                    if (dgvKhachHang.Rows[i].Cells[0].Value.ToString() == soCCCD)
-                    {
-                        if (!dgvKhachHangInit)
-                            firstTimeLoadedSelectedCustomer = i;
-                        else
-                            dgvKhachHang.Rows[i].Selected = true;
-                        break;
-                    }
-            }
-            else
-            {
-                cboHoVaTen.Text = cboDiaChi.Text = txtSoCCCD.Text = string.Empty;
-                dtpkNgaySinh.Value = DateTime.Now;
-                cbGioiTinh.Checked = false;
-                mUCDONHANGBindingSource.DataSource = null;
-                kHACHHANGBindingSource.DataSource = null;
-            }
+                { "Customer_FullName", (true, txtCustomer_FullName.Text) },
+                { "Customer_CitizenId", (false, txtCustomer_CitizenId.Text) },
+                { "Customer_Address", (true, txtCustomer_Address.Text) },
+                { "Customer_Phone", (false, txtCustomer_Phone.Text) }
+            });
         }
-
-        private string layHash()
+        Customer GenerateCustomer()
         {
-            // Generate a random byte array
-            byte[] randomBytes = new byte[32]; // 256 bits
-            RandomNumberGenerator rng = RandomNumberGenerator.Create();
-            rng.GetBytes(randomBytes);
-
-            // Compute the hash
-            using (SHA256 sha256 = SHA256.Create())
+            return new Customer
             {
-                byte[] hashBytes = sha256.ComputeHash(randomBytes);
-                string hash = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
-                return hash;
-            }
+                Customer_FullName = txtCustomer_FullName.Text,
+                Customer_Sex = rdCustomer_Male.Checked ? false : true,
+                Customer_Birthdate = dtpkCustomer_Birthdate.Value,
+                Customer_CitizenId = txtCustomer_CitizenId.Text,
+                Customer_Address = txtCustomer_Address.Text,
+                Customer_Phone = txtCustomer_Phone.Text
+            };
         }
+        #endregion
 
-        private void themKhachHang(bool errorMsg)
+        #region DON_NHAP
+        /// <summary>
+        /// Tìm đơn nhập
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_SearchStockReceipt_Click(object sender, EventArgs e)
         {
-            if (cboHoVaTen.Text == string.Empty || txtSoCCCD.Text == string.Empty || cboDiaChi.Text == string.Empty || txtSoDienThoai.Text == string.Empty)
-                MessageBox.Show("Chưa nhập đầy đủ thông tin. Kiểm tra lại thông tin và thử lại.", "Thêm khách hàng thất bại", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            else
+            bsStock.DataSource = Database.GetStock();
+            bsStockReceipts.DataSource = Database.GetInputReceiptsBetween(dtpk_Receipt_FromDate.Value, dtpk_Receipt_ToDate.Value);
+        }
+        /// <summary>
+        /// Thêm đơn nhập
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_AddStockReceipt_Click(object sender, EventArgs e)
+        {
+            var receipt = new StockReceipt { StockReceipt_Date = dtpkStockReceipt_Date.Value };
+
+            foreach (DataGridViewRow row in dgv_StockReceipt_Content.Rows)
             {
-                // kiểm tra khách hàng có trong db chưa? chưa thì thêm vào.
-                DataRow searchResult = App.KHACH_HANG.Rows.Find(txtSoCCCD.Text);
-                if (searchResult == null)
+                if (row.IsNewRow) continue;
+
+                var c = row.Cells;
+
+                int realQuantity = Convert.ToInt32(c["_StockReceiptDetail_Quantity"].Value) * (rb_Output.Checked ? -1 : 1);
+                int price = Convert.ToInt32(c["_StockReceiptDetail_Price"].Value);
+                string stockName = c["_StockReceiptDetail_Name"].Value.ToString();
+
+                // Lấy hoặc thêm Item vào DB
+                var item = new Item { Stock_Name = stockName };
+                DataTable search = Database.Query("Stock", new List<string> { stockName },
+                                  new Dictionary<string, (bool, object)> { { "Stock_Name", (true, stockName) } });
+                item.Stock_Id = search.Rows.Count > 0 ? Convert.ToInt32(search.Rows[0]["Stock_Id"]) : Database.AddRecord("Stock", item);
+
+
+                // Tạo detail & tính tổng
+                var detail = new StockReceiptDetail
                 {
-                    DataRow newGuest = App.KHACH_HANG.NewRow();
-                    newGuest["HoVaTen"] = cboHoVaTen.Text;
-                    newGuest["GioiTinh"] = cbGioiTinh.Checked;
-                    newGuest["NgaySinh"] = dtpkNgaySinh.Value;
-                    newGuest["SoCCCD"] = txtSoCCCD.Text;
-                    newGuest["DiaChi"] = cboDiaChi.Text;
-                    newGuest["SoDienThoai"] = txtSoDienThoai.Text;
-                    App.KHACH_HANG.Rows.Add(newGuest);
-                    kHACHHANGBindingSource.DataSource = App.KHACH_HANG;
-                    reloadComboboxDuLieuKhachHang();
-                }
-                else
-                {
-                    if (errorMsg)
-                        MessageBox.Show("Số CCCD này đã tồn tại. Kiểm tra lại thông tin và thử lại", "Trùng số CCCD", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                    StockReceiptDetail_ReceiptId = receipt.StockReceipt_Id,
+                    StockReceiptDetail_ItemId = item.Stock_Id,
+                    StockReceiptDetail_Quantity = realQuantity,
+                    StockReceiptDetail_Price = price
+                };
+                receipt.StockReceipt_Total += realQuantity * price;
+
+                Database.AddRecord("StockReceiptDetail", detail);
             }
+
+            Database.AddRecord("StockReceipt", receipt);
+            dgv_StockReceipt_Content.Rows.Clear();
         }
 
-        private void reloadComboboxDuLieuKhachHang()
+        /// <summary>
+        /// Xoá đơn nhập
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgv_StockReceipt_KeyDown(object sender, KeyEventArgs e)
         {
-            // đưa dữ liệu khách hàng vào combobox họ và tên
-            DataTable distinctNames = App.KHACH_HANG.DefaultView.ToTable(true, "HoVaTen");
-            cboHoVaTen.DataSource = distinctNames;
-            cboHoVaTen.DisplayMember = "HoVaTen";
-            DataTable distinctAddresses = App.KHACH_HANG.DefaultView.ToTable(true, "DiaChi");
-            cboDiaChi.DataSource = distinctAddresses;
-            cboDiaChi.DisplayMember = "DiaChi";
-        }
-
-        private void btnThemDonHang_Click(object sender, EventArgs e)
-        {
-            if (txtNoiDungDieuTri.Text == string.Empty || txtSoCCCD.Text == string.Empty ||
-                cboHoVaTen.Text == string.Empty || txtSoCCCD.Text == string.Empty || cboDiaChi.Text == string.Empty || txtSoDienThoai.Text == string.Empty)
-                MessageBox.Show("Thêm đơn hàng thất bại. Điền đầy đủ thông tin và nhấn nút 'Tìm' để tải đầy đủ dữ liệu trước khi thêm.", "Thêm đơn hàng thất bại", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            else
+            if (e.KeyCode == Keys.Delete && dgv_StockReceipt.SelectedRows.Count > 0)
             {
-                // tính lại giá thành
-                nmThanhTien.Value = nmSoTien.Value * nmSoLuong.Value - nmGiamGia.Value;
-                // kiểm tra khách hàng có trong db chưa? chưa thì thêm vào.
-                themKhachHang(false);
-                // thêm nội dung điều trị
-                DataRow newItem = App.MUC_DON_HANG.NewRow();
-                newItem["NoiDung"] = txtNoiDungDieuTri.Text;
-                newItem["SoTien"] = nmSoTien.Value;
-                newItem["NgayKham"] = dtpkNgayKham.Value;
-                newItem["SoCCCD"] = txtSoCCCD.Text;
-                newItem["GiamGia"] = nmGiamGia.Value;
-                newItem["ThanhTien"] = nmThanhTien.Value;
-                newItem["SoLuong"] = nmSoLuong.Value;
-                newItem["MaMucDonHang"] = layHash();
-                newItem["GhiChu"] = txtGhiChu.Text;
-                App.MUC_DON_HANG.Rows.Add(newItem);
-                App.MUC_DON_HANG.AcceptChanges();
-                dgvDonHang.DataSource = null;
-                dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
-                dgvDonHang.DataSource = mUCDONHANGBindingSource;
-                layDuLieuTuSoCCCD();
-                dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
-            }
-        }
-
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            // lưu dữ liệu và xuất ra file xml
-            kHACHHANGBindingSource.EndEdit();
-            mUCDONHANGBindingSource.EndEdit();
-            dONNHAPBindingSource.EndEdit();
-            App.KHACH_HANG.AcceptChanges();
-            App.MUC_DON_HANG.AcceptChanges();
-            App.DON_NHAP.AcceptChanges();
-            App.TON_KHO.AcceptChanges();
-            App.KHACH_HANG.WriteXml(string.Format("{0}//xml//KHACHHANG.xml", Application.StartupPath));
-            App.MUC_DON_HANG.WriteXml(string.Format("{0}//xml//MUCDONHANG.xml", Application.StartupPath));
-            App.DON_NHAP.WriteXml(string.Format("{0}//xml//DONNHAP.xml", Application.StartupPath));
-            App.TON_KHO.WriteXml(string.Format("{0}//xml//TONKHO.xml", Application.StartupPath));
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            txtSoCCCD.Enter += (_sender, _e) => BeginInvoke(new Action(() => (_sender as TextBox).SelectAll()));
-            txtSoDienThoai.Enter += (_sender, _e) => BeginInvoke(new Action(() => (_sender as TextBox).SelectAll()));
-
-            // set phiên bản
-            Version version = Assembly.GetExecutingAssembly().GetName().Version;
-            this.Text = string.Format("Nha khoa Mỹ Ngọc v{0}.{1}.{2}", version.Major, version.Minor, version.Build);
-
-            // load dữ liệu khách hàng, đơn hàng
-            string db_KhachHang = string.Format("{0}//xml//KHACHHANG.xml", Application.StartupPath);
-            string db_MucDonHang = string.Format("{0}//xml//MUCDONHANG.xml", Application.StartupPath);
-            string db_DonNhap = string.Format("{0}//xml//DONNHAP.xml", Application.StartupPath);
-            string db_TonKho = string.Format("{0}//xml//TONKHO.xml", Application.StartupPath);
-            if (File.Exists(db_KhachHang))
-                App.KHACH_HANG.ReadXml(db_KhachHang);
-            if (File.Exists(db_MucDonHang))
-                App.MUC_DON_HANG.ReadXml(db_MucDonHang);
-            if (File.Exists(db_DonNhap))
-                App.DON_NHAP.ReadXml(db_DonNhap);
-            if (File.Exists(db_TonKho))
-                App.TON_KHO.ReadXml(db_TonKho);
-
-            kHACHHANGBindingSource.DataSource = App.KHACH_HANG;
-            mUCDONHANGBindingSource.DataSource = App.MUC_DON_HANG;
-            dONNHAPBindingSource.DataSource = App.DON_NHAP;
-
-            reloadComboboxDuLieuKhachHang();
-            // đưa tên các vật tồn kho vào combobox tên vật liệu nhập kho
-            cboTenVatLieuNhapKho.DataSource = App.TON_KHO;
-            cboTenVatLieuNhapKho.DisplayMember = "TenVatLieu";
-            // set date of ngaynhapden >= ngaynhaptu
-            dtpkNgayNhapDen.MinDate = dtpkNgayNhapTu.Value;
-        }
-
-        private void btnTimDonHang_Click(object sender, EventArgs e)
-        {
-            // tránh lỗi khi đang load dữ liệu
-            dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
-            // tìm theo số cccd
-            if (txtSoCCCD.Text != string.Empty)
-                layDuLieuTuSoCCCD();
-            else
-            {
-                if (cboHoVaTen.Text != string.Empty)
+                if (MessageBox.Show("Bạn có chắc muốn xoá các mục này không?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    if (cboDiaChi.Text != string.Empty)
+                    foreach (DataGridViewRow row in dgv_StockReceipt.SelectedRows)
                     {
-                        DataRow[] peopleFound = App.KHACH_HANG.Select(string.Format("HoVaTen = '{0}' AND DiaChi = '{1}'", cboHoVaTen.Text, cboDiaChi.Text));
-                        if (peopleFound.Length > 0)
-                        {
-                            txtSoCCCD.Text = peopleFound[0]["SoCCCD"].ToString();
-                            layDuLieuTuSoCCCD();
-                        }
-                    }
-                    else
-                    {
-                        // tìm theo tên
-                        DataRow[] addressesFound = App.KHACH_HANG.Select(string.Format("HoVaTen = '{0}'", cboHoVaTen.Text));
-                        cboDiaChi.DataSource = addressesFound;
-                        cboDiaChi.DisplayMember = "DiaChi";
-                        // nếu chỉ có 1 địa chỉ
-                        if (cboDiaChi.Items.Count == 1)
-                        {
-                            DataRow[] peopleFound = App.KHACH_HANG.Select(string.Format("HoVaTen = '{0}' AND DiaChi = '{1}'", cboHoVaTen.Text, cboDiaChi.Text));
-                            txtSoCCCD.Text = peopleFound[0]["SoCCCD"].ToString();
-                            layDuLieuTuSoCCCD();
-                        }
+                        // xoá
+                        Database.DeleteRecord("StockReceiptDetail", new List<int> {
+                            Convert.ToInt32(row.Cells["StockReceiptDetail_Id"].Value)
+                        });
+                        dgv_StockReceipt.Rows.Remove(row);
                     }
                 }
             }
-            dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
         }
 
-        private void dgvDonHang_SelectionChanged(object sender, EventArgs e)
+        private void dgv_StockReceipt_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            int sum = 0;
-            foreach (DataGridViewRow row in dgvDonHang.SelectedRows)
-                sum += Convert.ToInt32(row.Cells["ThanhTien"].Value);
-            lblThanhTien.Text = string.Format("Thành tiền: {0:#,###0}đ", sum);
+            var columnName = dgv_StockReceipt.Columns[e.ColumnIndex].Name;
+            if (columnName.Contains("Total")) return;
+
+            Util.AttachUpdateHook(dgv_StockReceipt, "StockReceiptDetail");
         }
 
-        private void nmSoTien_ValueChanged(object sender, EventArgs e)
+        private void tbcIO_SelectedIndexChanged(object sender, EventArgs e)
         {
-            nmThanhTien.Value = nmSoTien.Value * nmSoLuong.Value - nmGiamGia.Value;
-        }
-
-        private void nmSoLuong_ValueChanged(object sender, EventArgs e)
-        {
-            nmThanhTien.Value = nmSoTien.Value * nmSoLuong.Value - nmGiamGia.Value;
-        }
-
-        private void nmGiamGia_ValueChanged(object sender, EventArgs e)
-        {
-            nmThanhTien.Value = nmSoTien.Value * nmSoLuong.Value - nmGiamGia.Value;
-        }
-
-        private void dgvDonHang_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            if (dgvDonHang.Rows.Count > 0)
+            switch (tbcIO.SelectedIndex)
             {
-                // lấy đơn hàng dựa theo mã
-                DataRow searchResult = App.MUC_DON_HANG.Rows.Find(dgvDonHang.Rows[e.RowIndex].Cells[0].Value);
-                searchResult["ThanhTien"] = Convert.ToInt32(dgvDonHang.Rows[e.RowIndex].Cells[4].Value) *
-                    Convert.ToInt32(dgvDonHang.Rows[e.RowIndex].Cells[5].Value) -
-                    Convert.ToInt32(dgvDonHang.Rows[e.RowIndex].Cells[6].Value);
-                // rebind
-                App.MUC_DON_HANG.AcceptChanges();
-                dgvDonHang.DataSource = null;
-                dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
-                dgvDonHang.DataSource = mUCDONHANGBindingSource;
-                if (App.KHACH_HANG.FindBySoCCCD(txtSoCCCD.Text) != null)
-                    layDuLieuTuSoCCCD();
-                dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
+                case 0:
+                    bsStockReceipts.DataSource = Database.GetInputReceiptsBetween(dtpk_Receipt_FromDate.Value, dtpk_Receipt_ToDate.Value);
+                    break;
+                case 1:
+                    bsStock.DataSource = Database.GetStock();
+                    break;
+                default:
+                    break;
             }
         }
+        #endregion
 
-        private void cbNgayNhapDen_CheckedChanged(object sender, EventArgs e)
+        #region DON_HANG
+        /// <summary>
+        /// Thêm đơn hàng & khách hàng
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_AddReceipt_Click(object sender, EventArgs e)
         {
-            dtpkNgayNhapDen.Enabled = cbNgayNhapDen.Checked;
-        }
-
-        private void nmSoLuongVatLieu_ValueChanged(object sender, EventArgs e)
-        {
-            nmThanhTienVatLieu.Value = nmSoLuongVatLieu.Value * nmDonGiaVatLieu.Value;
-        }
-
-        private void nmDonGiaVatLieu_ValueChanged(object sender, EventArgs e)
-        {
-            nmThanhTienVatLieu.Value = nmSoLuongVatLieu.Value * nmDonGiaVatLieu.Value;
-        }
-
-        private void btnThemDonNhap_Click(object sender, EventArgs e)
-        {
-            if (cboTenVatLieuNhapKho.Text == string.Empty)
-                MessageBox.Show("Nhập dữ liệu thất bại. Điền đầy đủ thông tin trước khi thêm.", "Nhập dữ liệu thất bại", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            else
+            bool anyEmptyTextBox = Controls.OfType<TextBox>().Any(tb => string.IsNullOrWhiteSpace(tb.Text));
+            if (anyEmptyTextBox)
             {
-                string tenVatLieu = cboTenVatLieuNhapKho.Text;
-                // tính lại giá thành
-                nmThanhTienVatLieu.Value = nmDonGiaVatLieu.Value * nmSoLuongVatLieu.Value;
-                // kiểm tra vật liệu có trong db chưa? chưa thì thêm vào.
-                DataRow searchResult = App.TON_KHO.Rows.Find(cboTenVatLieuNhapKho.Text);
-                if (searchResult == null)
+                MessageBox.Show("Điền đầy đủ thông tin và nhấn nút Tìm trước khi thêm.",
+                    "Thêm đơn hàng thất bại", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            Customer customer = GenerateCustomer();
+            DataTable customerTable = QueryCustomer();
+            int customerId = 0;
+
+            if (customerTable.Rows.Count == 0)
+            {
+                customerId = Database.GetNextId("Customer");
+                Database.AddRecord("Customer", customer);
+            } else
+            {
+                customerId = Convert.ToInt32(customerTable.Rows[0]["Customer_Id"]);
+            }
+
+            // tạo hoá đơn mới
+            Receipt receipt = new Receipt
+            {
+                Receipt_CustomerId = customerId,
+                Receipt_Date = dtpkReceipt_Date.Value,
+                Receipt_RevisitDate = dtpkReceipt_RevisitDate.Value.Date,
+                Receipt_Notes = txtReceipt_Notes.Text
+            };
+
+            foreach (DataGridViewRow row in dgv_Receipt_Content.Rows)
+            {
+                if (!row.IsNewRow)
                 {
-                    DataRow newUniqueItem = App.TON_KHO.NewRow();
-                    newUniqueItem["TenVatLieu"] = tenVatLieu;
-                    newUniqueItem["SoLuong"] = nmSoLuongVatLieu.Value;
-                    newUniqueItem["ThanhTien"] = nmThanhTienVatLieu.Value;
-                    App.TON_KHO.Rows.Add(newUniqueItem);
+                    ReceiptDetail service = Util.MapRowTo<ReceiptDetail>(row);
+                    service.ReceiptDetail_ReceiptId = Database.GetNextId("Receipt") + 1;
+
+                    Database.AddRecord("ReceiptDetail", service);
+
+                    receipt.Receipt_Total += service.ReceiptDetail_Price * service.ReceiptDetail_Quantity - service.ReceiptDetail_Discount;
                 }
-                // thêm đơn nhập/xuất
-                DataRow newItem = App.DON_NHAP.NewRow();
-                newItem["TenVatLieu"] = tenVatLieu;
-                newItem["DonGia"] = nmDonGiaVatLieu.Value;
-                newItem["NgayNhap"] = dtpkNgayNhapTu.Value;
-                newItem["ThanhTien"] = nmThanhTienVatLieu.Value;
-                newItem["SoLuong"] = nmSoLuongVatLieu.Value;
-                newItem["MaDonNhap"] = layHash();
-                App.DON_NHAP.Rows.Add(newItem);
-                App.DON_NHAP.AcceptChanges();
-                dgvDonNhap.DataSource = null;
-                //dgvDonNhap.SelectionChanged -= dgvDonHang_SelectionChanged;
-                dgvDonNhap.DataSource = dONNHAPBindingSource;
-                //dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
-
-                // cập nhật số hàng trong kho
-                DataRow currentGood = App.TON_KHO.Rows.Find(tenVatLieu);
-                int currentNumber = Convert.ToInt32(currentGood["SoLuong"]) + (int)nmSoLuongVatLieu.Value;
-                currentGood["SoLuong"] = currentNumber;
-                // công thức mới: không phụ thuộc vào đơn giá được lưu trong CSDL
-                int newCost = Convert.ToInt32(currentGood["ThanhTien"]) + (int)nmSoLuongVatLieu.Value * (int)nmDonGiaVatLieu.Value;
-                currentGood["ThanhTien"] = newCost;
-
-                cboTenVatLieuNhapKho.Text = tenVatLieu;
             }
-        }
+            receipt.Receipt_Remaining = receipt.Receipt_Total;
+            Database.AddRecord("Receipt", receipt);
 
-        private void btnXoaDonNhap_Click(object sender, EventArgs e)
+            dgv_Receipt.DataSource = Database.GetReceipts(customer);
+
+            // dọn dẹp
+            ClearReceiptBindings();
+        }
+        /// <summary>
+        /// Tìm đơn hàng & khách hàng
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_SearchReceipt_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Bạn có chắc muốn xoá các mục này không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            bsCustomer.DataSource = null;
+            tbcDonHang_KhachHang.SelectedIndex = 1;
+
+            DataTable customerTable = QueryCustomer();
+            bsCustomer.DataSource = customerTable;
+
+            cb_Customer_IsActive_CheckedChanged(sender, e);
+        }
+        /// <summary>
+        /// Xoá đơn hàng
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgv_Receipt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete && dgv_Receipt.SelectedRows.Count > 0)
             {
-                //dgvDonHang.SelectionChanged -= dgvDonNhap_SelectionChanged;
-                DataRow[] selectedRows = new DataRow[dgvDonNhap.SelectedRows.Count];
-                int i = 0;
-                // tránh lỗi RowNotInTableException
-                foreach (DataGridViewRow row in dgvDonNhap.SelectedRows)
+                if (MessageBox.Show("Bạn có chắc muốn xoá các mục này không?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    selectedRows[i] = App.DON_NHAP.Rows.Find(row.Cells[5].Value);
-
-                    // cập nhật số hàng còn trong kho
-                    DataRow currentItem = App.TON_KHO.Rows.Find(row.Cells[1].Value.ToString().Trim());
-                    int currentNumber = Convert.ToInt32(currentItem["SoLuong"]) - Convert.ToInt32(selectedRows[i]["SoLuong"]);
-                    currentItem["SoLuong"] = currentNumber;
-                    int newCost = Convert.ToInt32(currentItem["ThanhTien"]) - Convert.ToInt32(row.Cells[2].Value) * Convert.ToInt32(row.Cells[3].Value);
-                    currentItem["ThanhTien"] = newCost;
-
-                    i++;
+                    foreach (DataGridViewRow row in dgv_Receipt.SelectedRows)
+                    {
+                        var receiptId = Convert.ToInt32(row.Cells["Receipt_Id"].Value);
+                        Database.DeleteRecord("ReceiptDetail", new List<int> { receiptId });
+                        Database.DeleteRecord("Receipt", new List<int> { receiptId });
+                        dgv_Receipt.Rows.Remove(row);
+                        // xoá binding
+                        ClearReceiptBindings();
+                    }
                 }
-                dgvDonNhap.DataSource = null;
-                for (int j = 0; j < i; j++)
-                    selectedRows[j].Delete();
-                // rebind
-                App.DON_NHAP.AcceptChanges();
-                dgvDonNhap.DataSource = App.DON_NHAP;
-               // dgvDonNhap.SelectionChanged += dgvDonNhap_SelectionChanged;
             }
         }
-
-        private void btnTimDonNhap_Click(object sender, EventArgs e)
-        {
-            if (cbNgayNhapDen.Checked)
-            {
-                DataRow[] searchResult = App.DON_NHAP.Select(string.Format("NgayNhap >= #{0}# AND NgayNhap <= #{1}#", dtpkNgayNhapTu.Value, dtpkNgayNhapDen.Value));
-                dONNHAPBindingSource.DataSource = searchResult;
-            }
-            else
-            {
-                DataRow[] searchResult = App.DON_NHAP.Select(string.Format("NgayNhap = #{0}#", dtpkNgayNhapTu.Value));
-                dONNHAPBindingSource.DataSource = searchResult;
-            }
-        }
-
-        private void dtpkNgayNhapTu_ValueChanged(object sender, EventArgs e)
-        {
-            dtpkNgayNhapDen.MinDate = dtpkNgayNhapTu.Value;
-        }
-
-        private void dgvDonNhap_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            if (dgvDonNhap.Rows.Count > 0)
-            {
-                // lấy đơn hàng dựa theo mã
-                DataRow searchResult = App.DON_NHAP.Rows.Find(dgvDonNhap.Rows[e.RowIndex].Cells[5].Value);
-                // set lại trong database
-                int newCost = Convert.ToInt32(dgvDonNhap.Rows[e.RowIndex].Cells[2].Value) *
-                    Convert.ToInt32(dgvDonNhap.Rows[e.RowIndex].Cells[3].Value);
-                int change = Convert.ToInt32(searchResult["ThanhTien"]) - newCost;
-                searchResult["ThanhTien"] = newCost;
-                // tính lại tồn kho
-                DataRow obj = App.TON_KHO.Rows.Find(dgvDonNhap.Rows[e.RowIndex].Cells[1].Value.ToString().Trim());
-                int currentCost = Convert.ToInt32(obj["ThanhTien"]) - change;
-                obj["ThanhTien"] = currentCost;
-                // rebind
-                App.DON_NHAP.AcceptChanges();
-                dgvDonNhap.DataSource = null;
-                //dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
-                dgvDonNhap.DataSource = dONNHAPBindingSource;
-                //dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
-            }
-        }
-
-        private void msiKiemTraCapNhat_Click(object sender, EventArgs e)
-        {
-            new frmCapNhat().Show();
-        }
-
-        private void btnThemKhachHang_Click(object sender, EventArgs e)
-        {
-            themKhachHang(true);
-        }
-
-        private void dgvKhachHang_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            if (dgvKhachHang.Rows.Count > 0)
-            {
-                // lấy khách hàng hàng dựa theo mã
-                DataRow searchResult = App.KHACH_HANG.Rows.Find(dgvKhachHang.Rows[e.RowIndex].Cells[0].Value);
-                // rebind
-                App.KHACH_HANG.AcceptChanges();
-                dgvKhachHang.DataSource = kHACHHANGBindingSource;
-                reloadComboboxDuLieuKhachHang();
-            }
-        }
-
-        private void tbcDonHang_KhachHang_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // sửa lỗi bấm nút Tìm lần đầu tiên sau khi mở ứng dụng, không chọn khách hàng
-            if (tbcDonHang_KhachHang.SelectedIndex == 1 && !dgvKhachHangInit)
-            {
-                dgvKhachHang.Rows[0].Selected = false;
-                dgvKhachHang.Rows[firstTimeLoadedSelectedCustomer].Selected = true;
-            }
-            dgvKhachHangInit = true;
-        }
-
-        private void dgvDonHang_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        private void dgv_Receipt_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             if (e.Control is TextBox textBox)
                 textBox.Multiline = true;
         }
-
-        private void dgvDonHang_KeyDown(object sender, KeyEventArgs e)
+        // bind dữ liệu
+        private void dgv_Receipt_SelectionChanged(object sender, EventArgs e)
         {
-            if (e.KeyCode == Keys.Delete && dgvDonHang.SelectedRows.Count > 0)
+            if (dgv_Receipt.CurrentRow == null)
             {
-                if (MessageBox.Show("Bạn có chắc muốn xoá các mục này không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                ClearReceiptBindings();
+                return;
+            }
+
+            Receipt receipt = Util.MapRowTo<Receipt>(dgv_Receipt.CurrentRow);
+            DataTable details = Database.Query("ReceiptDetail", null, new Dictionary<string, (bool, object)>
+            {
+                { "ReceiptDetail_ReceiptId", (false, receipt.Receipt_Id) },
+            });
+
+            dtpkReceipt_Date.Value = receipt.Receipt_Date;
+            dtpkReceipt_RevisitDate.Value = receipt.Receipt_RevisitDate;
+            txtReceipt_Notes.Text = receipt.Receipt_Notes;
+            dgv_Receipt_Content.DataSource = details;
+            btnSaveReceipt.Enabled = true;
+        }
+        private void dgv_Receipt_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            if (dgv_Receipt.Columns[e.ColumnIndex].Name == "Receipt_Date" ||
+                dgv_Receipt.Columns[e.ColumnIndex].Name == "Receipt_RevisitDate")
+            {
+                // Hủy bỏ chế độ chỉnh sửa trực tiếp
+                e.Cancel = true;
+
+                // Lấy giá trị ngày hiện tại trong ô
+                DateTime currentDate = DateTime.Now;
+                if (dgv_Receipt.CurrentCell.Value != null)
+                    DateTime.TryParse(dgv_Receipt.CurrentCell.Value.ToString(), out currentDate);
+
+                // Mở form chọn ngày
+                using (DateTimePickerDialog dateDialog = new DateTimePickerDialog(currentDate))
                 {
-                    dgvDonHang.SelectionChanged -= dgvDonHang_SelectionChanged;
-                    DataRow[] selectedRows = new DataRow[dgvDonHang.SelectedRows.Count];
-                    int i = 0;
-                    // tránh lỗi RowNotInTableException
-                    foreach (DataGridViewRow row in dgvDonHang.SelectedRows)
+                    if (dateDialog.ShowDialog() == DialogResult.OK)
                     {
-                        DataRow searchResult = App.MUC_DON_HANG.Rows.Find(row.Cells[0].Value);
-                        if (searchResult != null)
-                            selectedRows[i++] = searchResult;
+                        // Cập nhật giá trị ô với ngày đã chọn
+                        dgv_Receipt.CurrentCell.Value = dateDialog.SelectedDate.ToString("yyyy-MM-dd HH:mm:ss");
                     }
-                    dgvDonHang.DataSource = null;
-                    for (int j = 0; j < i; j++)
-                        selectedRows[j].Delete();
-                    // rebind
-                    App.MUC_DON_HANG.AcceptChanges();
-                    DataTable result = App.MUC_DON_HANG.Select(string.Format("SoCCCD = {0}", txtSoCCCD.Text)).CopyToDataTable();
-                    dgvDonHang.DataSource = result;
-                    if (App.KHACH_HANG.FindBySoCCCD(txtSoCCCD.Text) != null)
-                        layDuLieuTuSoCCCD();
-                    dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
                 }
             }
         }
-
-        private void dgvKhachHang_KeyDown(object sender, KeyEventArgs e)
+        /// <summary>
+        /// Sửa đơn hàng
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSaveReceipt_Click(object sender, EventArgs e)
         {
-            if (e.KeyCode == Keys.Delete && dgvKhachHang.SelectedRows.Count > 0)
+            var currentRow = dgv_Receipt.CurrentRow;
+            // lấy giá trị mới
+            var newReceipt_Date = dtpkReceipt_Date.Value.ToString("yyyy-MM-dd HH:mm:ss");
+            var newReceipt_RevisitDate = dtpkReceipt_RevisitDate.Value.ToString("yyyy-MM-dd HH:mm:ss");
+
+            // update db
+            var result = Database.UpdateRecord("Receipt",
+                Convert.ToInt32(currentRow.Cells["Receipt_Id"].Value),
+                new Dictionary<string, object>
             {
-                if (MessageBox.Show("Bạn có chắc muốn xoá các mục này không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                { "Receipt_Date"       , newReceipt_Date        },
+                { "Receipt_RevisitDate", newReceipt_RevisitDate },
+                { "Receipt_Notes"      , txtReceipt_Notes.Text  }
+            });
+
+            // update ui
+            Customer customer = Util.MapRowTo<Customer>(dgv_Customer.CurrentRow);
+            dgv_Receipt.DataSource = Database.GetReceipts(customer);
+
+            // lấy lại id của receiptdetail
+            DataTable dt = (DataTable)dgv_Receipt_Content.DataSource;
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                var row = dgv_Receipt_Content.Rows[i];
+                var primaryValue = Convert.ToInt32(dt.Rows[i]["ReceiptDetail_Id"]);
+
+                Database.UpdateRecord("ReceiptDetail", primaryValue, new Dictionary<string, object>
                 {
-                    DataRow[] selectedRows = new DataRow[dgvKhachHang.SelectedRows.Count];
-                    int i = 0;
-                    // tránh lỗi RowNotInTableException
-                    foreach (DataGridViewRow row in dgvKhachHang.SelectedRows)
-                        selectedRows[i++] = App.KHACH_HANG.Rows.Find(row.Cells[0].Value);
-                    dgvDonHang.DataSource = null;
-                    for (int j = 0; j < i; j++)
-                        selectedRows[j].Delete();
-                    // rebind
-                    App.KHACH_HANG.AcceptChanges();
-                    dgvKhachHang.DataSource = App.KHACH_HANG;
-                    reloadComboboxDuLieuKhachHang();
+                    { "ReceiptDetail_Content" , row.Cells["ReceiptDetail_Content"].Value  },
+                    { "ReceiptDetail_Price"   , row.Cells["ReceiptDetail_Price"].Value    },
+                    { "ReceiptDetail_Quantity", row.Cells["ReceiptDetail_Quantity"].Value },
+                    { "ReceiptDetail_Discount", row.Cells["ReceiptDetail_Discount"].Value }
+                });
+            }
+        }
+        #endregion
+
+        #region KHACH_HANG
+        /// <summary>
+        /// Tìm đơn hàng theo khách hàng
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgv_Customer_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgv_Customer.IsHandleCreated)
+            {
+                this.BeginInvoke(new MethodInvoker(() =>
+                {
+                    if (dgv_Customer.SelectedRows.Count == 0 || dgv_Customer.Rows.Count == 0) return;
+
+                    // Lấy hàng đầu tiên đang được chọn
+                    Customer customer = Util.MapRowTo<Customer>(dgv_Customer.CurrentRow);
+
+                    // Truy cập giá trị các ô trong hàng đã chọn
+                    txtCustomer_FullName.Text = customer.Customer_FullName;
+                    dtpkCustomer_Birthdate.Value = customer.Customer_Birthdate;
+                    (rdCustomer_Female.Checked, rdCustomer_Male.Checked) = customer.Customer_Sex.ToString() == "0" ? (false, true) : (true, false);
+                    txtCustomer_CitizenId.Text = customer.Customer_CitizenId;
+                    txtCustomer_Address.Text = customer.Customer_Address;
+                    txtCustomer_Phone.Text = customer.Customer_Phone;
+
+                    dgv_Receipt.DataSource = Database.GetReceipts(customer);
+                    dgv_Receipt_SelectionChanged(sender, e);
+                }));
+            }
+        }
+        /// <summary>
+        /// Xoá khách hàng
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgv_Customer_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete && dgv_Customer.SelectedRows.Count > 0)
+            {
+                if (MessageBox.Show("Bạn có chắc muốn xoá những người này không?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    DataTable dt = (DataTable)((BindingSource)dgv_Customer.DataSource).DataSource;
+                    foreach (DataGridViewRow row in dgv_Customer.SelectedRows)
+                    {
+                        Database.UpdateRecord("Customer",
+                            Convert.ToInt32(row.Cells["Customer_Id"].Value),
+                            new Dictionary<string, object>
+                        {
+                            { "Customer_IsActive", 0 }
+                        });
+
+                        DataRow[] selectedRow = dt.Select("Customer_Id = " + row.Cells["Customer_Id"].Value);
+                        selectedRow[0]["Customer_IsActive"] = 0;
+                    }
                 }
             }
         }
-
-        private void dgvDonHang_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        /// <summary>
+        /// Khôi phục khách hàng
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tsi_Restore_Click(object sender, EventArgs e)
         {
-            if (e.ColumnIndex == dgvDonHang.Columns["btnChiTietDonHang"].Index && e.RowIndex >= 0)
+            DataTable dt = (DataTable)((BindingSource)dgv_Customer.DataSource).DataSource;
+            foreach (DataGridViewRow row in dgv_Customer.SelectedRows)
             {
-                DateTime date = DateTime.Parse(dgvDonHang.Rows[e.RowIndex].Cells["NgayKham"].Value.ToString()).Date;
-                DataRow[] orders = App.MUC_DON_HANG.Select(string.Format("SoCCCD = '{0}' AND NgayKham = '{1}'",
-                    dgvDonHang.Rows[e.RowIndex].Cells["SoCCCD"].Value,
-                    date));
-                List<string[]> printOrders = new List<string[]>();
-                foreach (DataRow order in orders)
+                Database.UpdateRecord("Customer",
+                    Convert.ToInt32(row.Cells["Customer_Id"].Value),
+                    new Dictionary<string, object>
                 {
-                    printOrders.Add(new string[] {
-                        order["NoiDung"].ToString(),
-                        Convert.ToInt32(order["SoLuong"]).ToString("N0"),
-                        Convert.ToInt32(order["SoTien"]).ToString("N0"),
-                        Convert.ToInt32(order["GiamGia"]).ToString("N0"),
-                        Convert.ToInt32(order["ThanhTien"]).ToString("N0")
-                    });
-                }
-                DataRow person = App.KHACH_HANG.FindBySoCCCD(dgvDonHang.Rows[e.RowIndex].Cells["SoCCCD"].Value.ToString());
-                DateTime birthdate = DateTime.Parse(person["NgaySinh"].ToString()).Date;
-                PDFTemplates.HoaDonDichVu(person["HoVaTen"].ToString(), (bool)person["GioiTinh"], birthdate.ToString("dd/MM/yyyy"), printOrders);
-                MessageBox.Show("Hoàn tất xuất hoá đơn dạng PDF.");
+                    { "Customer_IsActive", 1 }
+                });
+
+                DataRow[] selectedRow = dt.Select("Customer_Id = " + row.Cells["Customer_Id"].Value);
+                selectedRow[0]["Customer_IsActive"] = 1;
             }
+        }
+        private void cb_Customer_IsActive_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!cb_Customer_IsActive.Checked)
+                bsCustomer.Filter = "Customer_IsActive = 1";
+            else
+                bsCustomer.RemoveFilter();
+        }
+        #endregion
+        private void frm_Main_Load(object sender, EventArgs e)
+        {
+            // khởi tạo db
+            Database.Initialize();
+
+            // set phiên bản
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+            this.Text = $"Nha khoa Mỹ Ngọc v{version.Major}.{version.Minor}.{version.Build}";
+
+            // không tự tạo cột theo datatable
+            dgv_Customer.AutoGenerateColumns
+                = dgv_Stock.AutoGenerateColumns
+                = dgv_StockReceipt.AutoGenerateColumns
+                = dgv_Receipt_Content.AutoGenerateColumns
+                = false;
+
+            // event ngày đến >= ngày từ truy vấn đơn nhập
+            dtpk_Receipt_FromDate.ValueChanged += (s, ev) =>
+                dtpk_Receipt_ToDate.MinDate = dtpk_Receipt_FromDate.Value;
+
+            // reset format N0 mỗi khi cập nhật giá trị
+            Util.AttachReformatHook(dgv_Receipt_Content);
+            Util.AttachReformatHook(dgv_Receipt);
+            Util.AttachReformatHook(dgv_StockReceipt_Content);
+            Util.AttachReformatHook(dgv_StockReceipt);
+
+            // sửa db
+            dgv_StockReceipt.CellBeginEdit += (s, ev) =>
+            {
+                dgv_StockReceipt.CurrentCell.Tag =
+                    (dgv_StockReceipt.Columns[ev.ColumnIndex].Name, dgv_StockReceipt.CurrentCell.Value);
+            };
+
+            Util.AttachUpdateHook(dgv_Receipt, "Receipt");
+            Util.AttachUpdateHook(dgv_Customer, "Customer");
+
+            Util.DismissDirtyState(dgv_Customer);
+            Util.DismissDirtyState(dgv_StockReceipt);
+
+            // lấy dữ liệu tồn kho
+            StockReceiptDetail_ItemId.DisplayMember = "Stock_Name";
+            StockReceiptDetail_ItemId.ValueMember = "Stock_Id";
+
+            // update
+            msiKiemTraCapNhat.Click += (s, ev) => new frmUpdate().Show();
+        }
+
+        private void btn_DeleteDetails_Click(object sender, EventArgs e)
+        {
+            txtCustomer_FullName.Text
+                = txtCustomer_CitizenId.Text
+                = txtCustomer_Address.Text
+                = txtCustomer_Phone.Text
+                = string.Empty;
+            txtCustomer_FullName.Focus();
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            Customer customer = Util.MapRowTo<Customer>(dgv_Customer.CurrentRow);
+            Receipt receipt = Util.MapRowTo<Receipt>(dgv_Receipt.CurrentRow);
+            DataTable receiptDetails = (DataTable)(dgv_Receipt_Content.DataSource);
+            new PrintDialog(customer, receipt, receiptDetails).Show();
         }
     }
 }

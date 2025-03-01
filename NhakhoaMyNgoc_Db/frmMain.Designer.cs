@@ -1,6 +1,6 @@
 ﻿namespace NhakhoaMyNgoc_Db
 {
-    partial class frmMain
+    partial class frm_Main
     {
         /// <summary>
         /// Required designer variable.
@@ -29,96 +29,117 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_Main));
+            this.cmsCustomer = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsi_Restore = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.giúpĐỡToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hướngDẫnSửDụngToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.msiKiemTraCapNhat = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label26 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.lblThanhTien = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.tbcDonHang_KhachHang = new System.Windows.Forms.TabControl();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.dgvDonHang = new System.Windows.Forms.DataGridView();
-            this.mUCDONHANGBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.appData = new NhakhoaMyNgoc_Db.AppData();
+            this.dgv_Receipt = new System.Windows.Forms.DataGridView();
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.dgvKhachHang = new System.Windows.Forms.DataGridView();
-            this.SoCCCD_dgvKhachHang = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HoVaTen_dgvKhachHang = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GioiTinh_dgvKhachHang = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.NgaySinh_dgvKhachHang = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DiaChi_dgvKhachHang = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SoDienThoai_dgvKhachHang = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.kHACHHANGBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.dgv_Customer = new System.Windows.Forms.DataGridView();
+            this.Customer_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Customer_FullName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Customer_Sex = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Customer_Birthdate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Customer_CitizenId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Customer_Address = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Customer_Phone = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bsCustomer = new System.Windows.Forms.BindingSource(this.components);
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.cb_Customer_IsActive = new System.Windows.Forms.CheckBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.btnThemKhachHang = new System.Windows.Forms.Button();
-            this.btnTimDonHang = new System.Windows.Forms.Button();
-            this.txtSoDienThoai = new System.Windows.Forms.TextBox();
-            this.txtSoCCCD = new System.Windows.Forms.TextBox();
-            this.cboDiaChi = new System.Windows.Forms.ComboBox();
-            this.cbGioiTinh = new System.Windows.Forms.CheckBox();
-            this.cboHoVaTen = new System.Windows.Forms.ComboBox();
+            this.rdCustomer_Female = new System.Windows.Forms.RadioButton();
+            this.rdCustomer_Male = new System.Windows.Forms.RadioButton();
+            this.btn_DeleteDetails = new System.Windows.Forms.Button();
+            this.btn_SearchReceipt = new System.Windows.Forms.Button();
+            this.txtCustomer_Address = new System.Windows.Forms.TextBox();
+            this.txtCustomer_Phone = new System.Windows.Forms.TextBox();
+            this.txtCustomer_FullName = new System.Windows.Forms.TextBox();
+            this.txtCustomer_CitizenId = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.dtpkNgaySinh = new System.Windows.Forms.DateTimePicker();
+            this.dtpkCustomer_Birthdate = new System.Windows.Forms.DateTimePicker();
             this.label10 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.nmThanhTien = new System.Windows.Forms.NumericUpDown();
-            this.nmGiamGia = new System.Windows.Forms.NumericUpDown();
-            this.nmSoLuong = new System.Windows.Forms.NumericUpDown();
-            this.nmSoTien = new System.Windows.Forms.NumericUpDown();
-            this.btnThemDonHang = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.dtpkNgayKham = new System.Windows.Forms.DateTimePicker();
-            this.txtGhiChu = new System.Windows.Forms.TextBox();
-            this.txtNoiDungDieuTri = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
+            this.dgv_Receipt_Content = new System.Windows.Forms.DataGridView();
+            this.ReceiptDetail_Content = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ReceiptDetail_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ReceiptDetail_Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ReceiptDetail_Discount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnPrint = new System.Windows.Forms.Button();
+            this.btnSaveReceipt = new System.Windows.Forms.Button();
+            this.btn_AddReceipt = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.dtpkReceipt_RevisitDate = new System.Windows.Forms.DateTimePicker();
+            this.dtpkReceipt_Date = new System.Windows.Forms.DateTimePicker();
+            this.txtReceipt_Notes = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.dtpkNgayNhapDen = new System.Windows.Forms.DateTimePicker();
-            this.cbNgayNhapDen = new System.Windows.Forms.CheckBox();
-            this.nmThanhTienVatLieu = new System.Windows.Forms.NumericUpDown();
-            this.nmDonGiaVatLieu = new System.Windows.Forms.NumericUpDown();
-            this.btnTimDonNhap = new System.Windows.Forms.Button();
-            this.btnXoaDonNhap = new System.Windows.Forms.Button();
-            this.btnThemDonNhap = new System.Windows.Forms.Button();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.nmSoLuongVatLieu = new System.Windows.Forms.NumericUpDown();
-            this.cboTenVatLieuNhapKho = new System.Windows.Forms.ComboBox();
-            this.dtpkNgayNhapTu = new System.Windows.Forms.DateTimePicker();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.dgvDonNhap = new System.Windows.Forms.DataGridView();
-            this.NgayNhapVatLieu = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TenVatLieuVatLieu = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DonGiaVatLieu = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SoLuongVatLieu = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ThanhTienVatLieu = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MaDonNhapVatLieu = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dONNHAPBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.tbcIO = new System.Windows.Forms.TabControl();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.panel11 = new System.Windows.Forms.Panel();
+            this.dgv_StockReceipt = new System.Windows.Forms.DataGridView();
+            this.bsStock = new System.Windows.Forms.BindingSource(this.components);
+            this.bsStockReceipts = new System.Windows.Forms.BindingSource(this.components);
+            this.panel10 = new System.Windows.Forms.Panel();
+            this.btn_SearchStockReceipt = new System.Windows.Forms.Button();
+            this.dtpk_Receipt_ToDate = new System.Windows.Forms.DateTimePicker();
+            this.dtpk_Receipt_FromDate = new System.Windows.Forms.DateTimePicker();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.dgv_Stock = new System.Windows.Forms.DataGridView();
+            this.Stock_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Stock_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Stock_Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Stock_Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.rb_Output = new System.Windows.Forms.RadioButton();
+            this.rb_Input = new System.Windows.Forms.RadioButton();
+            this.dgv_StockReceipt_Content = new System.Windows.Forms.DataGridView();
+            this._StockReceiptDetail_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._StockReceiptDetail_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._StockReceiptDetail_Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label7 = new System.Windows.Forms.Label();
+            this.btn_AddStockReceipt = new System.Windows.Forms.Button();
+            this.dtpkStockReceipt_Date = new System.Windows.Forms.DateTimePicker();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.panel9 = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -147,116 +168,180 @@
             this.label20 = new System.Windows.Forms.Label();
             this.panel8 = new System.Windows.Forms.Panel();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.giúpĐỡToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hướngDẫnSửDụngToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.msiKiemTraCapNhat = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label26 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.MaMucDonHang = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SoCCCD = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NgayKham = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NoiDung = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SoTien = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SoLuong = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GiamGia = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ThanhTien = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GhiChu = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnChiTietDonHang = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Receipt_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Receipt_CustomerId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Receipt_Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Receipt_Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Receipt_Remaining = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Receipt_RevisitDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Receipt_Notes = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StockReceiptDetail_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StockReceiptDetail_ReceiptId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._StockReceiptDetail_Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._StockReceiptDetail_Input = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.StockReceiptDetail_ItemId = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.StockReceiptDetail_Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StockReceiptDetail_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StockReceiptDetail_Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cmsCustomer.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tbcDonHang_KhachHang.SuspendLayout();
             this.tabPage4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDonHang)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mUCDONHANGBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.appData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Receipt)).BeginInit();
             this.tabPage5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvKhachHang)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kHACHHANGBindingSource)).BeginInit();
+            this.panel7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Customer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bsCustomer)).BeginInit();
+            this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nmThanhTien)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nmGiamGia)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nmSoLuong)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nmSoTien)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Receipt_Content)).BeginInit();
             this.tabPage2.SuspendLayout();
-            this.panel6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nmThanhTienVatLieu)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nmDonGiaVatLieu)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nmSoLuongVatLieu)).BeginInit();
             this.panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDonNhap)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dONNHAPBindingSource)).BeginInit();
+            this.tbcIO.SuspendLayout();
+            this.tabPage6.SuspendLayout();
+            this.panel11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_StockReceipt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bsStock)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bsStockReceipts)).BeginInit();
+            this.panel10.SuspendLayout();
+            this.tabPage7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Stock)).BeginInit();
+            this.panel6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_StockReceipt_Content)).BeginInit();
             this.tabPage3.SuspendLayout();
             this.panel9.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.panel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
-            this.menuStrip1.SuspendLayout();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
+            // 
+            // cmsCustomer
+            // 
+            this.cmsCustomer.ImageScalingSize = new System.Drawing.Size(17, 17);
+            this.cmsCustomer.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsi_Restore});
+            this.cmsCustomer.Name = "contextMenuStrip1";
+            this.cmsCustomer.Size = new System.Drawing.Size(129, 26);
+            // 
+            // tsi_Restore
+            // 
+            this.tsi_Restore.Name = "tsi_Restore";
+            this.tsi_Restore.Size = new System.Drawing.Size(128, 22);
+            this.tsi_Restore.Text = "Khôi phục";
+            this.tsi_Restore.Click += new System.EventHandler(this.tsi_Restore_Click);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(17, 17);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.giúpĐỡToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(1912, 24);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // giúpĐỡToolStripMenuItem
+            // 
+            this.giúpĐỡToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.hướngDẫnSửDụngToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.msiKiemTraCapNhat});
+            this.giúpĐỡToolStripMenuItem.Name = "giúpĐỡToolStripMenuItem";
+            this.giúpĐỡToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
+            this.giúpĐỡToolStripMenuItem.Text = "Trợ giúp";
+            // 
+            // hướngDẫnSửDụngToolStripMenuItem
+            // 
+            this.hướngDẫnSửDụngToolStripMenuItem.Name = "hướngDẫnSửDụngToolStripMenuItem";
+            this.hướngDẫnSửDụngToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.hướngDẫnSửDụngToolStripMenuItem.Text = "Hướng dẫn";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(131, 6);
+            // 
+            // msiKiemTraCapNhat
+            // 
+            this.msiKiemTraCapNhat.Name = "msiKiemTraCapNhat";
+            this.msiKiemTraCapNhat.Size = new System.Drawing.Size(134, 22);
+            this.msiKiemTraCapNhat.Text = "Cập nhật";
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.panel1.Controls.Add(this.label26);
+            this.panel1.Controls.Add(this.pictureBox1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 24);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1912, 68);
+            this.panel1.TabIndex = 3;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("Segoe UI Black", 17.82178F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label26.Location = new System.Drawing.Point(72, 17);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(272, 32);
+            this.label26.TabIndex = 1;
+            this.label26.Text = "NHA KHOA MỸ NGỌC";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.pictureBox1.Image = global::NhakhoaMyNgoc_Db.Properties.Resources.LOGO;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(67, 67);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.tabControl1.Location = new System.Drawing.Point(0, 98);
+            this.tabControl1.Location = new System.Drawing.Point(0, 92);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1175, 962);
-            this.tabControl1.TabIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1912, 949);
+            this.tabControl1.TabIndex = 4;
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.statusStrip1);
             this.tabPage1.Controls.Add(this.panel3);
             this.tabPage1.Controls.Add(this.panel2);
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1167, 929);
+            this.tabPage1.Size = new System.Drawing.Size(1904, 916);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Khách hàng";
+            this.tabPage1.Text = "Hoá đơn";
             this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(17, 17);
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblThanhTien});
-            this.statusStrip1.Location = new System.Drawing.Point(3, 904);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1161, 22);
-            this.statusStrip1.TabIndex = 45;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // lblThanhTien
-            // 
-            this.lblThanhTien.Name = "lblThanhTien";
-            this.lblThanhTien.Size = new System.Drawing.Size(0, 17);
             // 
             // panel3
             // 
-            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.Controls.Add(this.tbcDonHang_KhachHang);
-            this.panel3.Location = new System.Drawing.Point(654, 3);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(815, 3);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(507, 901);
-            this.panel3.TabIndex = 44;
+            this.panel3.Size = new System.Drawing.Size(1086, 910);
+            this.panel3.TabIndex = 47;
             // 
             // tbcDonHang_KhachHang
             // 
@@ -266,183 +351,222 @@
             this.tbcDonHang_KhachHang.Location = new System.Drawing.Point(0, 0);
             this.tbcDonHang_KhachHang.Name = "tbcDonHang_KhachHang";
             this.tbcDonHang_KhachHang.SelectedIndex = 0;
-            this.tbcDonHang_KhachHang.Size = new System.Drawing.Size(507, 901);
-            this.tbcDonHang_KhachHang.TabIndex = 0;
-            this.tbcDonHang_KhachHang.SelectedIndexChanged += new System.EventHandler(this.tbcDonHang_KhachHang_SelectedIndexChanged);
+            this.tbcDonHang_KhachHang.Size = new System.Drawing.Size(1086, 910);
+            this.tbcDonHang_KhachHang.TabIndex = 1;
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.dgvDonHang);
+            this.tabPage4.Controls.Add(this.dgv_Receipt);
             this.tabPage4.Location = new System.Drawing.Point(4, 29);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(499, 868);
+            this.tabPage4.Size = new System.Drawing.Size(1078, 877);
             this.tabPage4.TabIndex = 0;
             this.tabPage4.Text = "Đơn hàng";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
-            // dgvDonHang
+            // dgv_Receipt
             // 
-            this.dgvDonHang.AllowUserToAddRows = false;
-            this.dgvDonHang.AllowUserToDeleteRows = false;
-            this.dgvDonHang.AutoGenerateColumns = false;
-            this.dgvDonHang.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.dgvDonHang.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDonHang.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.MaMucDonHang,
-            this.SoCCCD,
-            this.NgayKham,
-            this.NoiDung,
-            this.SoTien,
-            this.SoLuong,
-            this.GiamGia,
-            this.ThanhTien,
-            this.GhiChu,
-            this.btnChiTietDonHang});
-            this.dgvDonHang.DataSource = this.mUCDONHANGBindingSource;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 11F);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.NullValue = null;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvDonHang.DefaultCellStyle = dataGridViewCellStyle7;
-            this.dgvDonHang.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvDonHang.Location = new System.Drawing.Point(3, 3);
-            this.dgvDonHang.Name = "dgvDonHang";
-            this.dgvDonHang.RowHeadersWidth = 43;
-            this.dgvDonHang.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvDonHang.Size = new System.Drawing.Size(493, 862);
-            this.dgvDonHang.TabIndex = 43;
-            this.dgvDonHang.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDonHang_CellContentClick);
-            this.dgvDonHang.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDonHang_CellValueChanged);
-            this.dgvDonHang.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgvDonHang_EditingControlShowing);
-            this.dgvDonHang.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvDonHang_KeyDown);
-            // 
-            // mUCDONHANGBindingSource
-            // 
-            this.mUCDONHANGBindingSource.DataMember = "MUC_DON_HANG";
-            this.mUCDONHANGBindingSource.DataSource = this.appData;
-            // 
-            // appData
-            // 
-            this.appData.DataSetName = "AppData";
-            this.appData.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            this.dgv_Receipt.AllowUserToAddRows = false;
+            this.dgv_Receipt.AllowUserToDeleteRows = false;
+            this.dgv_Receipt.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgv_Receipt.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_Receipt.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Receipt_Id,
+            this.Receipt_CustomerId,
+            this.Receipt_Date,
+            this.Receipt_Total,
+            this.Receipt_Remaining,
+            this.Receipt_RevisitDate,
+            this.Receipt_Notes});
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 11F);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.NullValue = null;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Receipt.DefaultCellStyle = dataGridViewCellStyle4;
+            this.dgv_Receipt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_Receipt.Location = new System.Drawing.Point(3, 3);
+            this.dgv_Receipt.Name = "dgv_Receipt";
+            this.dgv_Receipt.RowHeadersWidth = 43;
+            this.dgv_Receipt.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgv_Receipt.Size = new System.Drawing.Size(1072, 871);
+            this.dgv_Receipt.TabIndex = 43;
+            this.dgv_Receipt.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgv_Receipt_CellBeginEdit);
+            this.dgv_Receipt.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgv_Receipt_EditingControlShowing);
+            this.dgv_Receipt.SelectionChanged += new System.EventHandler(this.dgv_Receipt_SelectionChanged);
+            this.dgv_Receipt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgv_Receipt_KeyDown);
             // 
             // tabPage5
             // 
-            this.tabPage5.Controls.Add(this.dgvKhachHang);
+            this.tabPage5.Controls.Add(this.panel7);
+            this.tabPage5.Controls.Add(this.panel4);
             this.tabPage5.Location = new System.Drawing.Point(4, 29);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(499, 868);
+            this.tabPage5.Size = new System.Drawing.Size(1078, 877);
             this.tabPage5.TabIndex = 1;
             this.tabPage5.Text = "Khách hàng";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
-            // dgvKhachHang
+            // panel7
             // 
-            this.dgvKhachHang.AllowUserToAddRows = false;
-            this.dgvKhachHang.AllowUserToDeleteRows = false;
-            this.dgvKhachHang.AutoGenerateColumns = false;
-            this.dgvKhachHang.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvKhachHang.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.dgvKhachHang.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvKhachHang.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.SoCCCD_dgvKhachHang,
-            this.HoVaTen_dgvKhachHang,
-            this.GioiTinh_dgvKhachHang,
-            this.NgaySinh_dgvKhachHang,
-            this.DiaChi_dgvKhachHang,
-            this.SoDienThoai_dgvKhachHang});
-            this.dgvKhachHang.DataSource = this.kHACHHANGBindingSource;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Segoe UI", 11F);
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle9.NullValue = null;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvKhachHang.DefaultCellStyle = dataGridViewCellStyle9;
-            this.dgvKhachHang.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvKhachHang.Location = new System.Drawing.Point(3, 3);
-            this.dgvKhachHang.Name = "dgvKhachHang";
-            this.dgvKhachHang.RowHeadersWidth = 43;
-            this.dgvKhachHang.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvKhachHang.Size = new System.Drawing.Size(493, 862);
-            this.dgvKhachHang.TabIndex = 44;
-            this.dgvKhachHang.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvKhachHang_CellValueChanged);
-            this.dgvKhachHang.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvKhachHang_KeyDown);
+            this.panel7.Controls.Add(this.dgv_Customer);
+            this.panel7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel7.Location = new System.Drawing.Point(3, 37);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(1072, 837);
+            this.panel7.TabIndex = 1;
             // 
-            // SoCCCD_dgvKhachHang
+            // dgv_Customer
             // 
-            this.SoCCCD_dgvKhachHang.DataPropertyName = "SoCCCD";
-            this.SoCCCD_dgvKhachHang.HeaderText = "Số CCCD";
-            this.SoCCCD_dgvKhachHang.Name = "SoCCCD_dgvKhachHang";
+            this.dgv_Customer.AllowUserToAddRows = false;
+            this.dgv_Customer.AllowUserToDeleteRows = false;
+            this.dgv_Customer.AutoGenerateColumns = false;
+            this.dgv_Customer.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgv_Customer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_Customer.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Customer_Id,
+            this.Customer_FullName,
+            this.Customer_Sex,
+            this.Customer_Birthdate,
+            this.Customer_CitizenId,
+            this.Customer_Address,
+            this.Customer_Phone});
+            this.dgv_Customer.ContextMenuStrip = this.cmsCustomer;
+            this.dgv_Customer.DataSource = this.bsCustomer;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 11F);
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.NullValue = null;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Customer.DefaultCellStyle = dataGridViewCellStyle6;
+            this.dgv_Customer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_Customer.Location = new System.Drawing.Point(0, 0);
+            this.dgv_Customer.Name = "dgv_Customer";
+            this.dgv_Customer.RowHeadersWidth = 43;
+            this.dgv_Customer.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgv_Customer.Size = new System.Drawing.Size(1072, 837);
+            this.dgv_Customer.TabIndex = 45;
+            this.dgv_Customer.SelectionChanged += new System.EventHandler(this.dgv_Customer_SelectionChanged);
+            this.dgv_Customer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgv_Customer_KeyDown);
             // 
-            // HoVaTen_dgvKhachHang
+            // Customer_Id
             // 
-            this.HoVaTen_dgvKhachHang.DataPropertyName = "HoVaTen";
-            this.HoVaTen_dgvKhachHang.HeaderText = "Họ và tên";
-            this.HoVaTen_dgvKhachHang.Name = "HoVaTen_dgvKhachHang";
+            this.Customer_Id.DataPropertyName = "Customer_Id";
+            this.Customer_Id.HeaderText = "";
+            this.Customer_Id.MinimumWidth = 6;
+            this.Customer_Id.Name = "Customer_Id";
+            this.Customer_Id.Visible = false;
+            this.Customer_Id.Width = 105;
             // 
-            // GioiTinh_dgvKhachHang
+            // Customer_FullName
             // 
-            this.GioiTinh_dgvKhachHang.DataPropertyName = "GioiTinh";
-            this.GioiTinh_dgvKhachHang.HeaderText = "Nữ";
-            this.GioiTinh_dgvKhachHang.Name = "GioiTinh_dgvKhachHang";
+            this.Customer_FullName.DataPropertyName = "Customer_FullName";
+            this.Customer_FullName.FillWeight = 89.23077F;
+            this.Customer_FullName.HeaderText = "Họ và tên";
+            this.Customer_FullName.MinimumWidth = 6;
+            this.Customer_FullName.Name = "Customer_FullName";
+            this.Customer_FullName.Width = 200;
             // 
-            // NgaySinh_dgvKhachHang
+            // Customer_Sex
             // 
-            this.NgaySinh_dgvKhachHang.DataPropertyName = "NgaySinh";
-            this.NgaySinh_dgvKhachHang.HeaderText = "Ngày sinh";
-            this.NgaySinh_dgvKhachHang.Name = "NgaySinh_dgvKhachHang";
+            this.Customer_Sex.DataPropertyName = "Customer_Sex";
+            this.Customer_Sex.FillWeight = 153.8462F;
+            this.Customer_Sex.HeaderText = "Nữ";
+            this.Customer_Sex.MinimumWidth = 6;
+            this.Customer_Sex.Name = "Customer_Sex";
+            this.Customer_Sex.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Customer_Sex.Width = 50;
             // 
-            // DiaChi_dgvKhachHang
+            // Customer_Birthdate
             // 
-            this.DiaChi_dgvKhachHang.DataPropertyName = "DiaChi";
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DiaChi_dgvKhachHang.DefaultCellStyle = dataGridViewCellStyle8;
-            this.DiaChi_dgvKhachHang.HeaderText = "Địa chỉ";
-            this.DiaChi_dgvKhachHang.Name = "DiaChi_dgvKhachHang";
+            this.Customer_Birthdate.DataPropertyName = "Customer_Birthdate";
+            this.Customer_Birthdate.FillWeight = 89.23077F;
+            this.Customer_Birthdate.HeaderText = "Ngày sinh";
+            this.Customer_Birthdate.MinimumWidth = 6;
+            this.Customer_Birthdate.Name = "Customer_Birthdate";
+            this.Customer_Birthdate.Width = 142;
             // 
-            // SoDienThoai_dgvKhachHang
+            // Customer_CitizenId
             // 
-            this.SoDienThoai_dgvKhachHang.DataPropertyName = "SoDienThoai";
-            this.SoDienThoai_dgvKhachHang.HeaderText = "Số điện thoại";
-            this.SoDienThoai_dgvKhachHang.Name = "SoDienThoai_dgvKhachHang";
+            this.Customer_CitizenId.DataPropertyName = "Customer_CitizenId";
+            this.Customer_CitizenId.FillWeight = 89.23077F;
+            this.Customer_CitizenId.HeaderText = "CCCD";
+            this.Customer_CitizenId.MinimumWidth = 6;
+            this.Customer_CitizenId.Name = "Customer_CitizenId";
+            this.Customer_CitizenId.Width = 142;
             // 
-            // kHACHHANGBindingSource
+            // Customer_Address
             // 
-            this.kHACHHANGBindingSource.DataMember = "KHACH_HANG";
-            this.kHACHHANGBindingSource.DataSource = this.appData;
+            this.Customer_Address.DataPropertyName = "Customer_Address";
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Customer_Address.DefaultCellStyle = dataGridViewCellStyle5;
+            this.Customer_Address.FillWeight = 89.23077F;
+            this.Customer_Address.HeaderText = "Địa chỉ";
+            this.Customer_Address.MinimumWidth = 6;
+            this.Customer_Address.Name = "Customer_Address";
+            this.Customer_Address.Width = 300;
+            // 
+            // Customer_Phone
+            // 
+            this.Customer_Phone.DataPropertyName = "Customer_Phone";
+            this.Customer_Phone.FillWeight = 89.23077F;
+            this.Customer_Phone.HeaderText = "Số điện thoại";
+            this.Customer_Phone.MinimumWidth = 6;
+            this.Customer_Phone.Name = "Customer_Phone";
+            this.Customer_Phone.Width = 142;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.cb_Customer_IsActive);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel4.Location = new System.Drawing.Point(3, 3);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(1072, 34);
+            this.panel4.TabIndex = 0;
+            // 
+            // cb_Customer_IsActive
+            // 
+            this.cb_Customer_IsActive.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.cb_Customer_IsActive.AutoSize = true;
+            this.cb_Customer_IsActive.Location = new System.Drawing.Point(915, 4);
+            this.cb_Customer_IsActive.Name = "cb_Customer_IsActive";
+            this.cb_Customer_IsActive.Size = new System.Drawing.Size(154, 24);
+            this.cb_Customer_IsActive.TabIndex = 0;
+            this.cb_Customer_IsActive.Text = "Khách hàng đã xoá";
+            this.cb_Customer_IsActive.UseVisualStyleBackColor = true;
+            this.cb_Customer_IsActive.CheckedChanged += new System.EventHandler(this.cb_Customer_IsActive_CheckedChanged);
             // 
             // panel2
             // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.panel2.Controls.Add(this.groupBox4);
             this.panel2.Controls.Add(this.groupBox1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(645, 901);
+            this.panel2.Size = new System.Drawing.Size(812, 910);
             this.panel2.TabIndex = 43;
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.btnThemKhachHang);
-            this.groupBox4.Controls.Add(this.btnTimDonHang);
-            this.groupBox4.Controls.Add(this.txtSoDienThoai);
-            this.groupBox4.Controls.Add(this.txtSoCCCD);
-            this.groupBox4.Controls.Add(this.cboDiaChi);
-            this.groupBox4.Controls.Add(this.cbGioiTinh);
-            this.groupBox4.Controls.Add(this.cboHoVaTen);
+            this.groupBox4.Controls.Add(this.rdCustomer_Female);
+            this.groupBox4.Controls.Add(this.rdCustomer_Male);
+            this.groupBox4.Controls.Add(this.btn_DeleteDetails);
+            this.groupBox4.Controls.Add(this.btn_SearchReceipt);
+            this.groupBox4.Controls.Add(this.txtCustomer_Address);
+            this.groupBox4.Controls.Add(this.txtCustomer_Phone);
+            this.groupBox4.Controls.Add(this.txtCustomer_FullName);
+            this.groupBox4.Controls.Add(this.txtCustomer_CitizenId);
             this.groupBox4.Controls.Add(this.label2);
             this.groupBox4.Controls.Add(this.label3);
-            this.groupBox4.Controls.Add(this.dtpkNgaySinh);
+            this.groupBox4.Controls.Add(this.dtpkCustomer_Birthdate);
             this.groupBox4.Controls.Add(this.label10);
             this.groupBox4.Controls.Add(this.label4);
             this.groupBox4.Controls.Add(this.label5);
@@ -450,126 +574,136 @@
             this.groupBox4.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.groupBox4.Location = new System.Drawing.Point(5, 3);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(637, 247);
+            this.groupBox4.Size = new System.Drawing.Size(799, 255);
             this.groupBox4.TabIndex = 65;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Thông tin cá nhân";
             // 
-            // btnThemKhachHang
+            // rdCustomer_Female
             // 
-            this.btnThemKhachHang.Location = new System.Drawing.Point(404, 208);
-            this.btnThemKhachHang.Name = "btnThemKhachHang";
-            this.btnThemKhachHang.Size = new System.Drawing.Size(146, 33);
-            this.btnThemKhachHang.TabIndex = 69;
-            this.btnThemKhachHang.Text = "Thêm khách hàng";
-            this.btnThemKhachHang.UseVisualStyleBackColor = true;
-            this.btnThemKhachHang.Click += new System.EventHandler(this.btnThemKhachHang_Click);
+            this.rdCustomer_Female.AutoSize = true;
+            this.rdCustomer_Female.Location = new System.Drawing.Point(242, 54);
+            this.rdCustomer_Female.Name = "rdCustomer_Female";
+            this.rdCustomer_Female.Size = new System.Drawing.Size(47, 24);
+            this.rdCustomer_Female.TabIndex = 82;
+            this.rdCustomer_Female.Text = "Nữ";
+            this.rdCustomer_Female.UseVisualStyleBackColor = true;
             // 
-            // btnTimDonHang
+            // rdCustomer_Male
             // 
-            this.btnTimDonHang.Location = new System.Drawing.Point(556, 208);
-            this.btnTimDonHang.Name = "btnTimDonHang";
-            this.btnTimDonHang.Size = new System.Drawing.Size(75, 33);
-            this.btnTimDonHang.TabIndex = 29;
-            this.btnTimDonHang.Text = "Tìm";
-            this.btnTimDonHang.UseVisualStyleBackColor = true;
-            this.btnTimDonHang.Click += new System.EventHandler(this.btnTimDonHang_Click);
+            this.rdCustomer_Male.AutoSize = true;
+            this.rdCustomer_Male.Checked = true;
+            this.rdCustomer_Male.Location = new System.Drawing.Point(174, 54);
+            this.rdCustomer_Male.Name = "rdCustomer_Male";
+            this.rdCustomer_Male.Size = new System.Drawing.Size(59, 24);
+            this.rdCustomer_Male.TabIndex = 81;
+            this.rdCustomer_Male.TabStop = true;
+            this.rdCustomer_Male.Text = "Nam";
+            this.rdCustomer_Male.UseVisualStyleBackColor = true;
             // 
-            // txtSoDienThoai
+            // btn_DeleteDetails
             // 
-            this.txtSoDienThoai.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.txtSoDienThoai.Location = new System.Drawing.Point(174, 174);
-            this.txtSoDienThoai.Name = "txtSoDienThoai";
-            this.txtSoDienThoai.Size = new System.Drawing.Size(200, 28);
-            this.txtSoDienThoai.TabIndex = 80;
+            this.btn_DeleteDetails.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.CROSS1;
+            this.btn_DeleteDetails.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_DeleteDetails.Location = new System.Drawing.Point(380, 25);
+            this.btn_DeleteDetails.Name = "btn_DeleteDetails";
+            this.btn_DeleteDetails.Size = new System.Drawing.Size(19, 20);
+            this.btn_DeleteDetails.TabIndex = 29;
+            this.btn_DeleteDetails.UseVisualStyleBackColor = true;
+            this.btn_DeleteDetails.Click += new System.EventHandler(this.btn_DeleteDetails_Click);
             // 
-            // txtSoCCCD
+            // btn_SearchReceipt
             // 
-            this.txtSoCCCD.Location = new System.Drawing.Point(174, 109);
-            this.txtSoCCCD.Name = "txtSoCCCD";
-            this.txtSoCCCD.Size = new System.Drawing.Size(200, 28);
-            this.txtSoCCCD.TabIndex = 79;
+            this.btn_SearchReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.SEARCH;
+            this.btn_SearchReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_SearchReceipt.Location = new System.Drawing.Point(749, 207);
+            this.btn_SearchReceipt.Name = "btn_SearchReceipt";
+            this.btn_SearchReceipt.Size = new System.Drawing.Size(40, 40);
+            this.btn_SearchReceipt.TabIndex = 29;
+            this.btn_SearchReceipt.UseVisualStyleBackColor = true;
+            this.btn_SearchReceipt.Click += new System.EventHandler(this.btn_SearchReceipt_Click);
             // 
-            // cboDiaChi
+            // txtCustomer_Address
             // 
-            this.cboDiaChi.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.cboDiaChi.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboDiaChi.FormattingEnabled = true;
-            this.cboDiaChi.Location = new System.Drawing.Point(174, 141);
-            this.cboDiaChi.Name = "cboDiaChi";
-            this.cboDiaChi.Size = new System.Drawing.Size(457, 28);
-            this.cboDiaChi.TabIndex = 78;
+            this.txtCustomer_Address.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.txtCustomer_Address.Location = new System.Drawing.Point(174, 148);
+            this.txtCustomer_Address.Name = "txtCustomer_Address";
+            this.txtCustomer_Address.Size = new System.Drawing.Size(619, 27);
+            this.txtCustomer_Address.TabIndex = 80;
             // 
-            // cbGioiTinh
+            // txtCustomer_Phone
             // 
-            this.cbGioiTinh.AutoSize = true;
-            this.cbGioiTinh.Location = new System.Drawing.Point(174, 46);
-            this.cbGioiTinh.Name = "cbGioiTinh";
-            this.cbGioiTinh.Size = new System.Drawing.Size(50, 25);
-            this.cbGioiTinh.TabIndex = 77;
-            this.cbGioiTinh.Text = "Nữ";
-            this.cbGioiTinh.UseVisualStyleBackColor = true;
+            this.txtCustomer_Phone.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.txtCustomer_Phone.Location = new System.Drawing.Point(174, 182);
+            this.txtCustomer_Phone.Name = "txtCustomer_Phone";
+            this.txtCustomer_Phone.Size = new System.Drawing.Size(200, 27);
+            this.txtCustomer_Phone.TabIndex = 80;
             // 
-            // cboHoVaTen
+            // txtCustomer_FullName
             // 
-            this.cboHoVaTen.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cboHoVaTen.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboHoVaTen.FormattingEnabled = true;
-            this.cboHoVaTen.Location = new System.Drawing.Point(174, 13);
-            this.cboHoVaTen.Name = "cboHoVaTen";
-            this.cboHoVaTen.Size = new System.Drawing.Size(200, 28);
-            this.cboHoVaTen.TabIndex = 76;
+            this.txtCustomer_FullName.Location = new System.Drawing.Point(174, 21);
+            this.txtCustomer_FullName.Name = "txtCustomer_FullName";
+            this.txtCustomer_FullName.Size = new System.Drawing.Size(200, 27);
+            this.txtCustomer_FullName.TabIndex = 79;
+            // 
+            // txtCustomer_CitizenId
+            // 
+            this.txtCustomer_CitizenId.Location = new System.Drawing.Point(174, 117);
+            this.txtCustomer_CitizenId.Name = "txtCustomer_CitizenId";
+            this.txtCustomer_CitizenId.Size = new System.Drawing.Size(200, 27);
+            this.txtCustomer_CitizenId.TabIndex = 79;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 16);
+            this.label2.Location = new System.Drawing.Point(6, 24);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(79, 21);
+            this.label2.Size = new System.Drawing.Size(76, 20);
             this.label2.TabIndex = 69;
             this.label2.Text = "Họ và tên:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(4, 81);
+            this.label3.Location = new System.Drawing.Point(4, 89);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(166, 21);
+            this.label3.Size = new System.Drawing.Size(156, 20);
             this.label3.TabIndex = 70;
             this.label3.Text = "Ngày/tháng/năm sinh:";
             // 
-            // dtpkNgaySinh
+            // dtpkCustomer_Birthdate
             // 
-            this.dtpkNgaySinh.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpkNgaySinh.Location = new System.Drawing.Point(174, 75);
-            this.dtpkNgaySinh.Name = "dtpkNgaySinh";
-            this.dtpkNgaySinh.Size = new System.Drawing.Size(200, 28);
-            this.dtpkNgaySinh.TabIndex = 71;
+            this.dtpkCustomer_Birthdate.CustomFormat = "dd/MM/yyyy";
+            this.dtpkCustomer_Birthdate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpkCustomer_Birthdate.Location = new System.Drawing.Point(174, 83);
+            this.dtpkCustomer_Birthdate.Name = "dtpkCustomer_Birthdate";
+            this.dtpkCustomer_Birthdate.Size = new System.Drawing.Size(200, 27);
+            this.dtpkCustomer_Birthdate.TabIndex = 71;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 48);
+            this.label10.Location = new System.Drawing.Point(6, 56);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(73, 21);
+            this.label10.Size = new System.Drawing.Size(68, 20);
             this.label10.TabIndex = 75;
             this.label10.Text = "Giới tính:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(4, 115);
+            this.label4.Location = new System.Drawing.Point(4, 123);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(145, 21);
+            this.label4.Size = new System.Drawing.Size(139, 20);
             this.label4.TabIndex = 72;
             this.label4.Text = "Căn cước công dân:";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(4, 147);
+            this.label5.Location = new System.Drawing.Point(4, 155);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(60, 21);
+            this.label5.Size = new System.Drawing.Size(58, 20);
             this.label5.TabIndex = 74;
             this.label5.Text = "Địa chỉ:";
             // 
@@ -577,502 +711,514 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.label11.Location = new System.Drawing.Point(4, 179);
+            this.label11.Location = new System.Drawing.Point(4, 187);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(104, 21);
+            this.label11.Size = new System.Drawing.Size(100, 20);
             this.label11.TabIndex = 73;
             this.label11.Text = "Số điện thoại:";
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.nmThanhTien);
-            this.groupBox1.Controls.Add(this.nmGiamGia);
-            this.groupBox1.Controls.Add(this.nmSoLuong);
-            this.groupBox1.Controls.Add(this.nmSoTien);
-            this.groupBox1.Controls.Add(this.btnThemDonHang);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.label17);
-            this.groupBox1.Controls.Add(this.dtpkNgayKham);
-            this.groupBox1.Controls.Add(this.txtGhiChu);
-            this.groupBox1.Controls.Add(this.txtNoiDungDieuTri);
-            this.groupBox1.Controls.Add(this.label16);
-            this.groupBox1.Controls.Add(this.label18);
-            this.groupBox1.Controls.Add(this.label28);
+            this.groupBox1.Controls.Add(this.dgv_Receipt_Content);
+            this.groupBox1.Controls.Add(this.btnPrint);
+            this.groupBox1.Controls.Add(this.btnSaveReceipt);
+            this.groupBox1.Controls.Add(this.btn_AddReceipt);
             this.groupBox1.Controls.Add(this.label15);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.dtpkReceipt_RevisitDate);
+            this.groupBox1.Controls.Add(this.dtpkReceipt_Date);
+            this.groupBox1.Controls.Add(this.txtReceipt_Notes);
+            this.groupBox1.Controls.Add(this.label28);
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.groupBox1.Location = new System.Drawing.Point(5, 256);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(637, 638);
+            this.groupBox1.Size = new System.Drawing.Size(799, 653);
             this.groupBox1.TabIndex = 64;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thu tiền";
             // 
-            // nmThanhTien
+            // dgv_Receipt_Content
             // 
-            this.nmThanhTien.Increment = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.nmThanhTien.Location = new System.Drawing.Point(224, 441);
-            this.nmThanhTien.Maximum = new decimal(new int[] {
-            268435455,
-            1042612833,
-            542101086,
-            0});
-            this.nmThanhTien.Name = "nmThanhTien";
-            this.nmThanhTien.ReadOnly = true;
-            this.nmThanhTien.Size = new System.Drawing.Size(120, 28);
-            this.nmThanhTien.TabIndex = 60;
-            this.nmThanhTien.ThousandsSeparator = true;
+            this.dgv_Receipt_Content.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_Receipt_Content.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ReceiptDetail_Content,
+            this.ReceiptDetail_Price,
+            this.ReceiptDetail_Quantity,
+            this.ReceiptDetail_Discount});
+            this.dgv_Receipt_Content.Location = new System.Drawing.Point(139, 52);
+            this.dgv_Receipt_Content.Name = "dgv_Receipt_Content";
+            this.dgv_Receipt_Content.RowHeadersWidth = 43;
+            this.dgv_Receipt_Content.Size = new System.Drawing.Size(650, 355);
+            this.dgv_Receipt_Content.TabIndex = 69;
             // 
-            // nmGiamGia
+            // ReceiptDetail_Content
             // 
-            this.nmGiamGia.Increment = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.nmGiamGia.Location = new System.Drawing.Point(224, 407);
-            this.nmGiamGia.Maximum = new decimal(new int[] {
-            268435455,
-            1042612833,
-            542101086,
-            0});
-            this.nmGiamGia.Name = "nmGiamGia";
-            this.nmGiamGia.Size = new System.Drawing.Size(120, 28);
-            this.nmGiamGia.TabIndex = 59;
-            this.nmGiamGia.ThousandsSeparator = true;
-            this.nmGiamGia.ValueChanged += new System.EventHandler(this.nmGiamGia_ValueChanged);
+            this.ReceiptDetail_Content.DataPropertyName = "ReceiptDetail_Content";
+            this.ReceiptDetail_Content.HeaderText = "Nội dung";
+            this.ReceiptDetail_Content.MinimumWidth = 6;
+            this.ReceiptDetail_Content.Name = "ReceiptDetail_Content";
+            this.ReceiptDetail_Content.Width = 300;
             // 
-            // nmSoLuong
+            // ReceiptDetail_Price
             // 
-            this.nmSoLuong.Location = new System.Drawing.Point(224, 373);
-            this.nmSoLuong.Maximum = new decimal(new int[] {
-            268435455,
-            1042612833,
-            542101086,
-            0});
-            this.nmSoLuong.Name = "nmSoLuong";
-            this.nmSoLuong.Size = new System.Drawing.Size(120, 28);
-            this.nmSoLuong.TabIndex = 58;
-            this.nmSoLuong.ThousandsSeparator = true;
-            this.nmSoLuong.ValueChanged += new System.EventHandler(this.nmSoLuong_ValueChanged);
+            this.ReceiptDetail_Price.DataPropertyName = "ReceiptDetail_Price";
+            dataGridViewCellStyle7.Format = "N0";
+            this.ReceiptDetail_Price.DefaultCellStyle = dataGridViewCellStyle7;
+            this.ReceiptDetail_Price.HeaderText = "Đơn giá";
+            this.ReceiptDetail_Price.MinimumWidth = 6;
+            this.ReceiptDetail_Price.Name = "ReceiptDetail_Price";
+            this.ReceiptDetail_Price.Width = 90;
             // 
-            // nmSoTien
+            // ReceiptDetail_Quantity
             // 
-            this.nmSoTien.Increment = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.nmSoTien.Location = new System.Drawing.Point(224, 339);
-            this.nmSoTien.Maximum = new decimal(new int[] {
-            268435455,
-            1042612833,
-            542101086,
-            0});
-            this.nmSoTien.Name = "nmSoTien";
-            this.nmSoTien.Size = new System.Drawing.Size(120, 28);
-            this.nmSoTien.TabIndex = 58;
-            this.nmSoTien.ThousandsSeparator = true;
-            this.nmSoTien.ValueChanged += new System.EventHandler(this.nmSoTien_ValueChanged);
+            this.ReceiptDetail_Quantity.DataPropertyName = "ReceiptDetail_Quantity";
+            dataGridViewCellStyle8.Format = "N0";
+            this.ReceiptDetail_Quantity.DefaultCellStyle = dataGridViewCellStyle8;
+            this.ReceiptDetail_Quantity.HeaderText = "Số lượng";
+            this.ReceiptDetail_Quantity.MinimumWidth = 6;
+            this.ReceiptDetail_Quantity.Name = "ReceiptDetail_Quantity";
+            this.ReceiptDetail_Quantity.Width = 105;
             // 
-            // btnThemDonHang
+            // ReceiptDetail_Discount
             // 
-            this.btnThemDonHang.Location = new System.Drawing.Point(538, 478);
-            this.btnThemDonHang.Name = "btnThemDonHang";
-            this.btnThemDonHang.Size = new System.Drawing.Size(93, 33);
-            this.btnThemDonHang.TabIndex = 29;
-            this.btnThemDonHang.Text = "Thêm đơn";
-            this.btnThemDonHang.UseVisualStyleBackColor = true;
-            this.btnThemDonHang.Click += new System.EventHandler(this.btnThemDonHang_Click);
+            this.ReceiptDetail_Discount.DataPropertyName = "ReceiptDetail_Discount";
+            dataGridViewCellStyle9.Format = "N0";
+            this.ReceiptDetail_Discount.DefaultCellStyle = dataGridViewCellStyle9;
+            this.ReceiptDetail_Discount.HeaderText = "Giảm giá";
+            this.ReceiptDetail_Discount.MinimumWidth = 6;
+            this.ReceiptDetail_Discount.Name = "ReceiptDetail_Discount";
+            this.ReceiptDetail_Discount.Width = 105;
+            // 
+            // btnPrint
+            // 
+            this.btnPrint.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.reshot_icon_print_math_sheet_Y8RFCP23N4;
+            this.btnPrint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnPrint.Location = new System.Drawing.Point(139, 545);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(40, 40);
+            this.btnPrint.TabIndex = 29;
+            this.btnPrint.UseVisualStyleBackColor = true;
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
+            // 
+            // btnSaveReceipt
+            // 
+            this.btnSaveReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.CHECK;
+            this.btnSaveReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSaveReceipt.Location = new System.Drawing.Point(703, 545);
+            this.btnSaveReceipt.Name = "btnSaveReceipt";
+            this.btnSaveReceipt.Size = new System.Drawing.Size(40, 40);
+            this.btnSaveReceipt.TabIndex = 29;
+            this.btnSaveReceipt.UseVisualStyleBackColor = true;
+            this.btnSaveReceipt.Click += new System.EventHandler(this.btnSaveReceipt_Click);
+            // 
+            // btn_AddReceipt
+            // 
+            this.btn_AddReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.ADD;
+            this.btn_AddReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_AddReceipt.Location = new System.Drawing.Point(749, 545);
+            this.btn_AddReceipt.Name = "btn_AddReceipt";
+            this.btn_AddReceipt.Size = new System.Drawing.Size(40, 40);
+            this.btn_AddReceipt.TabIndex = 29;
+            this.btn_AddReceipt.UseVisualStyleBackColor = true;
+            this.btn_AddReceipt.Click += new System.EventHandler(this.btn_AddReceipt_Click);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(453, 24);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(108, 20);
+            this.label15.TabIndex = 67;
+            this.label15.Text = "Ngày tái khám:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(3, 24);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(215, 21);
+            this.label1.Size = new System.Drawing.Size(87, 20);
             this.label1.TabIndex = 67;
-            this.label1.Text = "Ngày/tháng/năm khám bệnh:";
+            this.label1.Text = "Ngày khám:";
             // 
-            // label17
+            // dtpkReceipt_RevisitDate
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(3, 443);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(86, 21);
-            this.label17.TabIndex = 56;
-            this.label17.Text = "Thành tiền:";
+            this.dtpkReceipt_RevisitDate.CustomFormat = "";
+            this.dtpkReceipt_RevisitDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpkReceipt_RevisitDate.Location = new System.Drawing.Point(589, 18);
+            this.dtpkReceipt_RevisitDate.Name = "dtpkReceipt_RevisitDate";
+            this.dtpkReceipt_RevisitDate.Size = new System.Drawing.Size(200, 27);
+            this.dtpkReceipt_RevisitDate.TabIndex = 68;
             // 
-            // dtpkNgayKham
+            // dtpkReceipt_Date
             // 
-            this.dtpkNgayKham.CustomFormat = "";
-            this.dtpkNgayKham.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpkNgayKham.Location = new System.Drawing.Point(224, 13);
-            this.dtpkNgayKham.Name = "dtpkNgayKham";
-            this.dtpkNgayKham.Size = new System.Drawing.Size(200, 28);
-            this.dtpkNgayKham.TabIndex = 68;
+            this.dtpkReceipt_Date.CustomFormat = "";
+            this.dtpkReceipt_Date.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpkReceipt_Date.Location = new System.Drawing.Point(139, 18);
+            this.dtpkReceipt_Date.Name = "dtpkReceipt_Date";
+            this.dtpkReceipt_Date.Size = new System.Drawing.Size(200, 27);
+            this.dtpkReceipt_Date.TabIndex = 68;
             // 
-            // txtGhiChu
+            // txtReceipt_Notes
             // 
-            this.txtGhiChu.Location = new System.Drawing.Point(224, 194);
-            this.txtGhiChu.Multiline = true;
-            this.txtGhiChu.Name = "txtGhiChu";
-            this.txtGhiChu.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtGhiChu.Size = new System.Drawing.Size(407, 141);
-            this.txtGhiChu.TabIndex = 51;
-            // 
-            // txtNoiDungDieuTri
-            // 
-            this.txtNoiDungDieuTri.Location = new System.Drawing.Point(224, 47);
-            this.txtNoiDungDieuTri.Multiline = true;
-            this.txtNoiDungDieuTri.Name = "txtNoiDungDieuTri";
-            this.txtNoiDungDieuTri.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtNoiDungDieuTri.Size = new System.Drawing.Size(407, 141);
-            this.txtNoiDungDieuTri.TabIndex = 51;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(3, 409);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(75, 21);
-            this.label16.TabIndex = 57;
-            this.label16.Text = "Giảm giá:";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(2, 375);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(76, 21);
-            this.label18.TabIndex = 54;
-            this.label18.Text = "Số lượng:";
+            this.txtReceipt_Notes.Location = new System.Drawing.Point(139, 413);
+            this.txtReceipt_Notes.Multiline = true;
+            this.txtReceipt_Notes.Name = "txtReceipt_Notes";
+            this.txtReceipt_Notes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtReceipt_Notes.Size = new System.Drawing.Size(650, 126);
+            this.txtReceipt_Notes.TabIndex = 51;
             // 
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(2, 201);
+            this.label28.Location = new System.Drawing.Point(2, 420);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(66, 21);
+            this.label28.Size = new System.Drawing.Size(61, 20);
             this.label28.TabIndex = 55;
             this.label28.Text = "Ghi chú:";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(2, 341);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(61, 21);
-            this.label15.TabIndex = 54;
-            this.label15.Text = "Số tiền:";
             // 
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(2, 54);
+            this.label14.Location = new System.Drawing.Point(2, 52);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(131, 21);
+            this.label14.Size = new System.Drawing.Size(125, 20);
             this.label14.TabIndex = 55;
             this.label14.Text = "Nội dung điều trị:";
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.panel6);
             this.tabPage2.Controls.Add(this.panel5);
+            this.tabPage2.Controls.Add(this.panel6);
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1167, 929);
+            this.tabPage2.Size = new System.Drawing.Size(1904, 916);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Nhập/xuất kho";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // panel6
+            // panel5
             // 
-            this.panel6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.panel6.Controls.Add(this.dtpkNgayNhapDen);
-            this.panel6.Controls.Add(this.cbNgayNhapDen);
-            this.panel6.Controls.Add(this.nmThanhTienVatLieu);
-            this.panel6.Controls.Add(this.nmDonGiaVatLieu);
-            this.panel6.Controls.Add(this.btnTimDonNhap);
-            this.panel6.Controls.Add(this.btnXoaDonNhap);
-            this.panel6.Controls.Add(this.btnThemDonNhap);
-            this.panel6.Controls.Add(this.label12);
-            this.panel6.Controls.Add(this.label9);
-            this.panel6.Controls.Add(this.nmSoLuongVatLieu);
-            this.panel6.Controls.Add(this.cboTenVatLieuNhapKho);
-            this.panel6.Controls.Add(this.dtpkNgayNhapTu);
-            this.panel6.Controls.Add(this.label8);
-            this.panel6.Controls.Add(this.label7);
-            this.panel6.Controls.Add(this.label6);
-            this.panel6.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.panel6.Location = new System.Drawing.Point(3, 3);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(570, 920);
-            this.panel6.TabIndex = 45;
+            this.panel5.Controls.Add(this.tbcIO);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel5.Location = new System.Drawing.Point(755, 3);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(1146, 910);
+            this.panel5.TabIndex = 46;
             // 
-            // dtpkNgayNhapDen
+            // tbcIO
             // 
-            this.dtpkNgayNhapDen.Enabled = false;
-            this.dtpkNgayNhapDen.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpkNgayNhapDen.Location = new System.Drawing.Point(261, 40);
-            this.dtpkNgayNhapDen.Name = "dtpkNgayNhapDen";
-            this.dtpkNgayNhapDen.Size = new System.Drawing.Size(200, 28);
-            this.dtpkNgayNhapDen.TabIndex = 36;
+            this.tbcIO.Controls.Add(this.tabPage6);
+            this.tbcIO.Controls.Add(this.tabPage7);
+            this.tbcIO.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbcIO.Location = new System.Drawing.Point(0, 0);
+            this.tbcIO.Name = "tbcIO";
+            this.tbcIO.SelectedIndex = 0;
+            this.tbcIO.Size = new System.Drawing.Size(1146, 910);
+            this.tbcIO.TabIndex = 0;
+            this.tbcIO.SelectedIndexChanged += new System.EventHandler(this.tbcIO_SelectedIndexChanged);
             // 
-            // cbNgayNhapDen
+            // tabPage6
             // 
-            this.cbNgayNhapDen.AutoSize = true;
-            this.cbNgayNhapDen.Location = new System.Drawing.Point(7, 45);
-            this.cbNgayNhapDen.Name = "cbNgayNhapDen";
-            this.cbNgayNhapDen.Size = new System.Drawing.Size(179, 25);
-            this.cbNgayNhapDen.TabIndex = 35;
-            this.cbNgayNhapDen.Text = "đến ngày/tháng/năm:";
-            this.cbNgayNhapDen.UseVisualStyleBackColor = true;
-            this.cbNgayNhapDen.CheckedChanged += new System.EventHandler(this.cbNgayNhapDen_CheckedChanged);
+            this.tabPage6.Controls.Add(this.panel11);
+            this.tabPage6.Controls.Add(this.panel10);
+            this.tabPage6.Location = new System.Drawing.Point(4, 29);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(1138, 877);
+            this.tabPage6.TabIndex = 0;
+            this.tabPage6.Text = "Đơn xuất/nhập";
+            this.tabPage6.UseVisualStyleBackColor = true;
             // 
-            // nmThanhTienVatLieu
+            // panel11
             // 
-            this.nmThanhTienVatLieu.Increment = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.nmThanhTienVatLieu.Location = new System.Drawing.Point(261, 180);
-            this.nmThanhTienVatLieu.Maximum = new decimal(new int[] {
-            -402653185,
-            -1613725636,
-            54210108,
-            0});
-            this.nmThanhTienVatLieu.Minimum = new decimal(new int[] {
-            -402653185,
-            -1613725636,
-            54210108,
-            -2147483648});
-            this.nmThanhTienVatLieu.Name = "nmThanhTienVatLieu";
-            this.nmThanhTienVatLieu.ReadOnly = true;
-            this.nmThanhTienVatLieu.Size = new System.Drawing.Size(120, 28);
-            this.nmThanhTienVatLieu.TabIndex = 34;
-            this.nmThanhTienVatLieu.ThousandsSeparator = true;
+            this.panel11.Controls.Add(this.dgv_StockReceipt);
+            this.panel11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel11.Location = new System.Drawing.Point(3, 50);
+            this.panel11.Name = "panel11";
+            this.panel11.Size = new System.Drawing.Size(1132, 824);
+            this.panel11.TabIndex = 1;
             // 
-            // nmDonGiaVatLieu
+            // dgv_StockReceipt
             // 
-            this.nmDonGiaVatLieu.Increment = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.nmDonGiaVatLieu.Location = new System.Drawing.Point(261, 112);
-            this.nmDonGiaVatLieu.Maximum = new decimal(new int[] {
-            -402653185,
-            -1613725636,
-            54210108,
-            0});
-            this.nmDonGiaVatLieu.Name = "nmDonGiaVatLieu";
-            this.nmDonGiaVatLieu.Size = new System.Drawing.Size(120, 28);
-            this.nmDonGiaVatLieu.TabIndex = 33;
-            this.nmDonGiaVatLieu.ThousandsSeparator = true;
-            this.nmDonGiaVatLieu.ValueChanged += new System.EventHandler(this.nmDonGiaVatLieu_ValueChanged);
+            this.dgv_StockReceipt.AllowUserToAddRows = false;
+            this.dgv_StockReceipt.AllowUserToDeleteRows = false;
+            this.dgv_StockReceipt.AutoGenerateColumns = false;
+            this.dgv_StockReceipt.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_StockReceipt.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.StockReceiptDetail_Id,
+            this.StockReceiptDetail_ReceiptId,
+            this._StockReceiptDetail_Date,
+            this._StockReceiptDetail_Input,
+            this.StockReceiptDetail_ItemId,
+            this.StockReceiptDetail_Quantity,
+            this.StockReceiptDetail_Price,
+            this.StockReceiptDetail_Total});
+            this.dgv_StockReceipt.DataSource = this.bsStockReceipts;
+            this.dgv_StockReceipt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_StockReceipt.Location = new System.Drawing.Point(0, 0);
+            this.dgv_StockReceipt.Name = "dgv_StockReceipt";
+            this.dgv_StockReceipt.RowHeadersWidth = 43;
+            this.dgv_StockReceipt.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgv_StockReceipt.Size = new System.Drawing.Size(1132, 824);
+            this.dgv_StockReceipt.TabIndex = 17;
+            this.dgv_StockReceipt.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_StockReceipt_CellValueChanged);
+            this.dgv_StockReceipt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgv_StockReceipt_KeyDown);
             // 
-            // btnTimDonNhap
+            // panel10
             // 
-            this.btnTimDonNhap.Location = new System.Drawing.Point(362, 214);
-            this.btnTimDonNhap.Name = "btnTimDonNhap";
-            this.btnTimDonNhap.Size = new System.Drawing.Size(91, 28);
-            this.btnTimDonNhap.TabIndex = 29;
-            this.btnTimDonNhap.Text = "Tìm đơn";
-            this.btnTimDonNhap.UseVisualStyleBackColor = true;
-            this.btnTimDonNhap.Click += new System.EventHandler(this.btnTimDonNhap_Click);
+            this.panel10.Controls.Add(this.btn_SearchStockReceipt);
+            this.panel10.Controls.Add(this.dtpk_Receipt_ToDate);
+            this.panel10.Controls.Add(this.dtpk_Receipt_FromDate);
+            this.panel10.Controls.Add(this.label9);
+            this.panel10.Controls.Add(this.label8);
+            this.panel10.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel10.Location = new System.Drawing.Point(3, 3);
+            this.panel10.Name = "panel10";
+            this.panel10.Size = new System.Drawing.Size(1132, 47);
+            this.panel10.TabIndex = 0;
             // 
-            // btnXoaDonNhap
+            // btn_SearchStockReceipt
             // 
-            this.btnXoaDonNhap.Location = new System.Drawing.Point(261, 214);
-            this.btnXoaDonNhap.Name = "btnXoaDonNhap";
-            this.btnXoaDonNhap.Size = new System.Drawing.Size(96, 28);
-            this.btnXoaDonNhap.TabIndex = 32;
-            this.btnXoaDonNhap.Text = "Xoá đơn";
-            this.btnXoaDonNhap.UseVisualStyleBackColor = true;
-            this.btnXoaDonNhap.Click += new System.EventHandler(this.btnXoaDonNhap_Click);
+            this.btn_SearchStockReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.SEARCH;
+            this.btn_SearchStockReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_SearchStockReceipt.Location = new System.Drawing.Point(488, 1);
+            this.btn_SearchStockReceipt.Name = "btn_SearchStockReceipt";
+            this.btn_SearchStockReceipt.Size = new System.Drawing.Size(37, 40);
+            this.btn_SearchStockReceipt.TabIndex = 30;
+            this.btn_SearchStockReceipt.UseVisualStyleBackColor = true;
+            this.btn_SearchStockReceipt.Click += new System.EventHandler(this.btn_SearchStockReceipt_Click);
             // 
-            // btnThemDonNhap
+            // dtpk_Receipt_ToDate
             // 
-            this.btnThemDonNhap.Location = new System.Drawing.Point(459, 214);
-            this.btnThemDonNhap.Name = "btnThemDonNhap";
-            this.btnThemDonNhap.Size = new System.Drawing.Size(103, 28);
-            this.btnThemDonNhap.TabIndex = 31;
-            this.btnThemDonNhap.Text = "Thêm đơn";
-            this.btnThemDonNhap.UseVisualStyleBackColor = true;
-            this.btnThemDonNhap.Click += new System.EventHandler(this.btnThemDonNhap_Click);
+            this.dtpk_Receipt_ToDate.CustomFormat = "dd/MM/yyyy";
+            this.dtpk_Receipt_ToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpk_Receipt_ToDate.Location = new System.Drawing.Point(282, 8);
+            this.dtpk_Receipt_ToDate.Name = "dtpk_Receipt_ToDate";
+            this.dtpk_Receipt_ToDate.Size = new System.Drawing.Size(200, 27);
+            this.dtpk_Receipt_ToDate.TabIndex = 16;
             // 
-            // label12
+            // dtpk_Receipt_FromDate
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(5, 182);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(86, 21);
-            this.label12.TabIndex = 21;
-            this.label12.Text = "Thành tiền:";
+            this.dtpk_Receipt_FromDate.CustomFormat = "dd/MM/yyyy";
+            this.dtpk_Receipt_FromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpk_Receipt_FromDate.Location = new System.Drawing.Point(34, 8);
+            this.dtpk_Receipt_FromDate.Name = "dtpk_Receipt_FromDate";
+            this.dtpk_Receipt_FromDate.Size = new System.Drawing.Size(200, 27);
+            this.dtpk_Receipt_FromDate.TabIndex = 16;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(3, 114);
+            this.label9.Location = new System.Drawing.Point(240, 14);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(68, 21);
-            this.label9.TabIndex = 19;
-            this.label9.Text = "Đơn giá:";
-            // 
-            // nmSoLuongVatLieu
-            // 
-            this.nmSoLuongVatLieu.Location = new System.Drawing.Point(261, 146);
-            this.nmSoLuongVatLieu.Maximum = new decimal(new int[] {
-            -402653185,
-            -1613725636,
-            54210108,
-            0});
-            this.nmSoLuongVatLieu.Minimum = new decimal(new int[] {
-            -402653185,
-            -1613725636,
-            54210108,
-            -2147483648});
-            this.nmSoLuongVatLieu.Name = "nmSoLuongVatLieu";
-            this.nmSoLuongVatLieu.Size = new System.Drawing.Size(120, 28);
-            this.nmSoLuongVatLieu.TabIndex = 18;
-            this.nmSoLuongVatLieu.ThousandsSeparator = true;
-            this.nmSoLuongVatLieu.ValueChanged += new System.EventHandler(this.nmSoLuongVatLieu_ValueChanged);
-            // 
-            // cboTenVatLieuNhapKho
-            // 
-            this.cboTenVatLieuNhapKho.FormattingEnabled = true;
-            this.cboTenVatLieuNhapKho.Location = new System.Drawing.Point(261, 78);
-            this.cboTenVatLieuNhapKho.Name = "cboTenVatLieuNhapKho";
-            this.cboTenVatLieuNhapKho.Size = new System.Drawing.Size(301, 28);
-            this.cboTenVatLieuNhapKho.TabIndex = 17;
-            // 
-            // dtpkNgayNhapTu
-            // 
-            this.dtpkNgayNhapTu.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpkNgayNhapTu.Location = new System.Drawing.Point(261, 6);
-            this.dtpkNgayNhapTu.Name = "dtpkNgayNhapTu";
-            this.dtpkNgayNhapTu.Size = new System.Drawing.Size(200, 28);
-            this.dtpkNgayNhapTu.TabIndex = 16;
-            this.dtpkNgayNhapTu.ValueChanged += new System.EventHandler(this.dtpkNgayNhapTu_ValueChanged);
+            this.label9.Size = new System.Drawing.Size(34, 20);
+            this.label9.TabIndex = 15;
+            this.label9.Text = "đến";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(5, 146);
+            this.label8.Location = new System.Drawing.Point(1, 14);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(76, 21);
-            this.label8.TabIndex = 13;
-            this.label8.Text = "Số lượng:";
+            this.label8.Size = new System.Drawing.Size(26, 20);
+            this.label8.TabIndex = 15;
+            this.label8.Text = "Từ";
+            // 
+            // tabPage7
+            // 
+            this.tabPage7.Controls.Add(this.dgv_Stock);
+            this.tabPage7.Location = new System.Drawing.Point(4, 22);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage7.Size = new System.Drawing.Size(1138, 884);
+            this.tabPage7.TabIndex = 1;
+            this.tabPage7.Text = "Tồn kho";
+            this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // dgv_Stock
+            // 
+            this.dgv_Stock.AllowUserToDeleteRows = false;
+            this.dgv_Stock.AutoGenerateColumns = false;
+            this.dgv_Stock.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_Stock.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Stock_Id,
+            this.Stock_Name,
+            this.Stock_Quantity,
+            this.Stock_Total});
+            this.dgv_Stock.DataSource = this.bsStock;
+            this.dgv_Stock.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_Stock.Location = new System.Drawing.Point(3, 3);
+            this.dgv_Stock.Name = "dgv_Stock";
+            this.dgv_Stock.RowHeadersWidth = 43;
+            this.dgv_Stock.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgv_Stock.Size = new System.Drawing.Size(1132, 878);
+            this.dgv_Stock.TabIndex = 17;
+            // 
+            // Stock_Id
+            // 
+            this.Stock_Id.DataPropertyName = "Stock_Id";
+            this.Stock_Id.HeaderText = "Mã VL";
+            this.Stock_Id.MinimumWidth = 6;
+            this.Stock_Id.Name = "Stock_Id";
+            this.Stock_Id.ReadOnly = true;
+            this.Stock_Id.Width = 80;
+            // 
+            // Stock_Name
+            // 
+            this.Stock_Name.DataPropertyName = "Stock_Name";
+            this.Stock_Name.HeaderText = "Tên vật liệu";
+            this.Stock_Name.MinimumWidth = 6;
+            this.Stock_Name.Name = "Stock_Name";
+            this.Stock_Name.Width = 400;
+            // 
+            // Stock_Quantity
+            // 
+            this.Stock_Quantity.DataPropertyName = "Stock_Quantity";
+            dataGridViewCellStyle13.Format = "N0";
+            this.Stock_Quantity.DefaultCellStyle = dataGridViewCellStyle13;
+            this.Stock_Quantity.HeaderText = "SL";
+            this.Stock_Quantity.MinimumWidth = 6;
+            this.Stock_Quantity.Name = "Stock_Quantity";
+            this.Stock_Quantity.ReadOnly = true;
+            this.Stock_Quantity.Width = 50;
+            // 
+            // Stock_Total
+            // 
+            this.Stock_Total.DataPropertyName = "Stock_Total";
+            dataGridViewCellStyle14.Format = "N0";
+            this.Stock_Total.DefaultCellStyle = dataGridViewCellStyle14;
+            this.Stock_Total.HeaderText = "Tổng";
+            this.Stock_Total.MinimumWidth = 6;
+            this.Stock_Total.Name = "Stock_Total";
+            this.Stock_Total.ReadOnly = true;
+            this.Stock_Total.Width = 105;
+            // 
+            // panel6
+            // 
+            this.panel6.Controls.Add(this.rb_Output);
+            this.panel6.Controls.Add(this.rb_Input);
+            this.panel6.Controls.Add(this.dgv_StockReceipt_Content);
+            this.panel6.Controls.Add(this.label7);
+            this.panel6.Controls.Add(this.btn_AddStockReceipt);
+            this.panel6.Controls.Add(this.dtpkStockReceipt_Date);
+            this.panel6.Controls.Add(this.label12);
+            this.panel6.Controls.Add(this.label6);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel6.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.panel6.Location = new System.Drawing.Point(3, 3);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(752, 910);
+            this.panel6.TabIndex = 45;
+            // 
+            // rb_Output
+            // 
+            this.rb_Output.AutoSize = true;
+            this.rb_Output.Location = new System.Drawing.Point(221, 15);
+            this.rb_Output.Name = "rb_Output";
+            this.rb_Output.Size = new System.Drawing.Size(57, 24);
+            this.rb_Output.TabIndex = 72;
+            this.rb_Output.Text = "Xuất";
+            this.rb_Output.UseVisualStyleBackColor = true;
+            // 
+            // rb_Input
+            // 
+            this.rb_Input.AutoSize = true;
+            this.rb_Input.Checked = true;
+            this.rb_Input.Location = new System.Drawing.Point(149, 15);
+            this.rb_Input.Name = "rb_Input";
+            this.rb_Input.Size = new System.Drawing.Size(63, 24);
+            this.rb_Input.TabIndex = 72;
+            this.rb_Input.TabStop = true;
+            this.rb_Input.Text = "Nhập";
+            this.rb_Input.UseVisualStyleBackColor = true;
+            // 
+            // dgv_StockReceipt_Content
+            // 
+            this.dgv_StockReceipt_Content.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_StockReceipt_Content.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this._StockReceiptDetail_Name,
+            this._StockReceiptDetail_Price,
+            this._StockReceiptDetail_Quantity});
+            this.dgv_StockReceipt_Content.Location = new System.Drawing.Point(149, 92);
+            this.dgv_StockReceipt_Content.Name = "dgv_StockReceipt_Content";
+            this.dgv_StockReceipt_Content.RowHeadersWidth = 43;
+            this.dgv_StockReceipt_Content.Size = new System.Drawing.Size(597, 355);
+            this.dgv_StockReceipt_Content.TabIndex = 71;
+            // 
+            // _StockReceiptDetail_Name
+            // 
+            this._StockReceiptDetail_Name.HeaderText = "Tên vật liệu";
+            this._StockReceiptDetail_Name.MinimumWidth = 6;
+            this._StockReceiptDetail_Name.Name = "_StockReceiptDetail_Name";
+            this._StockReceiptDetail_Name.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._StockReceiptDetail_Name.Width = 300;
+            // 
+            // _StockReceiptDetail_Price
+            // 
+            dataGridViewCellStyle15.Format = "N0";
+            this._StockReceiptDetail_Price.DefaultCellStyle = dataGridViewCellStyle15;
+            this._StockReceiptDetail_Price.HeaderText = "Đơn giá";
+            this._StockReceiptDetail_Price.MinimumWidth = 6;
+            this._StockReceiptDetail_Price.Name = "_StockReceiptDetail_Price";
+            this._StockReceiptDetail_Price.Width = 90;
+            // 
+            // _StockReceiptDetail_Quantity
+            // 
+            dataGridViewCellStyle16.Format = "N0";
+            this._StockReceiptDetail_Quantity.DefaultCellStyle = dataGridViewCellStyle16;
+            this._StockReceiptDetail_Quantity.HeaderText = "Số lượng";
+            this._StockReceiptDetail_Quantity.MinimumWidth = 6;
+            this._StockReceiptDetail_Quantity.Name = "_StockReceiptDetail_Quantity";
+            this._StockReceiptDetail_Quantity.Width = 105;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(5, 81);
+            this.label7.Location = new System.Drawing.Point(10, 92);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(159, 21);
-            this.label7.TabIndex = 14;
-            this.label7.Text = "Tên vật liệu nhập kho:";
+            this.label7.Size = new System.Drawing.Size(59, 20);
+            this.label7.TabIndex = 70;
+            this.label7.Text = "Chi tiết:";
+            // 
+            // btn_AddStockReceipt
+            // 
+            this.btn_AddStockReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.CHECK;
+            this.btn_AddStockReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_AddStockReceipt.Location = new System.Drawing.Point(706, 453);
+            this.btn_AddStockReceipt.Name = "btn_AddStockReceipt";
+            this.btn_AddStockReceipt.Size = new System.Drawing.Size(40, 40);
+            this.btn_AddStockReceipt.TabIndex = 31;
+            this.btn_AddStockReceipt.UseVisualStyleBackColor = true;
+            this.btn_AddStockReceipt.Click += new System.EventHandler(this.btn_AddStockReceipt_Click);
+            // 
+            // dtpkStockReceipt_Date
+            // 
+            this.dtpkStockReceipt_Date.CustomFormat = "dd/MM/yyyy";
+            this.dtpkStockReceipt_Date.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpkStockReceipt_Date.Location = new System.Drawing.Point(149, 52);
+            this.dtpkStockReceipt_Date.Name = "dtpkStockReceipt_Date";
+            this.dtpkStockReceipt_Date.Size = new System.Drawing.Size(200, 27);
+            this.dtpkStockReceipt_Date.TabIndex = 16;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(10, 19);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(70, 20);
+            this.label12.TabIndex = 15;
+            this.label12.Text = "Loại đơn:";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 12);
+            this.label6.Location = new System.Drawing.Point(10, 56);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(133, 21);
+            this.label6.Size = new System.Drawing.Size(126, 20);
             this.label6.TabIndex = 15;
             this.label6.Text = "Ngày/tháng/năm:";
-            // 
-            // panel5
-            // 
-            this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel5.Controls.Add(this.dgvDonNhap);
-            this.panel5.Location = new System.Drawing.Point(579, 3);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(585, 920);
-            this.panel5.TabIndex = 44;
-            // 
-            // dgvDonNhap
-            // 
-            this.dgvDonNhap.AllowUserToAddRows = false;
-            this.dgvDonNhap.AllowUserToDeleteRows = false;
-            this.dgvDonNhap.AutoGenerateColumns = false;
-            this.dgvDonNhap.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvDonNhap.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDonNhap.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.NgayNhapVatLieu,
-            this.TenVatLieuVatLieu,
-            this.DonGiaVatLieu,
-            this.SoLuongVatLieu,
-            this.ThanhTienVatLieu,
-            this.MaDonNhapVatLieu});
-            this.dgvDonNhap.DataSource = this.dONNHAPBindingSource;
-            this.dgvDonNhap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvDonNhap.Location = new System.Drawing.Point(0, 0);
-            this.dgvDonNhap.Name = "dgvDonNhap";
-            this.dgvDonNhap.RowHeadersWidth = 43;
-            this.dgvDonNhap.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvDonNhap.Size = new System.Drawing.Size(585, 920);
-            this.dgvDonNhap.TabIndex = 14;
-            this.dgvDonNhap.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDonNhap_CellValueChanged);
-            // 
-            // NgayNhapVatLieu
-            // 
-            this.NgayNhapVatLieu.DataPropertyName = "NgayNhap";
-            this.NgayNhapVatLieu.HeaderText = "Ngày nhập";
-            this.NgayNhapVatLieu.Name = "NgayNhapVatLieu";
-            // 
-            // TenVatLieuVatLieu
-            // 
-            this.TenVatLieuVatLieu.DataPropertyName = "TenVatLieu";
-            this.TenVatLieuVatLieu.HeaderText = "Tên vật liệu nhập kho";
-            this.TenVatLieuVatLieu.Name = "TenVatLieuVatLieu";
-            // 
-            // DonGiaVatLieu
-            // 
-            this.DonGiaVatLieu.DataPropertyName = "DonGia";
-            dataGridViewCellStyle10.Format = "N0";
-            this.DonGiaVatLieu.DefaultCellStyle = dataGridViewCellStyle10;
-            this.DonGiaVatLieu.HeaderText = "Đơn giá";
-            this.DonGiaVatLieu.Name = "DonGiaVatLieu";
-            // 
-            // SoLuongVatLieu
-            // 
-            this.SoLuongVatLieu.DataPropertyName = "SoLuong";
-            dataGridViewCellStyle11.Format = "N0";
-            this.SoLuongVatLieu.DefaultCellStyle = dataGridViewCellStyle11;
-            this.SoLuongVatLieu.HeaderText = "Số lượng";
-            this.SoLuongVatLieu.Name = "SoLuongVatLieu";
-            // 
-            // ThanhTienVatLieu
-            // 
-            this.ThanhTienVatLieu.DataPropertyName = "ThanhTien";
-            dataGridViewCellStyle12.Format = "N0";
-            this.ThanhTienVatLieu.DefaultCellStyle = dataGridViewCellStyle12;
-            this.ThanhTienVatLieu.HeaderText = "Thành tiền";
-            this.ThanhTienVatLieu.Name = "ThanhTienVatLieu";
-            this.ThanhTienVatLieu.ReadOnly = true;
-            // 
-            // MaDonNhapVatLieu
-            // 
-            this.MaDonNhapVatLieu.DataPropertyName = "MaDonNhap";
-            this.MaDonNhapVatLieu.HeaderText = "MaDonNhap";
-            this.MaDonNhapVatLieu.Name = "MaDonNhapVatLieu";
-            this.MaDonNhapVatLieu.Visible = false;
-            // 
-            // dONNHAPBindingSource
-            // 
-            this.dONNHAPBindingSource.DataMember = "DON_NHAP";
-            this.dONNHAPBindingSource.DataSource = this.appData;
             // 
             // tabPage3
             // 
@@ -1081,7 +1227,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 29);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1167, 929);
+            this.tabPage3.Size = new System.Drawing.Size(1904, 916);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Quyết toán thu chi";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1094,7 +1240,7 @@
             this.panel9.Controls.Add(this.groupBox2);
             this.panel9.Location = new System.Drawing.Point(3, 3);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(483, 920);
+            this.panel9.Size = new System.Drawing.Size(483, 881);
             this.panel9.TabIndex = 46;
             // 
             // groupBox3
@@ -1122,7 +1268,7 @@
             this.textBox3.Location = new System.Drawing.Point(87, 134);
             this.textBox3.Name = "textBox3";
             this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(200, 28);
+            this.textBox3.Size = new System.Drawing.Size(200, 27);
             this.textBox3.TabIndex = 36;
             // 
             // label25
@@ -1130,7 +1276,7 @@
             this.label25.AutoSize = true;
             this.label25.Location = new System.Drawing.Point(6, 141);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(61, 21);
+            this.label25.Size = new System.Drawing.Size(58, 20);
             this.label25.TabIndex = 37;
             this.label25.Text = "Còn lại:";
             // 
@@ -1139,7 +1285,7 @@
             this.textBox2.Location = new System.Drawing.Point(87, 100);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(200, 28);
+            this.textBox2.Size = new System.Drawing.Size(200, 27);
             this.textBox2.TabIndex = 36;
             // 
             // label19
@@ -1147,7 +1293,7 @@
             this.label19.AutoSize = true;
             this.label19.Location = new System.Drawing.Point(6, 107);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(72, 21);
+            this.label19.Size = new System.Drawing.Size(69, 20);
             this.label19.TabIndex = 37;
             this.label19.Text = "Tổng chi:";
             // 
@@ -1156,7 +1302,7 @@
             this.textBox1.Location = new System.Drawing.Point(87, 66);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(200, 28);
+            this.textBox1.Size = new System.Drawing.Size(200, 27);
             this.textBox1.TabIndex = 36;
             // 
             // label13
@@ -1164,7 +1310,7 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(6, 73);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(75, 21);
+            this.label13.Size = new System.Drawing.Size(71, 20);
             this.label13.TabIndex = 37;
             this.label13.Text = "Tổng thu:";
             // 
@@ -1182,7 +1328,7 @@
             this.dateTimePicker6.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePicker6.Location = new System.Drawing.Point(184, 29);
             this.dateTimePicker6.Name = "dateTimePicker6";
-            this.dateTimePicker6.Size = new System.Drawing.Size(103, 28);
+            this.dateTimePicker6.Size = new System.Drawing.Size(103, 27);
             this.dateTimePicker6.TabIndex = 6;
             // 
             // dateTimePicker5
@@ -1190,7 +1336,7 @@
             this.dateTimePicker5.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePicker5.Location = new System.Drawing.Point(33, 29);
             this.dateTimePicker5.Name = "dateTimePicker5";
-            this.dateTimePicker5.Size = new System.Drawing.Size(103, 28);
+            this.dateTimePicker5.Size = new System.Drawing.Size(103, 27);
             this.dateTimePicker5.TabIndex = 5;
             // 
             // label24
@@ -1198,7 +1344,7 @@
             this.label24.AutoSize = true;
             this.label24.Location = new System.Drawing.Point(142, 34);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(36, 21);
+            this.label24.Size = new System.Drawing.Size(34, 20);
             this.label24.TabIndex = 4;
             this.label24.Text = "đến";
             // 
@@ -1207,7 +1353,7 @@
             this.label27.AutoSize = true;
             this.label27.Location = new System.Drawing.Point(6, 34);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(27, 21);
+            this.label27.Size = new System.Drawing.Size(26, 20);
             this.label27.TabIndex = 4;
             this.label27.Text = "Từ";
             // 
@@ -1262,21 +1408,21 @@
             // 
             this.textBox11.Location = new System.Drawing.Point(138, 84);
             this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(336, 28);
+            this.textBox11.Size = new System.Drawing.Size(336, 27);
             this.textBox11.TabIndex = 25;
             // 
             // textBox12
             // 
             this.textBox12.Location = new System.Drawing.Point(138, 116);
             this.textBox12.Name = "textBox12";
-            this.textBox12.Size = new System.Drawing.Size(200, 28);
+            this.textBox12.Size = new System.Drawing.Size(200, 27);
             this.textBox12.TabIndex = 25;
             // 
             // textBox10
             // 
             this.textBox10.Location = new System.Drawing.Point(138, 52);
             this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(200, 28);
+            this.textBox10.Size = new System.Drawing.Size(200, 27);
             this.textBox10.TabIndex = 25;
             // 
             // dateTimePicker4
@@ -1284,7 +1430,7 @@
             this.dateTimePicker4.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePicker4.Location = new System.Drawing.Point(138, 20);
             this.dateTimePicker4.Name = "dateTimePicker4";
-            this.dateTimePicker4.Size = new System.Drawing.Size(200, 28);
+            this.dateTimePicker4.Size = new System.Drawing.Size(200, 27);
             this.dateTimePicker4.TabIndex = 5;
             // 
             // label22
@@ -1292,7 +1438,7 @@
             this.label22.AutoSize = true;
             this.label22.Location = new System.Drawing.Point(6, 89);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(102, 21);
+            this.label22.Size = new System.Drawing.Size(97, 20);
             this.label22.TabIndex = 4;
             this.label22.Text = "Nội dung chi:";
             // 
@@ -1301,7 +1447,7 @@
             this.label23.AutoSize = true;
             this.label23.Location = new System.Drawing.Point(6, 121);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(85, 21);
+            this.label23.Size = new System.Drawing.Size(81, 20);
             this.label23.TabIndex = 4;
             this.label23.Text = "Số tiền chi:";
             // 
@@ -1310,7 +1456,7 @@
             this.label21.AutoSize = true;
             this.label21.Location = new System.Drawing.Point(6, 57);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(107, 21);
+            this.label21.Size = new System.Drawing.Size(103, 20);
             this.label21.TabIndex = 4;
             this.label21.Text = "Đối tượng chi:";
             // 
@@ -1319,7 +1465,7 @@
             this.label20.AutoSize = true;
             this.label20.Location = new System.Drawing.Point(6, 26);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(133, 21);
+            this.label20.Size = new System.Drawing.Size(126, 20);
             this.label20.TabIndex = 4;
             this.label20.Text = "Ngày/tháng/năm:";
             // 
@@ -1331,7 +1477,7 @@
             this.panel8.Controls.Add(this.dataGridView3);
             this.panel8.Location = new System.Drawing.Point(492, 6);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(669, 917);
+            this.panel8.Size = new System.Drawing.Size(632, 878);
             this.panel8.TabIndex = 45;
             // 
             // dataGridView3
@@ -1341,208 +1487,208 @@
             this.dataGridView3.Location = new System.Drawing.Point(0, 0);
             this.dataGridView3.Name = "dataGridView3";
             this.dataGridView3.RowHeadersWidth = 43;
-            this.dataGridView3.Size = new System.Drawing.Size(669, 917);
+            this.dataGridView3.Size = new System.Drawing.Size(632, 878);
             this.dataGridView3.TabIndex = 36;
             // 
-            // menuStrip1
+            // Receipt_Id
             // 
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(17, 17);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.giúpĐỡToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1175, 25);
-            this.menuStrip1.TabIndex = 1;
-            this.menuStrip1.Text = "menuStrip1";
+            this.Receipt_Id.DataPropertyName = "Receipt_Id";
+            this.Receipt_Id.HeaderText = "Mã hoá đơn";
+            this.Receipt_Id.MinimumWidth = 6;
+            this.Receipt_Id.Name = "Receipt_Id";
+            this.Receipt_Id.ReadOnly = true;
+            this.Receipt_Id.Width = 125;
             // 
-            // giúpĐỡToolStripMenuItem
+            // Receipt_CustomerId
             // 
-            this.giúpĐỡToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.hướngDẫnSửDụngToolStripMenuItem,
-            this.toolStripMenuItem1,
-            this.msiKiemTraCapNhat});
-            this.giúpĐỡToolStripMenuItem.Name = "giúpĐỡToolStripMenuItem";
-            this.giúpĐỡToolStripMenuItem.Size = new System.Drawing.Size(69, 21);
-            this.giúpĐỡToolStripMenuItem.Text = "Trợ giúp";
+            this.Receipt_CustomerId.DataPropertyName = "Receipt_CustomerId";
+            this.Receipt_CustomerId.HeaderText = "CCCD";
+            this.Receipt_CustomerId.MinimumWidth = 6;
+            this.Receipt_CustomerId.Name = "Receipt_CustomerId";
+            this.Receipt_CustomerId.Visible = false;
+            this.Receipt_CustomerId.Width = 150;
             // 
-            // hướngDẫnSửDụngToolStripMenuItem
+            // Receipt_Date
             // 
-            this.hướngDẫnSửDụngToolStripMenuItem.Name = "hướngDẫnSửDụngToolStripMenuItem";
-            this.hướngDẫnSửDụngToolStripMenuItem.Size = new System.Drawing.Size(144, 24);
-            this.hướngDẫnSửDụngToolStripMenuItem.Text = "Hướng dẫn";
+            this.Receipt_Date.DataPropertyName = "Receipt_Date";
+            this.Receipt_Date.HeaderText = "Ngày khám";
+            this.Receipt_Date.MinimumWidth = 6;
+            this.Receipt_Date.Name = "Receipt_Date";
+            this.Receipt_Date.Width = 200;
             // 
-            // toolStripMenuItem1
+            // Receipt_Total
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(141, 6);
+            this.Receipt_Total.DataPropertyName = "Receipt_Total";
+            dataGridViewCellStyle1.Format = "N0";
+            this.Receipt_Total.DefaultCellStyle = dataGridViewCellStyle1;
+            this.Receipt_Total.HeaderText = "Tổng cộng";
+            this.Receipt_Total.MinimumWidth = 6;
+            this.Receipt_Total.Name = "Receipt_Total";
+            this.Receipt_Total.ReadOnly = true;
+            this.Receipt_Total.Width = 125;
             // 
-            // msiKiemTraCapNhat
+            // Receipt_Remaining
             // 
-            this.msiKiemTraCapNhat.Name = "msiKiemTraCapNhat";
-            this.msiKiemTraCapNhat.Size = new System.Drawing.Size(144, 24);
-            this.msiKiemTraCapNhat.Text = "Cập nhật";
-            this.msiKiemTraCapNhat.Click += new System.EventHandler(this.msiKiemTraCapNhat_Click);
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.SystemColors.Control;
-            this.panel1.Controls.Add(this.label26);
-            this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 25);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1175, 67);
-            this.panel1.TabIndex = 3;
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Font = new System.Drawing.Font("Segoe UI Black", 17.82178F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label26.Location = new System.Drawing.Point(72, 17);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(284, 35);
-            this.label26.TabIndex = 1;
-            this.label26.Text = "NHA KHOA MỸ NGỌC";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.pictureBox1.Image = global::NhakhoaMyNgoc_Db.Properties.Resources.LOGO;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(67, 67);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
-            // MaMucDonHang
-            // 
-            this.MaMucDonHang.DataPropertyName = "MaMucDonHang";
-            this.MaMucDonHang.HeaderText = "MaMucDonHang";
-            this.MaMucDonHang.Name = "MaMucDonHang";
-            this.MaMucDonHang.Visible = false;
-            this.MaMucDonHang.Width = 153;
-            // 
-            // SoCCCD
-            // 
-            this.SoCCCD.DataPropertyName = "SoCCCD";
-            this.SoCCCD.HeaderText = "Số CCCD";
-            this.SoCCCD.Name = "SoCCCD";
-            this.SoCCCD.Width = 125;
-            // 
-            // NgayKham
-            // 
-            this.NgayKham.DataPropertyName = "NgayKham";
-            this.NgayKham.HeaderText = "Ngày khám";
-            this.NgayKham.Name = "NgayKham";
-            // 
-            // NoiDung
-            // 
-            this.NoiDung.DataPropertyName = "NoiDung";
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.NoiDung.DefaultCellStyle = dataGridViewCellStyle1;
-            this.NoiDung.HeaderText = "Nội dung điều trị";
-            this.NoiDung.Name = "NoiDung";
-            this.NoiDung.Width = 295;
-            // 
-            // SoTien
-            // 
-            this.SoTien.DataPropertyName = "SoTien";
+            this.Receipt_Remaining.DataPropertyName = "Receipt_Remaining";
             dataGridViewCellStyle2.Format = "N0";
-            this.SoTien.DefaultCellStyle = dataGridViewCellStyle2;
-            this.SoTien.HeaderText = "Số tiền";
-            this.SoTien.Name = "SoTien";
+            this.Receipt_Remaining.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Receipt_Remaining.HeaderText = "Còn lại";
+            this.Receipt_Remaining.MinimumWidth = 6;
+            this.Receipt_Remaining.Name = "Receipt_Remaining";
+            this.Receipt_Remaining.Width = 105;
             // 
-            // SoLuong
+            // Receipt_RevisitDate
             // 
-            this.SoLuong.DataPropertyName = "SoLuong";
-            dataGridViewCellStyle3.Format = "N0";
-            this.SoLuong.DefaultCellStyle = dataGridViewCellStyle3;
-            this.SoLuong.HeaderText = "Số lượng";
-            this.SoLuong.Name = "SoLuong";
-            this.SoLuong.Width = 50;
+            this.Receipt_RevisitDate.DataPropertyName = "Receipt_RevisitDate";
+            this.Receipt_RevisitDate.HeaderText = "Tái khám";
+            this.Receipt_RevisitDate.MinimumWidth = 6;
+            this.Receipt_RevisitDate.Name = "Receipt_RevisitDate";
+            this.Receipt_RevisitDate.Width = 105;
             // 
-            // GiamGia
+            // Receipt_Notes
             // 
-            this.GiamGia.DataPropertyName = "GiamGia";
-            dataGridViewCellStyle4.Format = "N0";
-            this.GiamGia.DefaultCellStyle = dataGridViewCellStyle4;
-            this.GiamGia.HeaderText = "Giảm giá";
-            this.GiamGia.Name = "GiamGia";
+            this.Receipt_Notes.DataPropertyName = "Receipt_Notes";
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Receipt_Notes.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Receipt_Notes.HeaderText = "Ghi chú";
+            this.Receipt_Notes.MinimumWidth = 6;
+            this.Receipt_Notes.Name = "Receipt_Notes";
+            this.Receipt_Notes.Width = 265;
             // 
-            // ThanhTien
+            // StockReceiptDetail_Id
             // 
-            this.ThanhTien.DataPropertyName = "ThanhTien";
-            dataGridViewCellStyle5.Format = "N0";
-            this.ThanhTien.DefaultCellStyle = dataGridViewCellStyle5;
-            this.ThanhTien.HeaderText = "Thành tiền";
-            this.ThanhTien.Name = "ThanhTien";
-            this.ThanhTien.ReadOnly = true;
+            this.StockReceiptDetail_Id.DataPropertyName = "StockReceiptDetail_Id";
+            this.StockReceiptDetail_Id.HeaderText = "";
+            this.StockReceiptDetail_Id.MinimumWidth = 6;
+            this.StockReceiptDetail_Id.Name = "StockReceiptDetail_Id";
+            this.StockReceiptDetail_Id.Visible = false;
+            this.StockReceiptDetail_Id.Width = 105;
             // 
-            // GhiChu
+            // StockReceiptDetail_ReceiptId
             // 
-            this.GhiChu.DataPropertyName = "GhiChu";
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.GhiChu.DefaultCellStyle = dataGridViewCellStyle6;
-            this.GhiChu.HeaderText = "Ghi chú";
-            this.GhiChu.Name = "GhiChu";
-            this.GhiChu.Width = 295;
+            this.StockReceiptDetail_ReceiptId.DataPropertyName = "StockReceiptDetail_ReceiptId";
+            this.StockReceiptDetail_ReceiptId.HeaderText = "Mã đơn";
+            this.StockReceiptDetail_ReceiptId.MinimumWidth = 6;
+            this.StockReceiptDetail_ReceiptId.Name = "StockReceiptDetail_ReceiptId";
+            this.StockReceiptDetail_ReceiptId.ReadOnly = true;
+            this.StockReceiptDetail_ReceiptId.Width = 105;
             // 
-            // btnChiTietDonHang
+            // _StockReceiptDetail_Date
             // 
-            this.btnChiTietDonHang.HeaderText = "";
-            this.btnChiTietDonHang.Name = "btnChiTietDonHang";
-            this.btnChiTietDonHang.Text = "...";
-            this.btnChiTietDonHang.UseColumnTextForButtonValue = true;
-            this.btnChiTietDonHang.Width = 25;
+            this._StockReceiptDetail_Date.DataPropertyName = "_StockReceiptDetail_Date";
+            this._StockReceiptDetail_Date.HeaderText = "Ngày lập";
+            this._StockReceiptDetail_Date.MinimumWidth = 6;
+            this._StockReceiptDetail_Date.Name = "_StockReceiptDetail_Date";
+            this._StockReceiptDetail_Date.ReadOnly = true;
+            this._StockReceiptDetail_Date.Width = 200;
             // 
-            // frmMain
+            // _StockReceiptDetail_Input
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1175, 1060);
-            this.Controls.Add(this.panel1);
+            this._StockReceiptDetail_Input.DataPropertyName = "_StockReceiptDetail_Input";
+            this._StockReceiptDetail_Input.HeaderText = "Nhập";
+            this._StockReceiptDetail_Input.MinimumWidth = 6;
+            this._StockReceiptDetail_Input.Name = "_StockReceiptDetail_Input";
+            this._StockReceiptDetail_Input.ReadOnly = true;
+            this._StockReceiptDetail_Input.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._StockReceiptDetail_Input.Width = 50;
+            // 
+            // StockReceiptDetail_ItemId
+            // 
+            this.StockReceiptDetail_ItemId.DataPropertyName = "StockReceiptDetail_ItemId";
+            this.StockReceiptDetail_ItemId.DataSource = this.bsStock;
+            this.StockReceiptDetail_ItemId.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.StockReceiptDetail_ItemId.HeaderText = "Tên vật liệu";
+            this.StockReceiptDetail_ItemId.MinimumWidth = 6;
+            this.StockReceiptDetail_ItemId.Name = "StockReceiptDetail_ItemId";
+            this.StockReceiptDetail_ItemId.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.StockReceiptDetail_ItemId.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.StockReceiptDetail_ItemId.Width = 200;
+            // 
+            // StockReceiptDetail_Quantity
+            // 
+            this.StockReceiptDetail_Quantity.DataPropertyName = "StockReceiptDetail_Quantity";
+            dataGridViewCellStyle10.Format = "N0";
+            this.StockReceiptDetail_Quantity.DefaultCellStyle = dataGridViewCellStyle10;
+            this.StockReceiptDetail_Quantity.HeaderText = "SL";
+            this.StockReceiptDetail_Quantity.MinimumWidth = 6;
+            this.StockReceiptDetail_Quantity.Name = "StockReceiptDetail_Quantity";
+            this.StockReceiptDetail_Quantity.Width = 50;
+            // 
+            // StockReceiptDetail_Price
+            // 
+            this.StockReceiptDetail_Price.DataPropertyName = "StockReceiptDetail_Price";
+            dataGridViewCellStyle11.Format = "N0";
+            this.StockReceiptDetail_Price.DefaultCellStyle = dataGridViewCellStyle11;
+            this.StockReceiptDetail_Price.HeaderText = "Đơn giá";
+            this.StockReceiptDetail_Price.MinimumWidth = 6;
+            this.StockReceiptDetail_Price.Name = "StockReceiptDetail_Price";
+            this.StockReceiptDetail_Price.Width = 105;
+            // 
+            // StockReceiptDetail_Total
+            // 
+            this.StockReceiptDetail_Total.DataPropertyName = "StockReceiptDetail_Total";
+            dataGridViewCellStyle12.Format = "N0";
+            this.StockReceiptDetail_Total.DefaultCellStyle = dataGridViewCellStyle12;
+            this.StockReceiptDetail_Total.HeaderText = "Thành tiền";
+            this.StockReceiptDetail_Total.MinimumWidth = 6;
+            this.StockReceiptDetail_Total.Name = "StockReceiptDetail_Total";
+            this.StockReceiptDetail_Total.ReadOnly = true;
+            this.StockReceiptDetail_Total.Width = 150;
+            // 
+            // frm_Main
+            // 
+            this.AcceptButton = this.btn_SearchReceipt;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(1912, 1041);
             this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "frmMain";
+            this.MinimumSize = new System.Drawing.Size(1918, 1048);
+            this.Name = "frm_Main";
             this.Text = "Nha khoa Mỹ Ngọc v1.0.0";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.frm_Main_Load);
+            this.cmsCustomer.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.tbcDonHang_KhachHang.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDonHang)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mUCDONHANGBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.appData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Receipt)).EndInit();
             this.tabPage5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvKhachHang)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kHACHHANGBindingSource)).EndInit();
+            this.panel7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Customer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bsCustomer)).EndInit();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nmThanhTien)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nmGiamGia)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nmSoLuong)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nmSoTien)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Receipt_Content)).EndInit();
             this.tabPage2.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
+            this.tbcIO.ResumeLayout(false);
+            this.tabPage6.ResumeLayout(false);
+            this.panel11.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_StockReceipt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bsStock)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bsStockReceipts)).EndInit();
+            this.panel10.ResumeLayout(false);
+            this.panel10.PerformLayout();
+            this.tabPage7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Stock)).EndInit();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nmThanhTienVatLieu)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nmDonGiaVatLieu)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nmSoLuongVatLieu)).EndInit();
-            this.panel5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDonNhap)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dONNHAPBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_StockReceipt_Content)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.panel9.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
@@ -1551,45 +1697,123 @@
             this.groupBox2.PerformLayout();
             this.panel8.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
+        private System.Windows.Forms.DataGridViewTextBoxColumn NgayNhapVatLieu;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TenVatLieuVatLieu;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DonGiaVatLieu;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SoLuongVatLieu;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ThanhTienVatLieu;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MaDonNhapVatLieu;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem giúpĐỡToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hướngDẫnSửDụngToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem msiKiemTraCapNhat;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SoCCCD_dgvKhachHang;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MaMucDonHang;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SoCCCD;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NgayKham;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NoiDung;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SoTien;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SoLuong;
+        private System.Windows.Forms.DataGridViewTextBoxColumn GiamGia;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ThanhTien;
+        private System.Windows.Forms.ContextMenuStrip cmsCustomer;
+        private System.Windows.Forms.ToolStripMenuItem tsi_Restore;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.Button btnThemDonHang;
-        private System.Windows.Forms.Button btnTimDonHang;
-        private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Button btnTimDonNhap;
-        private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.NumericUpDown nmSoLuongVatLieu;
-        private System.Windows.Forms.ComboBox cboTenVatLieuNhapKho;
-        private System.Windows.Forms.DateTimePicker dtpkNgayNhapTu;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TabControl tbcDonHang_KhachHang;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.DataGridView dgv_Receipt;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.DataGridView dgv_Customer;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.CheckBox cb_Customer_IsActive;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.RadioButton rdCustomer_Female;
+        private System.Windows.Forms.RadioButton rdCustomer_Male;
+        private System.Windows.Forms.Button btn_DeleteDetails;
+        private System.Windows.Forms.Button btn_SearchReceipt;
+        private System.Windows.Forms.TextBox txtCustomer_Address;
+        private System.Windows.Forms.TextBox txtCustomer_Phone;
+        private System.Windows.Forms.TextBox txtCustomer_FullName;
+        private System.Windows.Forms.TextBox txtCustomer_CitizenId;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DateTimePicker dtpkCustomer_Birthdate;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.DataGridView dgv_Receipt_Content;
+        private System.Windows.Forms.Button btn_AddReceipt;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DateTimePicker dtpkReceipt_RevisitDate;
+        private System.Windows.Forms.DateTimePicker dtpkReceipt_Date;
+        private System.Windows.Forms.TextBox txtReceipt_Notes;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.DataGridView dgvDonNhap;
+        private System.Windows.Forms.TabControl tbcIO;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.Panel panel11;
+        private System.Windows.Forms.DataGridView dgv_StockReceipt;
+        private System.Windows.Forms.Panel panel10;
+        private System.Windows.Forms.Button btn_SearchStockReceipt;
+        private System.Windows.Forms.DateTimePicker dtpk_Receipt_ToDate;
+        private System.Windows.Forms.DateTimePicker dtpk_Receipt_FromDate;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TabPage tabPage7;
+        private System.Windows.Forms.DataGridView dgv_Stock;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Stock_Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Stock_Name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Stock_Quantity;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Stock_Total;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.RadioButton rb_Output;
+        private System.Windows.Forms.RadioButton rb_Input;
+        private System.Windows.Forms.DataGridView dgv_StockReceipt_Content;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _StockReceiptDetail_Name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _StockReceiptDetail_Price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _StockReceiptDetail_Quantity;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button btn_AddStockReceipt;
+        private System.Windows.Forms.DateTimePicker dtpkStockReceipt_Date;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.DateTimePicker dateTimePicker6;
         private System.Windows.Forms.DateTimePicker dateTimePicker5;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TextBox textBox11;
         private System.Windows.Forms.TextBox textBox12;
         private System.Windows.Forms.TextBox textBox10;
@@ -1600,92 +1824,37 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Panel panel8;
         private System.Windows.Forms.DataGridView dataGridView3;
-        private System.Windows.Forms.BindingSource kHACHHANGBindingSource;
-        private AppData appData;
-        private System.Windows.Forms.BindingSource mUCDONHANGBindingSource;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.TextBox txtNoiDungDieuTri;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.TextBox txtSoDienThoai;
-        private System.Windows.Forms.TextBox txtSoCCCD;
-        private System.Windows.Forms.ComboBox cboDiaChi;
-        private System.Windows.Forms.CheckBox cbGioiTinh;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox cboHoVaTen;
-        private System.Windows.Forms.DateTimePicker dtpkNgayKham;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DateTimePicker dtpkNgaySinh;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.NumericUpDown nmGiamGia;
-        private System.Windows.Forms.NumericUpDown nmSoTien;
-        private System.Windows.Forms.NumericUpDown nmThanhTien;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel lblThanhTien;
-        private System.Windows.Forms.NumericUpDown nmSoLuong;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Button btnXoaDonNhap;
-        private System.Windows.Forms.Button btnThemDonNhap;
-        private System.Windows.Forms.DateTimePicker dtpkNgayNhapDen;
-        private System.Windows.Forms.CheckBox cbNgayNhapDen;
-        private System.Windows.Forms.NumericUpDown nmThanhTienVatLieu;
-        private System.Windows.Forms.NumericUpDown nmDonGiaVatLieu;
-        private System.Windows.Forms.BindingSource dONNHAPBindingSource;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NgayNhapVatLieu;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TenVatLieuVatLieu;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DonGiaVatLieu;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SoLuongVatLieu;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ThanhTienVatLieu;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MaDonNhapVatLieu;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem giúpĐỡToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem hướngDẫnSửDụngToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem msiKiemTraCapNhat;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.TabControl tbcDonHang_KhachHang;
-        private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.DataGridView dgvDonHang;
-        private System.Windows.Forms.TabPage tabPage5;
-        private System.Windows.Forms.DataGridView dgvKhachHang;
-        private System.Windows.Forms.Button btnThemKhachHang;
-        private System.Windows.Forms.TextBox txtGhiChu;
-        private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SoCCCD_dgvKhachHang;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HoVaTen_dgvKhachHang;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn GioiTinh_dgvKhachHang;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NgaySinh_dgvKhachHang;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DiaChi_dgvKhachHang;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SoDienThoai_dgvKhachHang;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MaMucDonHang;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SoCCCD;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NgayKham;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NoiDung;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SoTien;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SoLuong;
-        private System.Windows.Forms.DataGridViewTextBoxColumn GiamGia;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ThanhTien;
-        private System.Windows.Forms.DataGridViewTextBoxColumn GhiChu;
-        private System.Windows.Forms.DataGridViewButtonColumn btnChiTietDonHang;
+        private System.Windows.Forms.BindingSource bsStock;
+        private System.Windows.Forms.BindingSource bsStockReceipts;
+        private System.Windows.Forms.BindingSource bsCustomer;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Customer_Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Customer_FullName;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Customer_Sex;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Customer_Birthdate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Customer_CitizenId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Customer_Address;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Customer_Phone;
+        private System.Windows.Forms.Button btnSaveReceipt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ReceiptDetail_Content;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ReceiptDetail_Price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ReceiptDetail_Quantity;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ReceiptDetail_Discount;
+        private System.Windows.Forms.Button btnPrint;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Receipt_Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Receipt_CustomerId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Receipt_Date;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Receipt_Total;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Receipt_Remaining;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Receipt_RevisitDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Receipt_Notes;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceiptDetail_Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceiptDetail_ReceiptId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _StockReceiptDetail_Date;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn _StockReceiptDetail_Input;
+        private System.Windows.Forms.DataGridViewComboBoxColumn StockReceiptDetail_ItemId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceiptDetail_Quantity;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceiptDetail_Price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceiptDetail_Total;
     }
 }
 

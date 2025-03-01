@@ -4,14 +4,13 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Xml;
 using System.IO;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Diagnostics;
 
 namespace NhakhoaMyNgoc_Db
 {
-    public partial class frmCapNhat : Form
+    public partial class frmUpdate : Form
     {
-        public frmCapNhat()
+        public frmUpdate()
         {
             InitializeComponent();
         }
