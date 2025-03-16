@@ -77,7 +77,7 @@ namespace NhakhoaMyNgoc_Db
                 newRow["StockReceipt_IsInput"] = Convert.ToInt32(row["StockReceipt_IsInput"]) == 1; // Chuyển 0/1 thành bool
                 renderResult.Rows.Add(newRow);
             });
-            bsStockReceipts.DataSource = renderResult;
+            dgv_StockReceipt.DataSource = renderResult;
         }
         #endregion
 
@@ -89,11 +89,8 @@ namespace NhakhoaMyNgoc_Db
         /// <param name="e"></param>
         private void btn_SearchStockReceipt_Click(object sender, EventArgs e)
         {
-            bsStock.DataSource = Database.Query("Stock",
-                conditions: new Dictionary<string, (QueryOperator, object)>
-                {
-                    { "Stock_IsActive", (QueryOperator.EQUALS, 1) }
-                });
+            bsStock.DataSource = Database.Query("Stock");
+            bsStock.Filter = "Stock_IsActive = 1";
 
             LoadStockReceipts();
         }
@@ -155,11 +152,8 @@ namespace NhakhoaMyNgoc_Db
                     LoadStockReceipts();
                     break;
                 case 1:
-                    bsStock.DataSource = Database.Query("Stock",
-                        conditions: new Dictionary<string, (QueryOperator, object)>
-                        {
-                            { "Stock_IsActive", (QueryOperator.EQUALS, 1) }
-                        });
+                    bsStock.DataSource = Database.Query("Stock");
+                    bsStock.Filter = "Stock_IsActive = 1";
                     break;
                 default:
                     break;
@@ -485,6 +479,21 @@ namespace NhakhoaMyNgoc_Db
                         dgv_Receipt_Content.Rows.Remove(row);
                     Database.DeleteRecord("ReceiptDetail", primaryValues);
                 }
+            }
+        }
+
+        private void dgv_StockReceipt_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgv_StockReceipt.CurrentRow == null)
+            {
+                rb_Input.Checked = true;
+                dtpkStockReceipt_Date.Value = DateTime.Now;
+                txtStockReceipt_Correspondent.Text
+                    = txtStockReceipt_Division.Text
+                    = txtStockReceipt_Reason.Text
+                    = txtStockReceipt_CertificateId.Text
+                    = string.Empty;
+                cboStockReceipt_StockId.SelectedIndex = 0;
             }
         }
     }

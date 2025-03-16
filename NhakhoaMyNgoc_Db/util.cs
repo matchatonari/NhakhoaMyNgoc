@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace NhakhoaMyNgoc_Db
@@ -70,6 +71,13 @@ namespace NhakhoaMyNgoc_Db
         public string Stock_Unit { get; set; }
     };
 
+    public class Stock
+    {
+        public string StockList_Id { get; set; }
+        public string StockList_Alias { get; set; }
+        public string StockList_Address { get; set; }
+    };
+
     public static class Util
     {
         public static void AttachReformatHook(DataGridView dgv)
@@ -90,22 +98,21 @@ namespace NhakhoaMyNgoc_Db
             dgv.CellValueChanged += (sender, e) => {
                 if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
-                var primaryKeyColumn = $"{tableName}_Id";
+                var currentColumn = dgv.Columns[e.ColumnIndex];
+                if (currentColumn.Name.Contains("Total")) return;
 
-                var columnName = dgv.Columns[e.ColumnIndex].Name;
-                var id = dgv.Rows[e.RowIndex].Cells[primaryKeyColumn].Value;
+                var id = dgv.CurrentRow.Cells[$"{tableName}_Id"].Value;
                 var newValue = dgv.CurrentCell.Value;
 
-                if (columnName.Contains("Total")) return;
-
-                if (dgv.Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn)
-                    newValue = ((newValue != DBNull.Value && Convert.ToBoolean(newValue)) ? 1 : 0);
-
-                // ghi đè dữ liệu vào db
-                DataTable result = Database.UpdateRecord(tableName, Convert.ToInt32(id), new Dictionary<string, object>
+                if (id != DBNull.Value)
                 {
-                    { columnName, newValue }
-                });
+                    // Chỉ update hàng cũ
+                    if (dgv.Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn)
+                        newValue = ((newValue != DBNull.Value && Convert.ToBoolean(newValue)) ? 1 : 0);
+                    // ghi đè dữ liệu vào db
+                    DataTable result = Database.UpdateRecord(tableName, Convert.ToInt32(id), new Dictionary<string, object>
+                    { { currentColumn.Name, newValue } });
+                }
             };
         }
 
@@ -118,10 +125,12 @@ namespace NhakhoaMyNgoc_Db
                     {
                         foreach (DataGridViewRow row in dgv.SelectedRows)
                         {
+                            var id = row.Cells[$"{tableName}_Id"].Value;
                             if (deletePermanently)
                             {
-                                var id = Convert.ToInt32(row.Cells[$"{tableName}_Id"].Value);
-                                Database.DeleteRecord(tableName, new List<int> { id });
+                                if (id != DBNull.Value)
+                                    Database.DeleteRecord(tableName, new List<int> { Convert.ToInt32(id) });
+
                                 if (dgv.DataSource is BindingSource bs && row.DataBoundItem is DataRowView drv)
                                     drv.Delete();
                                 else
@@ -135,15 +144,15 @@ namespace NhakhoaMyNgoc_Db
                                 else if (dgv.DataSource is DataTable directTable)
                                     dt = directTable;
 
-                                Database.UpdateRecord(tableName,
-                                    Convert.ToInt32(row.Cells[$"{tableName}_Id"].Value),
-                                    new Dictionary<string, object>
-                                    {
-                                        { $"{tableName}_IsActive", 0 }
-                                    });
+                                if (id != DBNull.Value)
+                                {
+                                    Database.UpdateRecord(tableName,
+                                        Convert.ToInt32(id),
+                                        new Dictionary<string, object> { { $"{tableName}_IsActive", 0 } });
 
-                                DataRow[] selectedRow = dt.Select($"{tableName}_Id = " + row.Cells[$"{tableName}_Id"].Value);
-                                selectedRow[0][$"{tableName}_IsActive"] = 0;
+                                    DataRow[] selectedRow = dt.Select($"{tableName}_Id = " + id);
+                                    selectedRow[0][$"{tableName}_IsActive"] = 0;
+                                }
                             }
                         }
                     }

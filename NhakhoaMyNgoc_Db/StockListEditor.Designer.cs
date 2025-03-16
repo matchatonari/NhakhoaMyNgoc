@@ -30,17 +30,17 @@
         {
             this.components = new System.ComponentModel.Container();
             this.dgv_StockList = new System.Windows.Forms.DataGridView();
-            this.bsStockList = new System.Windows.Forms.BindingSource(this.components);
-            this.cbStockList_IsActive = new System.Windows.Forms.CheckBox();
-            this.cmsStockList = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsi_Restore = new System.Windows.Forms.ToolStripMenuItem();
             this.StockList_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StockList_Alias = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StockList_Address = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cmsStockList = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsi_Restore = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbStockList_IsActive = new System.Windows.Forms.CheckBox();
             this.btnOK = new System.Windows.Forms.Button();
+            this.bsStockList = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_StockList)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bsStockList)).BeginInit();
             this.cmsStockList.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bsStockList)).BeginInit();
             this.SuspendLayout();
             // 
             // dgv_StockList
@@ -57,31 +57,6 @@
             this.dgv_StockList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_StockList.Size = new System.Drawing.Size(746, 428);
             this.dgv_StockList.TabIndex = 2;
-            // 
-            // cbStockList_IsActive
-            // 
-            this.cbStockList_IsActive.AutoSize = true;
-            this.cbStockList_IsActive.Location = new System.Drawing.Point(13, 450);
-            this.cbStockList_IsActive.Name = "cbStockList_IsActive";
-            this.cbStockList_IsActive.Size = new System.Drawing.Size(108, 25);
-            this.cbStockList_IsActive.TabIndex = 3;
-            this.cbStockList_IsActive.Text = "Mục đã xoá";
-            this.cbStockList_IsActive.UseVisualStyleBackColor = true;
-            this.cbStockList_IsActive.CheckedChanged += new System.EventHandler(this.cbStockList_IsActive_CheckedChanged);
-            // 
-            // cmsStockList
-            // 
-            this.cmsStockList.ImageScalingSize = new System.Drawing.Size(17, 17);
-            this.cmsStockList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsi_Restore});
-            this.cmsStockList.Name = "contextMenuStrip1";
-            this.cmsStockList.Size = new System.Drawing.Size(129, 26);
-            // 
-            // tsi_Restore
-            // 
-            this.tsi_Restore.Name = "tsi_Restore";
-            this.tsi_Restore.Size = new System.Drawing.Size(128, 22);
-            this.tsi_Restore.Text = "Khôi phục";
             // 
             // StockList_Id
             // 
@@ -103,6 +78,31 @@
             this.StockList_Address.HeaderText = "Địa chỉ";
             this.StockList_Address.Name = "StockList_Address";
             this.StockList_Address.Width = 500;
+            // 
+            // cmsStockList
+            // 
+            this.cmsStockList.ImageScalingSize = new System.Drawing.Size(17, 17);
+            this.cmsStockList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsi_Restore});
+            this.cmsStockList.Name = "contextMenuStrip1";
+            this.cmsStockList.Size = new System.Drawing.Size(129, 26);
+            // 
+            // tsi_Restore
+            // 
+            this.tsi_Restore.Name = "tsi_Restore";
+            this.tsi_Restore.Size = new System.Drawing.Size(128, 22);
+            this.tsi_Restore.Text = "Khôi phục";
+            // 
+            // cbStockList_IsActive
+            // 
+            this.cbStockList_IsActive.AutoSize = true;
+            this.cbStockList_IsActive.Location = new System.Drawing.Point(13, 450);
+            this.cbStockList_IsActive.Name = "cbStockList_IsActive";
+            this.cbStockList_IsActive.Size = new System.Drawing.Size(108, 25);
+            this.cbStockList_IsActive.TabIndex = 3;
+            this.cbStockList_IsActive.Text = "Mục đã xoá";
+            this.cbStockList_IsActive.UseVisualStyleBackColor = true;
+            this.cbStockList_IsActive.CheckedChanged += new System.EventHandler(this.cbStockList_IsActive_CheckedChanged);
             // 
             // btnOK
             // 
@@ -137,8 +137,8 @@
             this.Text = "Chỉnh sửa danh sách kho";
             this.Load += new System.EventHandler(this.StockListEditor_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_StockList)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bsStockList)).EndInit();
             this.cmsStockList.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.bsStockList)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -146,7 +146,6 @@
 
         #endregion
         private System.Windows.Forms.DataGridView dgv_StockList;
-        private System.Windows.Forms.BindingSource bsStockList;
         private System.Windows.Forms.CheckBox cbStockList_IsActive;
         private System.Windows.Forms.ContextMenuStrip cmsStockList;
         private System.Windows.Forms.ToolStripMenuItem tsi_Restore;
@@ -154,5 +153,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn StockList_Alias;
         private System.Windows.Forms.DataGridViewTextBoxColumn StockList_Address;
         private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.BindingSource bsStockList;
     }
 }

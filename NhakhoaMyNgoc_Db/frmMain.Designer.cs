@@ -29,19 +29,19 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle41 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle43 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle42 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle44 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle45 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle46 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle47 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle48 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle49 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_Main));
             this.cmsCustomer = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsi_Restore = new System.Windows.Forms.ToolStripMenuItem();
@@ -99,6 +99,11 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cbRevisitDate = new System.Windows.Forms.CheckBox();
             this.dgv_Receipt_Content = new System.Windows.Forms.DataGridView();
+            this.ReceiptDetail_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ReceiptDetail_Content = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ReceiptDetail_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ReceiptDetail_Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ReceiptDetail_Discount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnPrintReceipt = new System.Windows.Forms.Button();
             this.btnSaveReceipt = new System.Windows.Forms.Button();
             this.btn_AddReceipt = new System.Windows.Forms.Button();
@@ -123,7 +128,6 @@
             this.StockReceipt_StockId = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.StockReceipt_CertificateId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StockReceipt_Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bsStockReceipts = new System.Windows.Forms.BindingSource(this.components);
             this.panel10 = new System.Windows.Forms.Panel();
             this.btn_SearchStockReceipt = new System.Windows.Forms.Button();
             this.dtpk_Receipt_ToDate = new System.Windows.Forms.DateTimePicker();
@@ -191,11 +195,6 @@
             this.label20 = new System.Windows.Forms.Label();
             this.panel8 = new System.Windows.Forms.Panel();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
-            this.ReceiptDetail_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ReceiptDetail_Content = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ReceiptDetail_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ReceiptDetail_Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ReceiptDetail_Discount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cmsCustomer.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -221,7 +220,6 @@
             this.tabPage6.SuspendLayout();
             this.panel11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_StockReceipt)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bsStockReceipts)).BeginInit();
             this.panel10.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Stock)).BeginInit();
@@ -392,15 +390,15 @@
             this.Receipt_Remaining,
             this.Receipt_RevisitDate,
             this.Receipt_Notes});
-            dataGridViewCellStyle41.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle41.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle41.Font = new System.Drawing.Font("Segoe UI", 11F);
-            dataGridViewCellStyle41.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle41.NullValue = null;
-            dataGridViewCellStyle41.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle41.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle41.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Receipt.DefaultCellStyle = dataGridViewCellStyle41;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 11F);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.NullValue = null;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Receipt.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgv_Receipt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_Receipt.Location = new System.Drawing.Point(3, 3);
             this.dgv_Receipt.Name = "dgv_Receipt";
@@ -441,8 +439,8 @@
             // Receipt_Total
             // 
             this.Receipt_Total.DataPropertyName = "Receipt_Total";
-            dataGridViewCellStyle38.Format = "N0";
-            this.Receipt_Total.DefaultCellStyle = dataGridViewCellStyle38;
+            dataGridViewCellStyle1.Format = "N0";
+            this.Receipt_Total.DefaultCellStyle = dataGridViewCellStyle1;
             this.Receipt_Total.HeaderText = "Tổng cộng";
             this.Receipt_Total.MinimumWidth = 6;
             this.Receipt_Total.Name = "Receipt_Total";
@@ -452,8 +450,8 @@
             // Receipt_Remaining
             // 
             this.Receipt_Remaining.DataPropertyName = "Receipt_Remaining";
-            dataGridViewCellStyle39.Format = "N0";
-            this.Receipt_Remaining.DefaultCellStyle = dataGridViewCellStyle39;
+            dataGridViewCellStyle2.Format = "N0";
+            this.Receipt_Remaining.DefaultCellStyle = dataGridViewCellStyle2;
             this.Receipt_Remaining.HeaderText = "Còn lại";
             this.Receipt_Remaining.MinimumWidth = 6;
             this.Receipt_Remaining.Name = "Receipt_Remaining";
@@ -470,8 +468,8 @@
             // Receipt_Notes
             // 
             this.Receipt_Notes.DataPropertyName = "Receipt_Notes";
-            dataGridViewCellStyle40.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Receipt_Notes.DefaultCellStyle = dataGridViewCellStyle40;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Receipt_Notes.DefaultCellStyle = dataGridViewCellStyle3;
             this.Receipt_Notes.HeaderText = "Ghi chú";
             this.Receipt_Notes.MinimumWidth = 6;
             this.Receipt_Notes.Name = "Receipt_Notes";
@@ -515,15 +513,15 @@
             this.Customer_Phone});
             this.dgv_Customer.ContextMenuStrip = this.cmsCustomer;
             this.dgv_Customer.DataSource = this.bsCustomer;
-            dataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle43.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle43.Font = new System.Drawing.Font("Segoe UI", 11F);
-            dataGridViewCellStyle43.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle43.NullValue = null;
-            dataGridViewCellStyle43.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle43.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle43.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Customer.DefaultCellStyle = dataGridViewCellStyle43;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 11F);
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.NullValue = null;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Customer.DefaultCellStyle = dataGridViewCellStyle6;
             this.dgv_Customer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_Customer.Location = new System.Drawing.Point(0, 0);
             this.dgv_Customer.Name = "dgv_Customer";
@@ -582,8 +580,8 @@
             // Customer_Address
             // 
             this.Customer_Address.DataPropertyName = "Customer_Address";
-            dataGridViewCellStyle42.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Customer_Address.DefaultCellStyle = dataGridViewCellStyle42;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Customer_Address.DefaultCellStyle = dataGridViewCellStyle5;
             this.Customer_Address.FillWeight = 89.23077F;
             this.Customer_Address.HeaderText = "Địa chỉ";
             this.Customer_Address.MinimumWidth = 6;
@@ -841,6 +839,51 @@
             this.dgv_Receipt_Content.TabIndex = 69;
             this.dgv_Receipt_Content.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgv_Receipt_Content_KeyDown);
             // 
+            // ReceiptDetail_Id
+            // 
+            this.ReceiptDetail_Id.DataPropertyName = "ReceiptDetail_Id";
+            this.ReceiptDetail_Id.HeaderText = "ID";
+            this.ReceiptDetail_Id.Name = "ReceiptDetail_Id";
+            this.ReceiptDetail_Id.Visible = false;
+            // 
+            // ReceiptDetail_Content
+            // 
+            this.ReceiptDetail_Content.DataPropertyName = "ReceiptDetail_Content";
+            this.ReceiptDetail_Content.HeaderText = "Nội dung";
+            this.ReceiptDetail_Content.MinimumWidth = 6;
+            this.ReceiptDetail_Content.Name = "ReceiptDetail_Content";
+            this.ReceiptDetail_Content.Width = 300;
+            // 
+            // ReceiptDetail_Price
+            // 
+            this.ReceiptDetail_Price.DataPropertyName = "ReceiptDetail_Price";
+            dataGridViewCellStyle7.Format = "N0";
+            this.ReceiptDetail_Price.DefaultCellStyle = dataGridViewCellStyle7;
+            this.ReceiptDetail_Price.HeaderText = "Đơn giá";
+            this.ReceiptDetail_Price.MinimumWidth = 6;
+            this.ReceiptDetail_Price.Name = "ReceiptDetail_Price";
+            this.ReceiptDetail_Price.Width = 90;
+            // 
+            // ReceiptDetail_Quantity
+            // 
+            this.ReceiptDetail_Quantity.DataPropertyName = "ReceiptDetail_Quantity";
+            dataGridViewCellStyle8.Format = "N0";
+            this.ReceiptDetail_Quantity.DefaultCellStyle = dataGridViewCellStyle8;
+            this.ReceiptDetail_Quantity.HeaderText = "Số lượng";
+            this.ReceiptDetail_Quantity.MinimumWidth = 6;
+            this.ReceiptDetail_Quantity.Name = "ReceiptDetail_Quantity";
+            this.ReceiptDetail_Quantity.Width = 105;
+            // 
+            // ReceiptDetail_Discount
+            // 
+            this.ReceiptDetail_Discount.DataPropertyName = "ReceiptDetail_Discount";
+            dataGridViewCellStyle9.Format = "N0";
+            this.ReceiptDetail_Discount.DefaultCellStyle = dataGridViewCellStyle9;
+            this.ReceiptDetail_Discount.HeaderText = "Giảm giá";
+            this.ReceiptDetail_Discount.MinimumWidth = 6;
+            this.ReceiptDetail_Discount.Name = "ReceiptDetail_Discount";
+            this.ReceiptDetail_Discount.Width = 105;
+            // 
             // btnPrintReceipt
             // 
             this.btnPrintReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.reshot_icon_print_math_sheet_Y8RFCP23N4;
@@ -986,7 +1029,6 @@
             // 
             this.dgv_StockReceipt.AllowUserToAddRows = false;
             this.dgv_StockReceipt.AllowUserToDeleteRows = false;
-            this.dgv_StockReceipt.AutoGenerateColumns = false;
             this.dgv_StockReceipt.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_StockReceipt.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.StockReceipt_Id,
@@ -998,7 +1040,6 @@
             this.StockReceipt_StockId,
             this.StockReceipt_CertificateId,
             this.StockReceipt_Total});
-            this.dgv_StockReceipt.DataSource = this.bsStockReceipts;
             this.dgv_StockReceipt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_StockReceipt.Location = new System.Drawing.Point(0, 0);
             this.dgv_StockReceipt.Name = "dgv_StockReceipt";
@@ -1006,6 +1047,7 @@
             this.dgv_StockReceipt.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_StockReceipt.Size = new System.Drawing.Size(1132, 824);
             this.dgv_StockReceipt.TabIndex = 17;
+            this.dgv_StockReceipt.SelectionChanged += new System.EventHandler(this.dgv_StockReceipt_SelectionChanged);
             // 
             // StockReceipt_Id
             // 
@@ -1186,8 +1228,8 @@
             // Stock_Quantity
             // 
             this.Stock_Quantity.DataPropertyName = "Stock_Quantity";
-            dataGridViewCellStyle31.Format = "N0";
-            this.Stock_Quantity.DefaultCellStyle = dataGridViewCellStyle31;
+            dataGridViewCellStyle10.Format = "N0";
+            this.Stock_Quantity.DefaultCellStyle = dataGridViewCellStyle10;
             this.Stock_Quantity.HeaderText = "SL";
             this.Stock_Quantity.MinimumWidth = 6;
             this.Stock_Quantity.Name = "Stock_Quantity";
@@ -1203,8 +1245,8 @@
             // Stock_Total
             // 
             this.Stock_Total.DataPropertyName = "Stock_Total";
-            dataGridViewCellStyle44.Format = "N0";
-            this.Stock_Total.DefaultCellStyle = dataGridViewCellStyle44;
+            dataGridViewCellStyle11.Format = "N0";
+            this.Stock_Total.DefaultCellStyle = dataGridViewCellStyle11;
             this.Stock_Total.HeaderText = "Tổng";
             this.Stock_Total.MinimumWidth = 6;
             this.Stock_Total.Name = "Stock_Total";
@@ -1377,8 +1419,8 @@
             // 
             // StockReceiptDetail_Price
             // 
-            dataGridViewCellStyle45.Format = "N0";
-            this.StockReceiptDetail_Price.DefaultCellStyle = dataGridViewCellStyle45;
+            dataGridViewCellStyle12.Format = "N0";
+            this.StockReceiptDetail_Price.DefaultCellStyle = dataGridViewCellStyle12;
             this.StockReceiptDetail_Price.HeaderText = "Đơn giá";
             this.StockReceiptDetail_Price.MinimumWidth = 6;
             this.StockReceiptDetail_Price.Name = "StockReceiptDetail_Price";
@@ -1386,8 +1428,8 @@
             // 
             // StockReceiptDetail_Quantity
             // 
-            dataGridViewCellStyle46.Format = "N0";
-            this.StockReceiptDetail_Quantity.DefaultCellStyle = dataGridViewCellStyle46;
+            dataGridViewCellStyle13.Format = "N0";
+            this.StockReceiptDetail_Quantity.DefaultCellStyle = dataGridViewCellStyle13;
             this.StockReceiptDetail_Quantity.HeaderText = "Y.cầu";
             this.StockReceiptDetail_Quantity.MinimumWidth = 6;
             this.StockReceiptDetail_Quantity.Name = "StockReceiptDetail_Quantity";
@@ -1723,51 +1765,6 @@
             this.dataGridView3.Size = new System.Drawing.Size(632, 878);
             this.dataGridView3.TabIndex = 36;
             // 
-            // ReceiptDetail_Id
-            // 
-            this.ReceiptDetail_Id.DataPropertyName = "ReceiptDetail_Id";
-            this.ReceiptDetail_Id.HeaderText = "ID";
-            this.ReceiptDetail_Id.Name = "ReceiptDetail_Id";
-            this.ReceiptDetail_Id.Visible = false;
-            // 
-            // ReceiptDetail_Content
-            // 
-            this.ReceiptDetail_Content.DataPropertyName = "ReceiptDetail_Content";
-            this.ReceiptDetail_Content.HeaderText = "Nội dung";
-            this.ReceiptDetail_Content.MinimumWidth = 6;
-            this.ReceiptDetail_Content.Name = "ReceiptDetail_Content";
-            this.ReceiptDetail_Content.Width = 300;
-            // 
-            // ReceiptDetail_Price
-            // 
-            this.ReceiptDetail_Price.DataPropertyName = "ReceiptDetail_Price";
-            dataGridViewCellStyle47.Format = "N0";
-            this.ReceiptDetail_Price.DefaultCellStyle = dataGridViewCellStyle47;
-            this.ReceiptDetail_Price.HeaderText = "Đơn giá";
-            this.ReceiptDetail_Price.MinimumWidth = 6;
-            this.ReceiptDetail_Price.Name = "ReceiptDetail_Price";
-            this.ReceiptDetail_Price.Width = 90;
-            // 
-            // ReceiptDetail_Quantity
-            // 
-            this.ReceiptDetail_Quantity.DataPropertyName = "ReceiptDetail_Quantity";
-            dataGridViewCellStyle48.Format = "N0";
-            this.ReceiptDetail_Quantity.DefaultCellStyle = dataGridViewCellStyle48;
-            this.ReceiptDetail_Quantity.HeaderText = "Số lượng";
-            this.ReceiptDetail_Quantity.MinimumWidth = 6;
-            this.ReceiptDetail_Quantity.Name = "ReceiptDetail_Quantity";
-            this.ReceiptDetail_Quantity.Width = 105;
-            // 
-            // ReceiptDetail_Discount
-            // 
-            this.ReceiptDetail_Discount.DataPropertyName = "ReceiptDetail_Discount";
-            dataGridViewCellStyle49.Format = "N0";
-            this.ReceiptDetail_Discount.DefaultCellStyle = dataGridViewCellStyle49;
-            this.ReceiptDetail_Discount.HeaderText = "Giảm giá";
-            this.ReceiptDetail_Discount.MinimumWidth = 6;
-            this.ReceiptDetail_Discount.Name = "ReceiptDetail_Discount";
-            this.ReceiptDetail_Discount.Width = 105;
-            // 
             // frm_Main
             // 
             this.AcceptButton = this.btn_SearchReceipt;
@@ -1813,7 +1810,6 @@
             this.tabPage6.ResumeLayout(false);
             this.panel11.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_StockReceipt)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bsStockReceipts)).EndInit();
             this.panel10.ResumeLayout(false);
             this.panel10.PerformLayout();
             this.tabPage7.ResumeLayout(false);
@@ -1950,7 +1946,6 @@
         private System.Windows.Forms.Panel panel8;
         private System.Windows.Forms.DataGridView dataGridView3;
         private System.Windows.Forms.BindingSource bsStock;
-        private System.Windows.Forms.BindingSource bsStockReceipts;
         private System.Windows.Forms.BindingSource bsCustomer;
         private System.Windows.Forms.DataGridViewTextBoxColumn Customer_Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn Customer_FullName;

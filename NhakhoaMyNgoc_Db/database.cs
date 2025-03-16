@@ -53,14 +53,12 @@ namespace NhakhoaMyNgoc_Db
                 typeof(T).GetProperties()
                 .Where(p => !p.Name.Contains("_Id"))  // Lọc bỏ cột chứa "_Id"
                 .Select(p => p.Name));
-
             string parameterList = string.Join(", ",
                 typeof(T).GetProperties().
                 Where(p => !p.Name.Contains("_Id")).
                 Select(p => $"@{p.Name}"));
 
             string sql = $"INSERT INTO {tableName} ({columnList}) VALUES ({parameterList}) RETURNING {tableName}_Id;";
-
             using (var command = new SQLiteCommand(sql, connection))
             {
                 foreach (var property in typeof(T).GetProperties())
@@ -68,7 +66,6 @@ namespace NhakhoaMyNgoc_Db
                     string parameterName = $"@{property.Name}";
 
                     var value = property.GetValue(record) ?? DBNull.Value;
-
                     if (value is DateTime dateTimeValue)
                     {
                         if ((typeof(T) == typeof(Receipt) && parameterName != "RevisitDate") || (typeof(T) == typeof(StockReceipt)))
@@ -76,13 +73,24 @@ namespace NhakhoaMyNgoc_Db
                         else if (typeof(T) == typeof(Customer) || (typeof(T) == typeof(Receipt) && parameterName == "RevisitDate"))
                             value = dateTimeValue.ToString("yyyy-MM-dd");
                     }
-
                     if (value == null)
                         value = DBNull.Value;
 
                     command.Parameters.AddWithValue(parameterName, value);
-                }
-                
+                }    
+                object lastId = command.ExecuteScalar();
+                return Convert.ToInt32(lastId);
+            }
+        }
+
+        public static int AddRecord(string tableName, params object[] values) {
+            string parameterList = string.Join(", ", Enumerable.Range(1, values.Length).Select(i => $"@object{i}"));
+            string sql = $"INSERT INTO {tableName} VALUES ({parameterList}) RETURNING {tableName}_Id;";
+            using (var command = new SQLiteCommand(sql, connection))
+            {
+                for (int i = 0; i < values.Length; i++)
+                    command.Parameters.AddWithValue($"@object{i}", values[i]);
+
                 object lastId = command.ExecuteScalar();
                 return Convert.ToInt32(lastId);
             }
@@ -181,7 +189,7 @@ namespace NhakhoaMyNgoc_Db
                             opResult = "="; break;
                         case QueryOperator.COLLATE:
                             opResult = "=";
-                            extraCommand = "COLLATE NOCASE"; // Vietnamese (Case Insensitive) (Accent Sensitive)
+                            extraCommand = "COLLATE NOCASE";
                             break;
                         case QueryOperator.LIKE:
                             opResult = "LIKE"; break;
