@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Windows.Forms;
 
 namespace NhakhoaMyNgoc_Db
@@ -40,6 +41,12 @@ namespace NhakhoaMyNgoc_Db
     {
         public int StockReceipt_Id { get; set; }
         public DateTime StockReceipt_Date { get; set; }
+        public bool StockReceipt_IsInput { get; set; }
+        public string StockReceipt_Correspondent { get; set; }
+        public string StockReceipt_Division { get; set; }
+        public string StockReceipt_Reason { get; set; }
+        public int StockReceipt_StockId { get; set; }
+        public string StockReceipt_CertificateId { get; set; }
         public int StockReceipt_Total { get; set; } = 0;
     };
 
@@ -49,6 +56,8 @@ namespace NhakhoaMyNgoc_Db
         public int StockReceiptDetail_ReceiptId { get; set; }
         public int StockReceiptDetail_ItemId { get; set; }
         public int StockReceiptDetail_Quantity { get; set; }
+        public string StockReceiptDetail_Unit { get; set; }
+        public int StockReceiptDetail_Demand { get; set; }
         public int StockReceiptDetail_Price { get; set; }
     };
 
@@ -58,6 +67,7 @@ namespace NhakhoaMyNgoc_Db
         public string Stock_Name { get; set; }
         public int Stock_Quantity { get; set; } = 0;
         public int Stock_Total { get; set; } = 0;
+        public string Stock_Unit { get; set; }
     };
 
     public static class Util
@@ -80,7 +90,7 @@ namespace NhakhoaMyNgoc_Db
             dgv.CellValueChanged += (sender, e) => {
                 if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
-                var primaryKeyColumn = tableName + "_Id";
+                var primaryKeyColumn = $"{tableName}_Id";
 
                 var columnName = dgv.Columns[e.ColumnIndex].Name;
                 var id = dgv.Rows[e.RowIndex].Cells[primaryKeyColumn].Value;
@@ -96,12 +106,66 @@ namespace NhakhoaMyNgoc_Db
                 {
                     { columnName, newValue }
                 });
-                DataRow updatedRow = result.Rows[0];
-                // vẽ lại UI
-                foreach (DataColumn column in updatedRow.Table.Columns)
-                    if (dgv.Columns.Contains(column.ColumnName))
-                        dgv.Rows[e.RowIndex].Cells[column.ColumnName].Value = updatedRow[column];
             };
+        }
+
+        public static void AttachDeleteHook(DataGridView dgv, string tableName, bool deletePermanently = false)
+        {
+            dgv.KeyDown += (sender, e) => {
+                if (e.KeyCode == Keys.Delete)
+                {
+                    if (MessageBox.Show("Bạn có chắc muốn xoá?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        foreach (DataGridViewRow row in dgv.SelectedRows)
+                        {
+                            if (deletePermanently)
+                            {
+                                var id = Convert.ToInt32(row.Cells[$"{tableName}_Id"].Value);
+                                Database.DeleteRecord(tableName, new List<int> { id });
+                                if (dgv.DataSource is BindingSource bs && row.DataBoundItem is DataRowView drv)
+                                    drv.Delete();
+                                else
+                                    dgv.Rows.Remove(row);
+                            }
+                            else
+                            {
+                                DataTable dt = new DataTable();
+                                if (dgv.DataSource is BindingSource bs && bs.DataSource is DataTable table)
+                                    dt = table;
+                                else if (dgv.DataSource is DataTable directTable)
+                                    dt = directTable;
+
+                                Database.UpdateRecord(tableName,
+                                    Convert.ToInt32(row.Cells[$"{tableName}_Id"].Value),
+                                    new Dictionary<string, object>
+                                    {
+                                        { $"{tableName}_IsActive", 0 }
+                                    });
+
+                                DataRow[] selectedRow = dt.Select($"{tableName}_Id = " + row.Cells[$"{tableName}_Id"].Value);
+                                selectedRow[0][$"{tableName}_IsActive"] = 0;
+                            }
+                        }
+                    }
+                }
+            };
+        }
+
+        public static void AttachRestoreHook(DataGridView dgv, string tableName)
+        {
+            DataTable dt = (DataTable)((BindingSource)dgv.DataSource).DataSource;
+            foreach (DataGridViewRow row in dgv.SelectedRows)
+            {
+                Database.UpdateRecord(tableName,
+                    Convert.ToInt32(row.Cells[$"{tableName}_Id"].Value),
+                    new Dictionary<string, object>
+                {
+                    { $"{tableName}_IsActive", 1 }
+                });
+
+                DataRow[] selectedRow = dt.Select($"{tableName}_Id = " + row.Cells[$"{tableName}_Id"].Value);
+                selectedRow[0][$"{tableName}_IsActive"] = 1;
+            }
         }
 
         public static void DismissDirtyState(DataGridView dgv) {
@@ -120,7 +184,8 @@ namespace NhakhoaMyNgoc_Db
             foreach (var prop in properties)
             {
                 if (row.DataGridView.Columns.Contains(prop.Name) &&
-                    row.Cells[prop.Name] != null)
+                    row.Cells[prop.Name].Value != null &&
+                    row.Cells[prop.Name].Value != DBNull.Value)
                 {
                     object value = row.Cells[prop.Name].Value;
                     prop.SetValue(obj, Convert.ChangeType(value, prop.PropertyType));
@@ -128,5 +193,11 @@ namespace NhakhoaMyNgoc_Db
             }
             return obj;
         }
+    }
+
+    public abstract class PrintablePaper
+    {
+        public abstract string GetResultPath();
+        public abstract void Render();
     }
 }

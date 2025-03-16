@@ -82,7 +82,7 @@
             this.Controls.Add(this.pnlClock);
             this.Controls.Add(this.dtpkTime);
             this.Controls.Add(this.mcCalendar);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "DateTimePickerDialog";

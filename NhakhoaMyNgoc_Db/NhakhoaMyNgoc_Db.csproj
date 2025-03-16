@@ -155,6 +155,7 @@
     <Compile Include="frmUpdate.Designer.cs">
       <DependentUpon>frmUpdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Invoice.cs" />
     <Compile Include="PrintDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -163,12 +164,19 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StockListEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StockListEditor.Designer.cs">
+      <DependentUpon>StockListEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="util.cs" />
     <EmbeddedResource Include="DateTimePickerDialog.resx">
       <DependentUpon>DateTimePickerDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="frmUpdate.resx">
       <DependentUpon>frmUpdate.cs</DependentUpon>
@@ -186,6 +194,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="StockListEditor.resx">
+      <DependentUpon>StockListEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -199,6 +210,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\TRASH.png" />
     <None Include="Resources\reshot-icon-print-math-sheet-Y8RFCP23N4.png" />
     <None Include="Resources\ADD.png" />
     <None Include="Resources\CROSS1.png" />

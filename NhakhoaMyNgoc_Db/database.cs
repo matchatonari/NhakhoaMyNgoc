@@ -10,9 +10,17 @@ using System.Windows.Forms;
 
 namespace NhakhoaMyNgoc_Db
 {
+    public enum QueryOperator
+    {
+        EQUALS,
+        LIKE,
+        BETWEEN,
+        COLLATE
+    }
+
     public class Database
     {
-        static string databaseFile = Path.Combine(Application.StartupPath, "res", "database.db");
+        private static readonly string databaseFile = Path.Combine(Application.StartupPath, "res", "database.db");
         static SQLiteConnection connection;
 
         public static void Initialize() {
@@ -25,10 +33,10 @@ namespace NhakhoaMyNgoc_Db
         /// </summary>
         /// <param name="tableName">Tên bảng</param>
         /// <returns></returns>
-        public static int GetNextId(string tableName)
+        public static int GetId(string tableName)
         {
             DataTable result = Query("sqlite_sequence", new List<string> { "seq" },
-                                     new Dictionary<string, (bool, object)> { { "name", (false, tableName) } });
+                                     new Dictionary<string, (QueryOperator, object)> { { "name", (QueryOperator.EQUALS, tableName) } });
 
             return result.Rows.Count > 0 ? Convert.ToInt32(result.Rows[0]["seq"]) + 1 : 1;
         }
@@ -51,7 +59,7 @@ namespace NhakhoaMyNgoc_Db
                 Where(p => !p.Name.Contains("_Id")).
                 Select(p => $"@{p.Name}"));
 
-            string sql = $"INSERT INTO {tableName} ({columnList}) VALUES ({parameterList}) RETURNING {tableName + "_Id"};";
+            string sql = $"INSERT INTO {tableName} ({columnList}) VALUES ({parameterList}) RETURNING {tableName}_Id;";
 
             using (var command = new SQLiteCommand(sql, connection))
             {
@@ -93,7 +101,7 @@ namespace NhakhoaMyNgoc_Db
             
             string editExpr = string.Join(", ", edits.Keys.Select(k => $"{k} = @{k}"));
 
-            string sql = $"UPDATE {tableName} SET {editExpr} WHERE {tableName + "_Id"} = @PrimaryKey RETURNING *";
+            string sql = $"UPDATE {tableName} SET {editExpr} WHERE {tableName}_Id = @PrimaryKey RETURNING *";
             using (SQLiteCommand command = new SQLiteCommand(sql, connection))
             {
                 command.Parameters.AddWithValue("@PrimaryKey", primaryValue);
@@ -144,9 +152,9 @@ namespace NhakhoaMyNgoc_Db
         /// </summary>
         /// <param name="tableName">Khách hàng</param>
         /// <param name="conditions">Map chứa key là tên cột, value là (bool, object) với object là giá trị tìm,
-        ///     bool = false nếu dùng toán tử '=' để so sánh, = true nếu dùng toán tử LIKE.</param>
+        ///     QueryOperator là toán tử sử dụng theo enum.</param>
         /// <returns>DataTable chứa kết quả truy vấn.</returns>
-        public static DataTable Query(string tableName, List<string> queryProperties = null, Dictionary<string, (bool, object)> conditions = null)
+        public static DataTable Query(string tableName, List<string> queryProperties = null, Dictionary<string, (QueryOperator, object)> conditions = null)
         {
             DataTable result = new DataTable();
             var tokens = new List<string>();
@@ -164,6 +172,23 @@ namespace NhakhoaMyNgoc_Db
 
                     if (value == null || value.ToString() == string.Empty) continue;
 
+                    string opResult = string.Empty;
+                    string extraCommand = string.Empty;
+
+                    switch (op)
+                    {
+                        case QueryOperator.EQUALS:
+                            opResult = "="; break;
+                        case QueryOperator.COLLATE:
+                            opResult = "=";
+                            extraCommand = "COLLATE NOCASE"; // Vietnamese (Case Insensitive) (Accent Sensitive)
+                            break;
+                        case QueryOperator.LIKE:
+                            opResult = "LIKE"; break;
+                        case QueryOperator.BETWEEN:
+                            opResult = "BETWEEN"; break;
+                    }
+
                     if (value is IEnumerable enumerable && !(value is string))
                     {
                         // OR condition (dùng nhiều tham số)
@@ -172,18 +197,24 @@ namespace NhakhoaMyNgoc_Db
                         foreach (object item in enumerable)
                         {
                             string paramName = $"@param{paramIndex++}";
-                            orTokens.Add($"{key} {(op ? "LIKE" : "=")} {paramName}");
-                            parameters.Add(new SQLiteParameter(paramName, op ? $"%{item}%" : item));
+                            orTokens.Add($"{key} {extraCommand} {opResult} {paramName}");
+                            parameters.Add(new SQLiteParameter(paramName, (op == QueryOperator.LIKE) ? $"%{item}%" : item));
                         }
 
                         tokens.Add($"({string.Join(" OR ", orTokens)})");
+                    }
+                    else if (value is ValueTuple<DateTime, DateTime> tuple)
+                    {
+                        tokens.Add($"{key} BETWEEN @Item1 AND @Item2");
+                        parameters.Add(new SQLiteParameter("@Item1", tuple.Item1));
+                        parameters.Add(new SQLiteParameter("@Item2", tuple.Item2));
                     }
                     else
                     {
                         // Single value condition
                         string paramName = $"@param{paramIndex++}";
-                        tokens.Add($"{key} {(op ? "LIKE" : "=")} {paramName}");
-                        parameters.Add(new SQLiteParameter(paramName, op ? $"%{value}%" : value));
+                        tokens.Add($"{key} {extraCommand} {opResult} {paramName}");
+                        parameters.Add(new SQLiteParameter(paramName, (op == QueryOperator.LIKE) ? $"%{value}%" : value));
                     }
                 }
             }
@@ -212,75 +243,16 @@ namespace NhakhoaMyNgoc_Db
         /// <returns>Bảng các đơn hàng của khách hàng.</returns>
         public static DataTable GetReceipts(Customer customer)
         {
-            DataTable customers = Query("Customer", null, new Dictionary<string, (bool, object)>
+            DataTable customers = Query("Customer", null, new Dictionary<string, (QueryOperator, object)>
             {
-                { "Customer_FullName", (true, customer.Customer_FullName) },
-                { "Customer_CitizenId", (false, customer.Customer_CitizenId) },
-                { "Customer_Address", (true, customer.Customer_Address) },
-                { "Customer_Phone", (false, customer.Customer_Phone) }
+                { "Customer_FullName", (QueryOperator.LIKE, customer.Customer_FullName) },
+                { "Customer_CitizenId", (QueryOperator.EQUALS, customer.Customer_CitizenId) },
+                { "Customer_Address", (QueryOperator.LIKE, customer.Customer_Address) },
+                { "Customer_Phone", (QueryOperator.EQUALS, customer.Customer_Phone) }
             });
 
             DataRow bestResult = customers.Rows[0];
-            return Query("Receipt", null, new Dictionary<string, (bool, object)> { { "Receipt_CustomerId", (false, bestResult["Customer_Id"]) } });
-        }
-        /// <summary>
-        /// Lấy dữ liệu kho hàng.
-        /// </summary>
-        /// <param name="showHidden">Có hiện những vật phẩm đã xoá không?</param>
-        /// <returns>Bảng kho.</returns>
-        public static DataTable GetStock(bool showHidden = false)
-        {
-            return Database.Query("Stock", null, 
-                new Dictionary<string, (bool, object)> { { "Stock_IsActive", (true, 1) } });
-        }
-
-        /// <summary>
-        /// Tìm đơn nhập theo thời gian
-        /// </summary>
-        /// <param name="from">Mốc thời gian đầu tiên</param>
-        /// <param name="to">Mốc thời gian thứ hai</param>
-        /// <returns>Bảng đơn nhập theo thời gian.</returns>
-        public static DataTable GetInputReceiptsBetween(DateTime from, DateTime to)
-        {
-            string sql = @"
-                SELECT StockReceiptDetail.* 
-                FROM StockReceiptDetail 
-                JOIN StockReceipt 
-                ON StockReceiptDetail.StockReceiptDetail_ReceiptID = StockReceipt.StockReceipt_Id 
-                WHERE DATE(StockReceipt.StockReceipt_Date) BETWEEN @StartDate AND @EndDate";
-
-            DataTable dataTable = new DataTable();
-
-            using (var command = new SQLiteCommand(sql, connection))
-            {
-                command.Parameters.AddWithValue("@StartDate", from.ToString("yyyy-MM-dd"));
-                command.Parameters.AddWithValue("@EndDate", to.ToString("yyyy-MM-dd"));
-
-                SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
-                adapter.Fill(dataTable);
-            }
-
-            // Chế biến datatable
-            dataTable.Columns.Add("_StockReceiptDetail_Input", typeof(bool)).SetOrdinal(1);
-            dataTable.Columns.Add("_StockReceiptDetail_Date", typeof(DateTime)).SetOrdinal(1);
-            foreach (DataRow row in dataTable.Rows)
-            {
-                var quantity = Convert.ToInt32(row["StockReceiptDetail_Quantity"]);
-                var total = Convert.ToInt32(row["StockReceiptDetail_Total"]);
-
-                row["_StockReceiptDetail_Date"] = Query(
-                    "StockReceipt",
-                    new List<string> { "StockReceipt_Date" },
-                    new Dictionary<string, (bool, object)> {
-                        { "StockReceipt_Id", (false, row["StockReceiptDetail_ReceiptID"]) }
-                    }
-                ).Rows[0]["StockReceipt_Date"];
-
-                row["_StockReceiptDetail_Input"] = (quantity > 0);
-                row["StockReceiptDetail_Quantity"] = Math.Abs(quantity);
-                row["StockReceiptDetail_Total"] = Math.Abs(total);
-            }
-            return dataTable;
+            return Query("Receipt", null, new Dictionary<string, (QueryOperator, object)> { { "Receipt_CustomerId", (QueryOperator.EQUALS, bestResult["Customer_Id"]) } });
         }
     }
 }
