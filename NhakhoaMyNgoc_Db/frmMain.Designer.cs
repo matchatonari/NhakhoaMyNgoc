@@ -157,11 +157,6 @@
             this.rb_Output = new System.Windows.Forms.RadioButton();
             this.rb_Input = new System.Windows.Forms.RadioButton();
             this.dgv_StockReceipt_Content = new System.Windows.Forms.DataGridView();
-            this.StockReceiptDetail_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StockReceiptDetail_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StockReceiptDetail_Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StockReceiptDetail_Demand = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StockReceiptDetail_Unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label7 = new System.Windows.Forms.Label();
             this.btn_AddStockReceipt = new System.Windows.Forms.Button();
             this.dtpkStockReceipt_Date = new System.Windows.Forms.DateTimePicker();
@@ -195,6 +190,13 @@
             this.label20 = new System.Windows.Forms.Label();
             this.panel8 = new System.Windows.Forms.Panel();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.StockReceiptDetail_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StockReceiptDetail_ItemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StockReceiptDetail_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StockReceiptDetail_Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StockReceiptDetail_Demand = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StockReceiptDetail_Unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnSaveStockReceipt = new System.Windows.Forms.Button();
             this.cmsCustomer.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -837,7 +839,6 @@
             this.dgv_Receipt_Content.RowHeadersWidth = 43;
             this.dgv_Receipt_Content.Size = new System.Drawing.Size(650, 355);
             this.dgv_Receipt_Content.TabIndex = 69;
-            this.dgv_Receipt_Content.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgv_Receipt_Content_KeyDown);
             // 
             // ReceiptDetail_Id
             // 
@@ -1002,7 +1003,6 @@
             this.tbcIO.SelectedIndex = 0;
             this.tbcIO.Size = new System.Drawing.Size(1146, 910);
             this.tbcIO.TabIndex = 0;
-            this.tbcIO.SelectedIndexChanged += new System.EventHandler(this.tbcIO_SelectedIndexChanged);
             // 
             // tabPage6
             // 
@@ -1139,7 +1139,6 @@
             this.btn_SearchStockReceipt.Size = new System.Drawing.Size(37, 40);
             this.btn_SearchStockReceipt.TabIndex = 30;
             this.btn_SearchStockReceipt.UseVisualStyleBackColor = true;
-            this.btn_SearchStockReceipt.Click += new System.EventHandler(this.btn_SearchStockReceipt_Click);
             // 
             // dtpk_Receipt_ToDate
             // 
@@ -1180,10 +1179,10 @@
             // tabPage7
             // 
             this.tabPage7.Controls.Add(this.dgv_Stock);
-            this.tabPage7.Location = new System.Drawing.Point(4, 22);
+            this.tabPage7.Location = new System.Drawing.Point(4, 29);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(1138, 884);
+            this.tabPage7.Size = new System.Drawing.Size(1138, 877);
             this.tabPage7.TabIndex = 1;
             this.tabPage7.Text = "Tồn kho";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -1205,7 +1204,7 @@
             this.dgv_Stock.Name = "dgv_Stock";
             this.dgv_Stock.RowHeadersWidth = 43;
             this.dgv_Stock.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_Stock.Size = new System.Drawing.Size(1132, 878);
+            this.dgv_Stock.Size = new System.Drawing.Size(1132, 871);
             this.dgv_Stock.TabIndex = 17;
             // 
             // Stock_Id
@@ -1255,6 +1254,7 @@
             // 
             // panel6
             // 
+            this.panel6.Controls.Add(this.btnSaveStockReceipt);
             this.panel6.Controls.Add(this.btnEditStockList);
             this.panel6.Controls.Add(this.cboStockReceipt_StockId);
             this.panel6.Controls.Add(this.txtStockReceipt_Division);
@@ -1398,7 +1398,8 @@
             // 
             this.dgv_StockReceipt_Content.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_StockReceipt_Content.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.StockReceiptDetail_Name,
+            this.StockReceiptDetail_Id,
+            this.StockReceiptDetail_ItemName,
             this.StockReceiptDetail_Price,
             this.StockReceiptDetail_Quantity,
             this.StockReceiptDetail_Demand,
@@ -1408,45 +1409,6 @@
             this.dgv_StockReceipt_Content.RowHeadersWidth = 43;
             this.dgv_StockReceipt_Content.Size = new System.Drawing.Size(577, 355);
             this.dgv_StockReceipt_Content.TabIndex = 71;
-            // 
-            // StockReceiptDetail_Name
-            // 
-            this.StockReceiptDetail_Name.HeaderText = "Tên vật liệu";
-            this.StockReceiptDetail_Name.MinimumWidth = 6;
-            this.StockReceiptDetail_Name.Name = "StockReceiptDetail_Name";
-            this.StockReceiptDetail_Name.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.StockReceiptDetail_Name.Width = 250;
-            // 
-            // StockReceiptDetail_Price
-            // 
-            dataGridViewCellStyle12.Format = "N0";
-            this.StockReceiptDetail_Price.DefaultCellStyle = dataGridViewCellStyle12;
-            this.StockReceiptDetail_Price.HeaderText = "Đơn giá";
-            this.StockReceiptDetail_Price.MinimumWidth = 6;
-            this.StockReceiptDetail_Price.Name = "StockReceiptDetail_Price";
-            this.StockReceiptDetail_Price.Width = 90;
-            // 
-            // StockReceiptDetail_Quantity
-            // 
-            dataGridViewCellStyle13.Format = "N0";
-            this.StockReceiptDetail_Quantity.DefaultCellStyle = dataGridViewCellStyle13;
-            this.StockReceiptDetail_Quantity.HeaderText = "Y.cầu";
-            this.StockReceiptDetail_Quantity.MinimumWidth = 6;
-            this.StockReceiptDetail_Quantity.Name = "StockReceiptDetail_Quantity";
-            this.StockReceiptDetail_Quantity.Width = 50;
-            // 
-            // StockReceiptDetail_Demand
-            // 
-            this.StockReceiptDetail_Demand.HeaderText = "T.tế";
-            this.StockReceiptDetail_Demand.Name = "StockReceiptDetail_Demand";
-            this.StockReceiptDetail_Demand.Width = 50;
-            // 
-            // StockReceiptDetail_Unit
-            // 
-            this.StockReceiptDetail_Unit.DataPropertyName = "StockReceiptDetail_Unit";
-            this.StockReceiptDetail_Unit.HeaderText = "Đ.vị tính";
-            this.StockReceiptDetail_Unit.Name = "StockReceiptDetail_Unit";
-            this.StockReceiptDetail_Unit.Width = 70;
             // 
             // label7
             // 
@@ -1459,7 +1421,7 @@
             // 
             // btn_AddStockReceipt
             // 
-            this.btn_AddStockReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.CHECK;
+            this.btn_AddStockReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.ADD;
             this.btn_AddStockReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_AddStockReceipt.Location = new System.Drawing.Point(706, 611);
             this.btn_AddStockReceipt.Name = "btn_AddStockReceipt";
@@ -1765,6 +1727,67 @@
             this.dataGridView3.Size = new System.Drawing.Size(632, 878);
             this.dataGridView3.TabIndex = 36;
             // 
+            // StockReceiptDetail_Id
+            // 
+            this.StockReceiptDetail_Id.DataPropertyName = "StockReceiptDetail_Id";
+            this.StockReceiptDetail_Id.HeaderText = "ID";
+            this.StockReceiptDetail_Id.Name = "StockReceiptDetail_Id";
+            this.StockReceiptDetail_Id.Visible = false;
+            // 
+            // StockReceiptDetail_ItemName
+            // 
+            this.StockReceiptDetail_ItemName.DataPropertyName = "StockReceiptDetail_ItemName";
+            this.StockReceiptDetail_ItemName.HeaderText = "Tên vật liệu";
+            this.StockReceiptDetail_ItemName.MinimumWidth = 6;
+            this.StockReceiptDetail_ItemName.Name = "StockReceiptDetail_ItemName";
+            this.StockReceiptDetail_ItemName.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.StockReceiptDetail_ItemName.Width = 250;
+            // 
+            // StockReceiptDetail_Price
+            // 
+            this.StockReceiptDetail_Price.DataPropertyName = "StockReceiptDetail_Price";
+            dataGridViewCellStyle12.Format = "N0";
+            this.StockReceiptDetail_Price.DefaultCellStyle = dataGridViewCellStyle12;
+            this.StockReceiptDetail_Price.HeaderText = "Đơn giá";
+            this.StockReceiptDetail_Price.MinimumWidth = 6;
+            this.StockReceiptDetail_Price.Name = "StockReceiptDetail_Price";
+            this.StockReceiptDetail_Price.Width = 90;
+            // 
+            // StockReceiptDetail_Quantity
+            // 
+            this.StockReceiptDetail_Quantity.DataPropertyName = "StockReceiptDetail_Quantity";
+            dataGridViewCellStyle13.Format = "N0";
+            this.StockReceiptDetail_Quantity.DefaultCellStyle = dataGridViewCellStyle13;
+            this.StockReceiptDetail_Quantity.HeaderText = "Y.cầu";
+            this.StockReceiptDetail_Quantity.MinimumWidth = 6;
+            this.StockReceiptDetail_Quantity.Name = "StockReceiptDetail_Quantity";
+            this.StockReceiptDetail_Quantity.Width = 50;
+            // 
+            // StockReceiptDetail_Demand
+            // 
+            this.StockReceiptDetail_Demand.DataPropertyName = "StockReceiptDetail_Demand";
+            this.StockReceiptDetail_Demand.HeaderText = "T.tế";
+            this.StockReceiptDetail_Demand.Name = "StockReceiptDetail_Demand";
+            this.StockReceiptDetail_Demand.Width = 50;
+            // 
+            // StockReceiptDetail_Unit
+            // 
+            this.StockReceiptDetail_Unit.DataPropertyName = "StockReceiptDetail_Unit";
+            this.StockReceiptDetail_Unit.HeaderText = "Đ.vị tính";
+            this.StockReceiptDetail_Unit.Name = "StockReceiptDetail_Unit";
+            this.StockReceiptDetail_Unit.Width = 70;
+            // 
+            // btnSaveStockReceipt
+            // 
+            this.btnSaveStockReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.CHECK;
+            this.btnSaveStockReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSaveStockReceipt.Location = new System.Drawing.Point(660, 611);
+            this.btnSaveStockReceipt.Name = "btnSaveStockReceipt";
+            this.btnSaveStockReceipt.Size = new System.Drawing.Size(40, 40);
+            this.btnSaveStockReceipt.TabIndex = 77;
+            this.btnSaveStockReceipt.UseVisualStyleBackColor = true;
+            this.btnSaveStockReceipt.Click += new System.EventHandler(this.btnSaveStockReceipt_Click);
+            // 
             // frm_Main
             // 
             this.AcceptButton = this.btn_SearchReceipt;
@@ -1980,11 +2003,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Stock_Quantity;
         private System.Windows.Forms.DataGridViewTextBoxColumn Stock_Unit;
         private System.Windows.Forms.DataGridViewTextBoxColumn Stock_Total;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceiptDetail_Name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceiptDetail_Price;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceiptDetail_Quantity;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceiptDetail_Demand;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceiptDetail_Unit;
         private System.Windows.Forms.DataGridViewTextBoxColumn StockReceipt_Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn StockReceipt_Date;
         private System.Windows.Forms.DataGridViewCheckBoxColumn StockReceipt_IsInput;
@@ -1999,6 +2017,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ReceiptDetail_Price;
         private System.Windows.Forms.DataGridViewTextBoxColumn ReceiptDetail_Quantity;
         private System.Windows.Forms.DataGridViewTextBoxColumn ReceiptDetail_Discount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceiptDetail_Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceiptDetail_ItemName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceiptDetail_Price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceiptDetail_Quantity;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceiptDetail_Demand;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceiptDetail_Unit;
+        private System.Windows.Forms.Button btnSaveStockReceipt;
     }
 }
 

@@ -27,20 +27,6 @@ namespace NhakhoaMyNgoc_Db
             connection = new SQLiteConnection($"Data Source={databaseFile};Version=3;");
             connection.Open();
         }
-
-        /// <summary>
-        /// Lấy số hàng của bảng.
-        /// </summary>
-        /// <param name="tableName">Tên bảng</param>
-        /// <returns></returns>
-        public static int GetId(string tableName)
-        {
-            DataTable result = Query("sqlite_sequence", new List<string> { "seq" },
-                                     new Dictionary<string, (QueryOperator, object)> { { "name", (QueryOperator.EQUALS, tableName) } });
-
-            return result.Rows.Count > 0 ? Convert.ToInt32(result.Rows[0]["seq"]) + 1 : 1;
-        }
-
         /// <summary>
         /// Thêm hàng vào bảng.
         /// </summary>

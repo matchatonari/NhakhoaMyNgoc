@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Windows.Forms;
 
@@ -123,37 +124,54 @@ namespace NhakhoaMyNgoc_Db
                 {
                     if (MessageBox.Show("Bạn có chắc muốn xoá?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
-                        foreach (DataGridViewRow row in dgv.SelectedRows)
+                        switch (dgv.SelectionMode)
                         {
-                            var id = row.Cells[$"{tableName}_Id"].Value;
-                            if (deletePermanently)
-                            {
-                                if (id != DBNull.Value)
-                                    Database.DeleteRecord(tableName, new List<int> { Convert.ToInt32(id) });
-
-                                if (dgv.DataSource is BindingSource bs && row.DataBoundItem is DataRowView drv)
-                                    drv.Delete();
-                                else
-                                    dgv.Rows.Remove(row);
-                            }
-                            else
-                            {
-                                DataTable dt = new DataTable();
-                                if (dgv.DataSource is BindingSource bs && bs.DataSource is DataTable table)
-                                    dt = table;
-                                else if (dgv.DataSource is DataTable directTable)
-                                    dt = directTable;
-
-                                if (id != DBNull.Value)
+                            case DataGridViewSelectionMode.FullRowSelect:
+                                foreach (DataGridViewRow row in dgv.SelectedRows)
                                 {
-                                    Database.UpdateRecord(tableName,
-                                        Convert.ToInt32(id),
-                                        new Dictionary<string, object> { { $"{tableName}_IsActive", 0 } });
+                                    var id = row.Cells[$"{tableName}_Id"].Value;
+                                    if (deletePermanently)
+                                    {
+                                        if (id != DBNull.Value)
+                                            Database.DeleteRecord(tableName, new List<int> { Convert.ToInt32(id) });
 
-                                    DataRow[] selectedRow = dt.Select($"{tableName}_Id = " + id);
-                                    selectedRow[0][$"{tableName}_IsActive"] = 0;
+                                        if (dgv.DataSource is BindingSource bs && row.DataBoundItem is DataRowView drv)
+                                            drv.Delete();
+                                        else
+                                            dgv.Rows.Remove(row);
+                                    }
+                                    else
+                                    {
+                                        DataTable dt = new DataTable();
+                                        if (dgv.DataSource is BindingSource bs && bs.DataSource is DataTable table)
+                                            dt = table;
+                                        else if (dgv.DataSource is DataTable directTable)
+                                            dt = directTable;
+
+                                        if (id != DBNull.Value)
+                                        {
+                                            Database.UpdateRecord(tableName,
+                                                Convert.ToInt32(id),
+                                                new Dictionary<string, object> { { $"{tableName}_IsActive", 0 } });
+
+                                            DataRow[] selectedRow = dt.Select($"{tableName}_Id = " + id);
+                                            selectedRow[0][$"{tableName}_IsActive"] = 0;
+                                        }
+                                    }
                                 }
-                            }
+                                break;
+                            case DataGridViewSelectionMode.RowHeaderSelect:
+                                List<DataGridViewRow> deleteIndices = new List<DataGridViewRow>();
+                                List<int> primaryValues = new List<int>();
+                                foreach (DataGridViewCell cell in dgv.SelectedCells)
+                                {
+                                    deleteIndices.Add(cell.OwningRow);
+                                    primaryValues.Add(Convert.ToInt32(dgv.Rows[cell.RowIndex].Cells[$"{tableName}_Id"].Value));
+                                }
+                                foreach (DataGridViewRow row in deleteIndices.OrderByDescending(i => i))
+                                    dgv.Rows.Remove(row);
+                                Database.DeleteRecord(tableName, primaryValues);
+                                break;
                         }
                     }
                 }
@@ -201,6 +219,65 @@ namespace NhakhoaMyNgoc_Db
                 }
             }
             return obj;
+        }
+
+        public static T GenerateObject<T>(params Control[] controls) where T : new()
+        {
+            T obj = new T();
+            var properties = typeof(T).GetProperties();
+
+            for (int i = 0; i < controls.Length; i++)
+            {
+                var control = controls[i];
+                var prop = properties[i];
+                object value = 0;
+
+                if (control is TextBox txt)
+                    value = txt.Text;
+                if (control is DateTimePicker dtpk)
+                    value = dtpk.Value;
+                if (control is RadioButton rb)
+                    value = rb.Checked;
+                if (control is ComboBox cb)
+                    value = cb.SelectedValue;
+
+                prop.SetValue(obj, Convert.ChangeType(value, prop.PropertyType));
+            }
+
+            return obj;
+        }
+
+        public static void LoadRowToForm(DataGridViewRow row, params Control[] controls)
+        {
+            DataGridView dgv = row.DataGridView;
+            for (int i = 0; i < dgv.Columns.Count; i++) {
+                var value = row.Cells[i].Value;
+                var control = controls[i];
+
+                if (control is DateTimePicker dtpk)
+                    dtpk.Value = Convert.ToDateTime(value);
+                else if (control is TextBox txt)
+                    txt.Text = value.ToString();
+                else if (control is RadioButton rb)
+                    rb.Checked = (Convert.ToInt32(value) != 0);
+                else if (control is ComboBox cb)
+                    cb.SelectedValue = value;
+            }
+        }
+
+        public static void ClearForm(params Control[] controls)
+        {
+            foreach (Control control in controls)
+            {
+                if (control is DateTimePicker dtpk)
+                    dtpk.Value = DateTime.Now;
+                else if (control is TextBox txt)
+                    txt.Text = string.Empty;
+                else if (control is ComboBox cb)
+                    cb.SelectedIndex = -1;
+                else if (control is DataGridView dgv)
+                    dgv.DataSource = null;
+            }
         }
     }
 
