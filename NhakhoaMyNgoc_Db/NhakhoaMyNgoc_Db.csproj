@@ -137,10 +137,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="database.cs" />
-    <Compile Include="DateTimePickerDialog.cs">
+    <Compile Include="Dialogs\DateTimePickerDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DateTimePickerDialog.Designer.cs">
+    <Compile Include="Dialogs\DateTimePickerDialog.Designer.cs">
       <DependentUpon>DateTimePickerDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="frmMain.cs">
@@ -155,23 +155,24 @@
     <Compile Include="frmUpdate.Designer.cs">
       <DependentUpon>frmUpdate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Invoice.cs" />
-    <Compile Include="PrintDialog.cs">
+    <Compile Include="Templates\Invoice.cs" />
+    <Compile Include="Dialogs\PrintDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PrintDialog.Designer.cs">
+    <Compile Include="Dialogs\PrintDialog.Designer.cs">
       <DependentUpon>PrintDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StockListEditor.cs">
+    <Compile Include="Templates\StockIO.cs" />
+    <Compile Include="Dialogs\StockListEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StockListEditor.Designer.cs">
+    <Compile Include="Dialogs\StockListEditor.Designer.cs">
       <DependentUpon>StockListEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="util.cs" />
-    <EmbeddedResource Include="DateTimePickerDialog.resx">
+    <EmbeddedResource Include="Dialogs\DateTimePickerDialog.resx">
       <DependentUpon>DateTimePickerDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
@@ -181,7 +182,7 @@
     <EmbeddedResource Include="frmUpdate.resx">
       <DependentUpon>frmUpdate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PrintDialog.resx">
+    <EmbeddedResource Include="Dialogs\PrintDialog.resx">
       <DependentUpon>PrintDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -194,7 +195,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="StockListEditor.resx">
+    <EmbeddedResource Include="Dialogs\StockListEditor.resx">
       <DependentUpon>StockListEditor.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />

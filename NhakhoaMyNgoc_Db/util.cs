@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Windows.Forms;
@@ -279,10 +280,36 @@ namespace NhakhoaMyNgoc_Db
                     dgv.DataSource = null;
             }
         }
+
+        public static void IncludeDtpkDialog(DataGridView dgv)
+        {
+            dgv.CellBeginEdit += (sender, e) =>
+            {
+                if (!dgv.Columns[e.ColumnIndex].Name.Contains("Date"))
+                    return;
+
+                e.Cancel = true;
+                // Lấy giá trị ngày hiện tại trong ô
+                DateTime currentDate = DateTime.Now;
+                if (dgv.CurrentCell.Value != null)
+                    DateTime.TryParse(dgv.CurrentCell.Value.ToString(), out currentDate);
+
+                // Mở form chọn ngày
+                using (DateTimePickerDialog dateDialog = new DateTimePickerDialog(currentDate))
+                {
+                    if (dateDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        // Cập nhật giá trị ô với ngày đã chọn
+                        dgv.CurrentCell.Value = dateDialog.SelectedDate.ToString("yyyy-MM-dd HH:mm:ss");
+                    }
+                }
+            };
+        }
     }
 
     public abstract class PrintablePaper
     {
+        public static readonly string RESOURCE_PATH = Path.Combine(Application.StartupPath, "res");
         public abstract string GetResultPath();
         public abstract void Render();
     }

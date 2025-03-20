@@ -26,6 +26,10 @@ namespace NhakhoaMyNgoc_Db
         public static void Initialize() {
             connection = new SQLiteConnection($"Data Source={databaseFile};Version=3;");
             connection.Open();
+
+            // Cho phép thay đổi khoá ngoại
+            using (var command = new SQLiteCommand("PRAGMA foreign_keys = ON;", connection))
+                command.ExecuteNonQuery();
         }
         /// <summary>
         /// Thêm hàng vào bảng.

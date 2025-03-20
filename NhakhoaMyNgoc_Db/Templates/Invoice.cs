@@ -43,17 +43,24 @@ namespace NhakhoaMyNgoc_Db
 
             string receiptPath = GetResultPath();
 
-            File.Copy(Path.Combine(Application.StartupPath, "res", "invoice.html"), receiptPath, true);
-            File.Copy(Path.Combine(Application.StartupPath, "res", "logo.png"), Path.Combine(Path.GetTempPath(), "logo.png"), true);
+            File.Copy(Path.Combine(PrintablePaper.RESOURCE_PATH, "invoice.html"), receiptPath, true);
+            File.Copy(Path.Combine(PrintablePaper.RESOURCE_PATH, "logo.png"), Path.Combine(Path.GetTempPath(), "logo.png"), true);
 
             string receiptContent = File.ReadAllText(receiptPath);
-            receiptContent = receiptContent.Replace("{{Customer_FullName}}", customer.Customer_FullName)
+            var customerProperties = typeof(Customer).GetProperties();
+            foreach (var prop in customerProperties)
+                if (prop.Name != "Customer_Sex")
+                    receiptContent = receiptContent.Replace($"{{{{{prop.Name}}}}}", prop.GetValue(customer).ToString());
+
+            var receiptProperties = typeof(Receipt).GetProperties();
+            foreach (var prop in receiptProperties)
+                if (prop.Name != "Receipt_Notes")
+                    receiptContent = receiptContent.Replace($"{{{{{prop.Name}}}}}", prop.GetValue(receipt).ToString());
+
+            receiptContent = receiptContent
                 .Replace("{{!Customer_Sex}}", (customer.Customer_Sex ? "☐" : "☑"))
                 .Replace("{{Customer_Sex}}", (customer.Customer_Sex ? "☑" : "☐"))
-                .Replace("{{Customer_Address}}", customer.Customer_Address)
-                .Replace("{{Customer_Phone}}", customer.Customer_Phone)
                 .Replace("{{ReceiptDetail}}", serviceList)
-                .Replace("{{Receipt_Total}}", receipt.Receipt_Total.ToString())
                 .Replace("{{Receipt_Notes}}", notes);
 
             File.WriteAllText(receiptPath, receiptContent);

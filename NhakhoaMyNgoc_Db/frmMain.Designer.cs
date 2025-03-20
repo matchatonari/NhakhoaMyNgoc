@@ -143,6 +143,8 @@
             this.Stock_Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bsStock = new System.Windows.Forms.BindingSource(this.components);
             this.panel6 = new System.Windows.Forms.Panel();
+            this.btnPrintStockReceipt = new System.Windows.Forms.Button();
+            this.btnSaveStockReceipt = new System.Windows.Forms.Button();
             this.btnEditStockList = new System.Windows.Forms.Button();
             this.cboStockReceipt_StockId = new System.Windows.Forms.ComboBox();
             this.txtStockReceipt_Division = new System.Windows.Forms.TextBox();
@@ -157,46 +159,22 @@
             this.rb_Output = new System.Windows.Forms.RadioButton();
             this.rb_Input = new System.Windows.Forms.RadioButton();
             this.dgv_StockReceipt_Content = new System.Windows.Forms.DataGridView();
-            this.label7 = new System.Windows.Forms.Label();
-            this.btn_AddStockReceipt = new System.Windows.Forms.Button();
-            this.dtpkStockReceipt_Date = new System.Windows.Forms.DateTimePicker();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.panel9 = new System.Windows.Forms.Panel();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.label25 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label19 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
-            this.dateTimePicker6 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker5 = new System.Windows.Forms.DateTimePicker();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.textBox11 = new System.Windows.Forms.TextBox();
-            this.textBox12 = new System.Windows.Forms.TextBox();
-            this.textBox10 = new System.Windows.Forms.TextBox();
-            this.dateTimePicker4 = new System.Windows.Forms.DateTimePicker();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.panel8 = new System.Windows.Forms.Panel();
-            this.dataGridView3 = new System.Windows.Forms.DataGridView();
             this.StockReceiptDetail_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StockReceiptDetail_ItemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StockReceiptDetail_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StockReceiptDetail_Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StockReceiptDetail_Demand = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StockReceiptDetail_Unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnSaveStockReceipt = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.btn_AddStockReceipt = new System.Windows.Forms.Button();
+            this.dtpkStockReceipt_Date = new System.Windows.Forms.DateTimePicker();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.tmProtection = new System.Windows.Forms.Timer(this.components);
+            this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.a = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cmsCustomer.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -229,9 +207,6 @@
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_StockReceipt_Content)).BeginInit();
             this.tabPage3.SuspendLayout();
-            this.panel9.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.panel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             this.SuspendLayout();
@@ -408,7 +383,6 @@
             this.dgv_Receipt.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_Receipt.Size = new System.Drawing.Size(1072, 871);
             this.dgv_Receipt.TabIndex = 43;
-            this.dgv_Receipt.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgv_Receipt_CellBeginEdit);
             this.dgv_Receipt.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgv_Receipt_EditingControlShowing);
             this.dgv_Receipt.SelectionChanged += new System.EventHandler(this.dgv_Receipt_SelectionChanged);
             // 
@@ -481,10 +455,10 @@
             // 
             this.tabPage5.Controls.Add(this.panel7);
             this.tabPage5.Controls.Add(this.panel4);
-            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Location = new System.Drawing.Point(4, 29);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(1078, 884);
+            this.tabPage5.Size = new System.Drawing.Size(1078, 877);
             this.tabPage5.TabIndex = 1;
             this.tabPage5.Text = "Khách hàng";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -495,7 +469,7 @@
             this.panel7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel7.Location = new System.Drawing.Point(3, 37);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(1072, 844);
+            this.panel7.Size = new System.Drawing.Size(1072, 837);
             this.panel7.TabIndex = 1;
             // 
             // dgv_Customer
@@ -529,7 +503,7 @@
             this.dgv_Customer.Name = "dgv_Customer";
             this.dgv_Customer.RowHeadersWidth = 43;
             this.dgv_Customer.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_Customer.Size = new System.Drawing.Size(1072, 844);
+            this.dgv_Customer.Size = new System.Drawing.Size(1072, 837);
             this.dgv_Customer.TabIndex = 45;
             this.dgv_Customer.SelectionChanged += new System.EventHandler(this.dgv_Customer_SelectionChanged);
             // 
@@ -889,6 +863,7 @@
             // 
             this.btnPrintReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.reshot_icon_print_math_sheet_Y8RFCP23N4;
             this.btnPrintReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnPrintReceipt.Enabled = false;
             this.btnPrintReceipt.Location = new System.Drawing.Point(139, 545);
             this.btnPrintReceipt.Name = "btnPrintReceipt";
             this.btnPrintReceipt.Size = new System.Drawing.Size(40, 40);
@@ -900,6 +875,7 @@
             // 
             this.btnSaveReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.CHECK;
             this.btnSaveReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSaveReceipt.Enabled = false;
             this.btnSaveReceipt.Location = new System.Drawing.Point(703, 545);
             this.btnSaveReceipt.Name = "btnSaveReceipt";
             this.btnSaveReceipt.Size = new System.Drawing.Size(40, 40);
@@ -1063,7 +1039,6 @@
             this.StockReceipt_Date.HeaderText = "Ngày lập";
             this.StockReceipt_Date.MinimumWidth = 6;
             this.StockReceipt_Date.Name = "StockReceipt_Date";
-            this.StockReceipt_Date.ReadOnly = true;
             this.StockReceipt_Date.Width = 200;
             // 
             // StockReceipt_IsInput
@@ -1072,7 +1047,6 @@
             this.StockReceipt_IsInput.HeaderText = "Nhập";
             this.StockReceipt_IsInput.MinimumWidth = 6;
             this.StockReceipt_IsInput.Name = "StockReceipt_IsInput";
-            this.StockReceipt_IsInput.ReadOnly = true;
             this.StockReceipt_IsInput.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.StockReceipt_IsInput.Width = 50;
             // 
@@ -1254,6 +1228,7 @@
             // 
             // panel6
             // 
+            this.panel6.Controls.Add(this.btnPrintStockReceipt);
             this.panel6.Controls.Add(this.btnSaveStockReceipt);
             this.panel6.Controls.Add(this.btnEditStockList);
             this.panel6.Controls.Add(this.cboStockReceipt_StockId);
@@ -1280,6 +1255,28 @@
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(752, 910);
             this.panel6.TabIndex = 45;
+            // 
+            // btnPrintStockReceipt
+            // 
+            this.btnPrintStockReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.reshot_icon_print_math_sheet_Y8RFCP23N4;
+            this.btnPrintStockReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnPrintStockReceipt.Location = new System.Drawing.Point(169, 611);
+            this.btnPrintStockReceipt.Name = "btnPrintStockReceipt";
+            this.btnPrintStockReceipt.Size = new System.Drawing.Size(40, 40);
+            this.btnPrintStockReceipt.TabIndex = 78;
+            this.btnPrintStockReceipt.UseVisualStyleBackColor = true;
+            this.btnPrintStockReceipt.Click += new System.EventHandler(this.btnPrintStockReceipt_Click);
+            // 
+            // btnSaveStockReceipt
+            // 
+            this.btnSaveStockReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.CHECK;
+            this.btnSaveStockReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSaveStockReceipt.Location = new System.Drawing.Point(660, 611);
+            this.btnSaveStockReceipt.Name = "btnSaveStockReceipt";
+            this.btnSaveStockReceipt.Size = new System.Drawing.Size(40, 40);
+            this.btnSaveStockReceipt.TabIndex = 77;
+            this.btnSaveStockReceipt.UseVisualStyleBackColor = true;
+            this.btnSaveStockReceipt.Click += new System.EventHandler(this.btnSaveStockReceipt_Click);
             // 
             // btnEditStockList
             // 
@@ -1410,323 +1407,6 @@
             this.dgv_StockReceipt_Content.Size = new System.Drawing.Size(577, 355);
             this.dgv_StockReceipt_Content.TabIndex = 71;
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(10, 250);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(59, 20);
-            this.label7.TabIndex = 70;
-            this.label7.Text = "Chi tiết:";
-            // 
-            // btn_AddStockReceipt
-            // 
-            this.btn_AddStockReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.ADD;
-            this.btn_AddStockReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_AddStockReceipt.Location = new System.Drawing.Point(706, 611);
-            this.btn_AddStockReceipt.Name = "btn_AddStockReceipt";
-            this.btn_AddStockReceipt.Size = new System.Drawing.Size(40, 40);
-            this.btn_AddStockReceipt.TabIndex = 31;
-            this.btn_AddStockReceipt.UseVisualStyleBackColor = true;
-            this.btn_AddStockReceipt.Click += new System.EventHandler(this.btn_AddStockReceipt_Click);
-            // 
-            // dtpkStockReceipt_Date
-            // 
-            this.dtpkStockReceipt_Date.CustomFormat = "dd/MM/yyyy";
-            this.dtpkStockReceipt_Date.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpkStockReceipt_Date.Location = new System.Drawing.Point(169, 51);
-            this.dtpkStockReceipt_Date.Name = "dtpkStockReceipt_Date";
-            this.dtpkStockReceipt_Date.Size = new System.Drawing.Size(200, 27);
-            this.dtpkStockReceipt_Date.TabIndex = 16;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(10, 19);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(70, 20);
-            this.label12.TabIndex = 15;
-            this.label12.Text = "Loại đơn:";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(10, 56);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(126, 20);
-            this.label6.TabIndex = 15;
-            this.label6.Text = "Ngày/tháng/năm:";
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.panel9);
-            this.tabPage3.Controls.Add(this.panel8);
-            this.tabPage3.Location = new System.Drawing.Point(4, 29);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1904, 916);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Quyết toán thu chi";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // panel9
-            // 
-            this.panel9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.panel9.Controls.Add(this.groupBox3);
-            this.panel9.Controls.Add(this.groupBox2);
-            this.panel9.Location = new System.Drawing.Point(3, 3);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(483, 881);
-            this.panel9.TabIndex = 46;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.textBox3);
-            this.groupBox3.Controls.Add(this.label25);
-            this.groupBox3.Controls.Add(this.textBox2);
-            this.groupBox3.Controls.Add(this.label19);
-            this.groupBox3.Controls.Add(this.textBox1);
-            this.groupBox3.Controls.Add(this.label13);
-            this.groupBox3.Controls.Add(this.button4);
-            this.groupBox3.Controls.Add(this.dateTimePicker6);
-            this.groupBox3.Controls.Add(this.dateTimePicker5);
-            this.groupBox3.Controls.Add(this.label24);
-            this.groupBox3.Controls.Add(this.label27);
-            this.groupBox3.Location = new System.Drawing.Point(3, 192);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(477, 169);
-            this.groupBox3.TabIndex = 2;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Quyết toán thu chi";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(87, 134);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(200, 27);
-            this.textBox3.TabIndex = 36;
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(6, 141);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(58, 20);
-            this.label25.TabIndex = 37;
-            this.label25.Text = "Còn lại:";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(87, 100);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(200, 27);
-            this.textBox2.TabIndex = 36;
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(6, 107);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(69, 20);
-            this.label19.TabIndex = 37;
-            this.label19.Text = "Tổng chi:";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(87, 66);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(200, 27);
-            this.textBox1.TabIndex = 36;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(6, 73);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(71, 20);
-            this.label13.TabIndex = 37;
-            this.label13.Text = "Tổng thu:";
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(293, 29);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(91, 28);
-            this.button4.TabIndex = 36;
-            this.button4.Text = "Liệt kê";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // dateTimePicker6
-            // 
-            this.dateTimePicker6.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker6.Location = new System.Drawing.Point(184, 29);
-            this.dateTimePicker6.Name = "dateTimePicker6";
-            this.dateTimePicker6.Size = new System.Drawing.Size(103, 27);
-            this.dateTimePicker6.TabIndex = 6;
-            // 
-            // dateTimePicker5
-            // 
-            this.dateTimePicker5.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker5.Location = new System.Drawing.Point(33, 29);
-            this.dateTimePicker5.Name = "dateTimePicker5";
-            this.dateTimePicker5.Size = new System.Drawing.Size(103, 27);
-            this.dateTimePicker5.TabIndex = 5;
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(142, 34);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(34, 20);
-            this.label24.TabIndex = 4;
-            this.label24.Text = "đến";
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(6, 34);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(26, 20);
-            this.label27.TabIndex = 4;
-            this.label27.Text = "Từ";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.button1);
-            this.groupBox2.Controls.Add(this.button2);
-            this.groupBox2.Controls.Add(this.button3);
-            this.groupBox2.Controls.Add(this.textBox11);
-            this.groupBox2.Controls.Add(this.textBox12);
-            this.groupBox2.Controls.Add(this.textBox10);
-            this.groupBox2.Controls.Add(this.dateTimePicker4);
-            this.groupBox2.Controls.Add(this.label22);
-            this.groupBox2.Controls.Add(this.label23);
-            this.groupBox2.Controls.Add(this.label21);
-            this.groupBox2.Controls.Add(this.label20);
-            this.groupBox2.Location = new System.Drawing.Point(3, 3);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(477, 189);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Chi tiền";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(271, 155);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(91, 28);
-            this.button1.TabIndex = 33;
-            this.button1.Text = "Tìm đơn";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(170, 155);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(96, 28);
-            this.button2.TabIndex = 35;
-            this.button2.Text = "Xoá đơn";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(368, 155);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(103, 28);
-            this.button3.TabIndex = 34;
-            this.button3.Text = "Thêm đơn";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // textBox11
-            // 
-            this.textBox11.Location = new System.Drawing.Point(138, 84);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(336, 27);
-            this.textBox11.TabIndex = 25;
-            // 
-            // textBox12
-            // 
-            this.textBox12.Location = new System.Drawing.Point(138, 116);
-            this.textBox12.Name = "textBox12";
-            this.textBox12.Size = new System.Drawing.Size(200, 27);
-            this.textBox12.TabIndex = 25;
-            // 
-            // textBox10
-            // 
-            this.textBox10.Location = new System.Drawing.Point(138, 52);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(200, 27);
-            this.textBox10.TabIndex = 25;
-            // 
-            // dateTimePicker4
-            // 
-            this.dateTimePicker4.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker4.Location = new System.Drawing.Point(138, 20);
-            this.dateTimePicker4.Name = "dateTimePicker4";
-            this.dateTimePicker4.Size = new System.Drawing.Size(200, 27);
-            this.dateTimePicker4.TabIndex = 5;
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(6, 89);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(97, 20);
-            this.label22.TabIndex = 4;
-            this.label22.Text = "Nội dung chi:";
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(6, 121);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(81, 20);
-            this.label23.TabIndex = 4;
-            this.label23.Text = "Số tiền chi:";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(6, 57);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(103, 20);
-            this.label21.TabIndex = 4;
-            this.label21.Text = "Đối tượng chi:";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(6, 26);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(126, 20);
-            this.label20.TabIndex = 4;
-            this.label20.Text = "Ngày/tháng/năm:";
-            // 
-            // panel8
-            // 
-            this.panel8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel8.Controls.Add(this.dataGridView3);
-            this.panel8.Location = new System.Drawing.Point(492, 6);
-            this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(632, 878);
-            this.panel8.TabIndex = 45;
-            // 
-            // dataGridView3
-            // 
-            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView3.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView3.Name = "dataGridView3";
-            this.dataGridView3.RowHeadersWidth = 43;
-            this.dataGridView3.Size = new System.Drawing.Size(632, 878);
-            this.dataGridView3.TabIndex = 36;
-            // 
             // StockReceiptDetail_Id
             // 
             this.StockReceiptDetail_Id.DataPropertyName = "StockReceiptDetail_Id";
@@ -1777,16 +1457,95 @@
             this.StockReceiptDetail_Unit.Name = "StockReceiptDetail_Unit";
             this.StockReceiptDetail_Unit.Width = 70;
             // 
-            // btnSaveStockReceipt
+            // label7
             // 
-            this.btnSaveStockReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.CHECK;
-            this.btnSaveStockReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnSaveStockReceipt.Location = new System.Drawing.Point(660, 611);
-            this.btnSaveStockReceipt.Name = "btnSaveStockReceipt";
-            this.btnSaveStockReceipt.Size = new System.Drawing.Size(40, 40);
-            this.btnSaveStockReceipt.TabIndex = 77;
-            this.btnSaveStockReceipt.UseVisualStyleBackColor = true;
-            this.btnSaveStockReceipt.Click += new System.EventHandler(this.btnSaveStockReceipt_Click);
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(10, 250);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(59, 20);
+            this.label7.TabIndex = 70;
+            this.label7.Text = "Chi tiết:";
+            // 
+            // btn_AddStockReceipt
+            // 
+            this.btn_AddStockReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.ADD;
+            this.btn_AddStockReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_AddStockReceipt.Location = new System.Drawing.Point(706, 611);
+            this.btn_AddStockReceipt.Name = "btn_AddStockReceipt";
+            this.btn_AddStockReceipt.Size = new System.Drawing.Size(40, 40);
+            this.btn_AddStockReceipt.TabIndex = 31;
+            this.btn_AddStockReceipt.UseVisualStyleBackColor = true;
+            this.btn_AddStockReceipt.Click += new System.EventHandler(this.btn_AddStockReceipt_Click);
+            // 
+            // dtpkStockReceipt_Date
+            // 
+            this.dtpkStockReceipt_Date.CustomFormat = "dd/MM/yyyy";
+            this.dtpkStockReceipt_Date.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpkStockReceipt_Date.Location = new System.Drawing.Point(169, 51);
+            this.dtpkStockReceipt_Date.Name = "dtpkStockReceipt_Date";
+            this.dtpkStockReceipt_Date.Size = new System.Drawing.Size(200, 27);
+            this.dtpkStockReceipt_Date.TabIndex = 16;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(10, 19);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(70, 20);
+            this.label12.TabIndex = 15;
+            this.label12.Text = "Loại đơn:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(10, 56);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(126, 20);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Ngày/tháng/năm:";
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.panel8);
+            this.tabPage3.Location = new System.Drawing.Point(4, 29);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(1904, 916);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Quyết toán thu chi";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // panel8
+            // 
+            this.panel8.Controls.Add(this.dataGridView3);
+            this.panel8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel8.Location = new System.Drawing.Point(3, 3);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(1898, 910);
+            this.panel8.TabIndex = 45;
+            // 
+            // tmProtection
+            // 
+            this.tmProtection.Enabled = true;
+            this.tmProtection.Interval = 500;
+            this.tmProtection.Tick += new System.EventHandler(this.tmProtection_Tick);
+            // 
+            // dataGridView3
+            // 
+            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView3.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.a});
+            this.dataGridView3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView3.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView3.Name = "dataGridView3";
+            this.dataGridView3.RowHeadersWidth = 43;
+            this.dataGridView3.Size = new System.Drawing.Size(1898, 910);
+            this.dataGridView3.TabIndex = 36;
+            // 
+            // a
+            // 
+            this.a.HeaderText = "Column1";
+            this.a.Name = "a";
             // 
             // frm_Main
             // 
@@ -1842,11 +1601,6 @@
             this.panel6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_StockReceipt_Content)).EndInit();
             this.tabPage3.ResumeLayout(false);
-            this.panel9.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.panel8.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             this.ResumeLayout(false);
@@ -1941,33 +1695,7 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.Panel panel9;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.DateTimePicker dateTimePicker6;
-        private System.Windows.Forms.DateTimePicker dateTimePicker5;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.TextBox textBox11;
-        private System.Windows.Forms.TextBox textBox12;
-        private System.Windows.Forms.TextBox textBox10;
-        private System.Windows.Forms.DateTimePicker dateTimePicker4;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Panel panel8;
-        private System.Windows.Forms.DataGridView dataGridView3;
         private System.Windows.Forms.BindingSource bsStock;
         private System.Windows.Forms.BindingSource bsCustomer;
         private System.Windows.Forms.DataGridViewTextBoxColumn Customer_Id;
@@ -2003,15 +1731,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Stock_Quantity;
         private System.Windows.Forms.DataGridViewTextBoxColumn Stock_Unit;
         private System.Windows.Forms.DataGridViewTextBoxColumn Stock_Total;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceipt_Id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceipt_Date;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn StockReceipt_IsInput;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceipt_Correspondent;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceipt_Division;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceipt_Reason;
-        private System.Windows.Forms.DataGridViewComboBoxColumn StockReceipt_StockId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceipt_CertificateId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceipt_Total;
         private System.Windows.Forms.DataGridViewTextBoxColumn ReceiptDetail_Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn ReceiptDetail_Content;
         private System.Windows.Forms.DataGridViewTextBoxColumn ReceiptDetail_Price;
@@ -2024,6 +1743,19 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn StockReceiptDetail_Demand;
         private System.Windows.Forms.DataGridViewTextBoxColumn StockReceiptDetail_Unit;
         private System.Windows.Forms.Button btnSaveStockReceipt;
+        private System.Windows.Forms.Button btnPrintStockReceipt;
+        private System.Windows.Forms.Timer tmProtection;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceipt_Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceipt_Date;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn StockReceipt_IsInput;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceipt_Correspondent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceipt_Division;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceipt_Reason;
+        private System.Windows.Forms.DataGridViewComboBoxColumn StockReceipt_StockId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceipt_CertificateId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StockReceipt_Total;
+        private System.Windows.Forms.DataGridView dataGridView3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn a;
     }
 }
 

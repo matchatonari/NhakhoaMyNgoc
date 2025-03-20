@@ -4,8 +4,6 @@ using System.Windows.Forms;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
-using System.CodeDom;
-using System.Runtime.Remoting.Channels;
 
 namespace NhakhoaMyNgoc_Db
 {
@@ -97,7 +95,6 @@ namespace NhakhoaMyNgoc_Db
 
                 var detail = Util.MapRowTo<StockReceiptDetail>(row);
                 string stockName = c["StockReceiptDetail_ItemName"].Value.ToString();
-                int realQuantity = Convert.ToInt32(c["StockReceiptDetail_Quantity"].Value) * (rb_Output.Checked ? -1 : 1);
 
                 // Lấy hoặc thêm Item vào DB
                 var item = new Item {
@@ -108,18 +105,162 @@ namespace NhakhoaMyNgoc_Db
                                   new Dictionary<string, (QueryOperator, object)> { { "Stock_Name", (QueryOperator.COLLATE, stockName) } });
                 item.Stock_Id = search.Rows.Count > 0 ? Convert.ToInt32(search.Rows[0]["Stock_Id"]) : Database.AddRecord("Stock", item);
 
-                // Tạo detail & tính tổng
+                // Tính tổng
                 detail.StockReceiptDetail_ReceiptId = receiptId;
                 detail.StockReceiptDetail_ItemId = item.Stock_Id;
-                detail.StockReceiptDetail_Quantity = realQuantity;
 
-                receipt.StockReceipt_Total += realQuantity * detail.StockReceiptDetail_Price;
+                receipt.StockReceipt_Total += detail.StockReceiptDetail_Quantity * detail.StockReceiptDetail_Price;
 
                 Database.AddRecord("StockReceiptDetail", detail);
             }
 
             Database.UpdateRecord("StockReceipt", receiptId, new Dictionary<string, object> { { "StockReceipt_Total", receipt.StockReceipt_Total } });
-            dgv_StockReceipt_Content.Rows.Clear();
+            Util.ClearForm(
+                    dtpkStockReceipt_Date,
+                    txtStockReceipt_Correspondent,
+                    txtStockReceipt_Division,
+                    txtStockReceipt_Reason,
+                    txtStockReceipt_CertificateId,
+                    cboStockReceipt_StockId,
+                    dgv_StockReceipt_Content
+                );
+        }
+
+        private void dgv_StockReceipt_SelectionChanged(object sender, EventArgs e)
+        {
+            var r = dgv_StockReceipt.CurrentRow;
+            if (r == null)
+            {
+                Util.ClearForm(
+                    dtpkStockReceipt_Date,
+                    txtStockReceipt_Correspondent,
+                    txtStockReceipt_Division,
+                    txtStockReceipt_Reason,
+                    txtStockReceipt_CertificateId,
+                    cboStockReceipt_StockId,
+                    dgv_StockReceipt_Content
+                );
+                return;
+            }
+
+            StockReceipt receipt = Util.MapRowTo<StockReceipt>(r);
+            DataTable details = Database.Query("StockReceiptDetail", null, new Dictionary<string, (QueryOperator, object)>
+            {
+                { "StockReceiptDetail_ReceiptId", (QueryOperator.EQUALS, receipt.StockReceipt_Id) },
+            });
+
+            details.Columns.Add("StockReceiptDetail_ItemName", typeof(string));
+
+            foreach (DataRow dr in details.Rows)
+            {
+                // Tìm itemName
+                var itemId = Convert.ToInt32(dr["StockReceiptDetail_ItemId"]);
+                DataTable result = Database.Query("Stock", new List<string>() { "Stock_Name" },
+                    new Dictionary<string, (QueryOperator, object)> { { "Stock_Id", (QueryOperator.EQUALS, itemId) } });
+                if (result.Rows.Count > 0)
+                {
+                    var itemName = result.Rows[0]["Stock_Name"];
+                    dr["StockReceiptDetail_ItemName"] = itemName;
+                }
+            }
+
+            Util.LoadRowToForm(r,
+                null,
+                dtpkStockReceipt_Date,
+                null,
+                txtStockReceipt_Correspondent,
+                txtStockReceipt_Division,
+                txtStockReceipt_Reason,
+                cboStockReceipt_StockId,
+                txtStockReceipt_CertificateId,
+                null
+                );
+
+            rb_Input.Checked = (Convert.ToInt32(r.Cells["StockReceipt_IsInput"].Value) == 1);
+            rb_Output.Checked = !rb_Input.Checked;
+
+            dgv_StockReceipt_Content.DataSource = details;
+        }
+
+        private void btnSaveStockReceipt_Click(object sender, EventArgs e)
+        {
+            var currentRow = dgv_StockReceipt.CurrentRow;
+            var receiptId = Convert.ToInt32(currentRow.Cells["StockReceipt_Id"].Value);
+
+            // update db
+            Database.UpdateRecord("StockReceipt", receiptId,
+                new Dictionary<string, object>
+            {
+                { "StockReceipt_IsInput"      , rb_Input.Checked ? 1 : 0                                    },
+                { "StockReceipt_Date"         , dtpkStockReceipt_Date.Value.ToString("yyyy-MM-dd HH:mm:ss") },
+                { "StockReceipt_Correspondent", txtStockReceipt_Correspondent.Text                          },
+                { "StockReceipt_Division"     , txtStockReceipt_Division.Text                               },
+                { "StockReceipt_Reason"       , txtStockReceipt_Reason.Text                                 },
+                { "StockReceipt_StockId"      , cboStockReceipt_StockId.SelectedValue                       },
+                { "StockReceipt_CertificateId", txtStockReceipt_CertificateId.Text                          }
+            });
+            foreach (DataGridViewRow row in dgv_StockReceipt_Content.Rows)
+            {
+                if (row != null && row.IsNewRow == false)
+                {
+                    var primaryValue = row.Cells["StockReceiptDetail_Id"].Value ?? DBNull.Value;
+
+                    // query kho
+                    Item newitem = new Item
+                    {
+                        Stock_Name = row.Cells["StockReceiptDetail_ItemName"].Value.ToString(),
+                        Stock_Unit = row.Cells["StockReceiptDetail_Unit"].Value.ToString(),
+                    };
+                    newitem.Stock_Total = newitem.Stock_Quantity * Convert.ToInt32(row.Cells["StockReceiptDetail_Price"].Value);
+                    DataTable checkResult = Database.Query("Stock",
+                        new List<string> { "Stock_Id" },
+                        new Dictionary<string, (QueryOperator, object)>
+                            { { "Stock_Name", (QueryOperator.COLLATE, newitem.Stock_Name) } });
+
+                    if (primaryValue == DBNull.Value)
+                    {
+                        // Nội dung vừa được thêm vào
+                        StockReceiptDetail newContent = Util.MapRowTo<StockReceiptDetail>(row);
+                        newContent.StockReceiptDetail_ReceiptId = receiptId;
+                        // Tìm lại StockId cho nó
+                        newContent.StockReceiptDetail_ItemId = checkResult.Rows.Count > 0 ?
+                            Convert.ToInt32(checkResult.Rows[0]["Stock_Id"]) :
+                            Database.AddRecord<Item>("Stock", newitem);
+
+                        Database.AddRecord<StockReceiptDetail>("StockReceiptDetail", newContent);
+                    }
+                    else
+                    {
+                        // Sửa
+                        var edits = new Dictionary<string, object>();
+                        foreach (DataGridViewColumn col in dgv_StockReceipt_Content.Columns)
+                        {
+                            if (col.Name.Contains("_Id")) continue;
+
+                            if (col.Name == "StockReceiptDetail_ItemName")
+                                edits.Add("StockReceiptDetail_ItemId", checkResult.Rows.Count > 0 ?
+                                    checkResult.Rows[0]["Stock_Id"] :
+                                    Database.AddRecord<Item>("Stock", newitem)
+                                    );
+                            else
+                                edits.Add(col.Name, row.Cells[col.Name].Value);
+                        }
+
+                        Database.UpdateRecord("StockReceiptDetail", Convert.ToInt32(primaryValue), edits);
+                    }
+                }
+            }
+
+            // update ui
+            LoadStockReceipts(sender, e);
+        }
+
+        private void btnPrintStockReceipt_Click(object sender, EventArgs e)
+        {
+            StockReceipt receipt = Util.MapRowTo<StockReceipt>(dgv_StockReceipt.CurrentRow);
+            DataTable details = (DataTable)(dgv_StockReceipt_Content.DataSource);
+            StockIO invoice = new StockIO(receipt, details);
+            new PrintDialog(invoice).Show();
         }
         #endregion
 
@@ -218,7 +359,7 @@ namespace NhakhoaMyNgoc_Db
         // bind dữ liệu
         private void dgv_Receipt_SelectionChanged(object sender, EventArgs e)
         {
-            if (dgv_Receipt.CurrentRow == null)
+            if (dgv_Receipt.CurrentRow == null || dgv_Receipt.Rows.Count == 0)
             {
                 Util.ClearForm(
                     txtReceipt_Notes,
@@ -238,35 +379,10 @@ namespace NhakhoaMyNgoc_Db
             dtpkReceipt_RevisitDate.Value = receipt.Receipt_RevisitDate;
             txtReceipt_Notes.Text = receipt.Receipt_Notes;
             dgv_Receipt_Content.DataSource = details;
-            btnSaveReceipt.Enabled = true;
 
             // cập nhật checkbox tái khám
             cbRevisitDate.Checked = (DateTime.Now.Year + 1 >= receipt.Receipt_RevisitDate.Year);
             cbRevisitDate_CheckedChanged(sender, e);
-        }
-        private void dgv_Receipt_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            if (dgv_Receipt.Columns[e.ColumnIndex].Name == "Receipt_Date" ||
-                dgv_Receipt.Columns[e.ColumnIndex].Name == "Receipt_RevisitDate")
-            {
-                // Hủy bỏ chế độ chỉnh sửa trực tiếp
-                e.Cancel = true;
-
-                // Lấy giá trị ngày hiện tại trong ô
-                DateTime currentDate = DateTime.Now;
-                if (dgv_Receipt.CurrentCell.Value != null)
-                    DateTime.TryParse(dgv_Receipt.CurrentCell.Value.ToString(), out currentDate);
-
-                // Mở form chọn ngày
-                using (DateTimePickerDialog dateDialog = new DateTimePickerDialog(currentDate))
-                {
-                    if (dateDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        // Cập nhật giá trị ô với ngày đã chọn
-                        dgv_Receipt.CurrentCell.Value = dateDialog.SelectedDate.ToString("yyyy-MM-dd HH:mm:ss");
-                    }
-                }
-            }
         }
         /// <summary>
         /// Sửa đơn hàng
@@ -359,12 +475,19 @@ namespace NhakhoaMyNgoc_Db
                     Customer customer = Util.MapRowTo<Customer>(dgv_Customer.CurrentRow);
 
                     // Truy cập giá trị các ô trong hàng đã chọn
-                    txtCustomer_FullName.Text = customer.Customer_FullName;
-                    dtpkCustomer_Birthdate.Value = customer.Customer_Birthdate;
-                    (rdCustomer_Female.Checked, rdCustomer_Male.Checked) = customer.Customer_Sex.ToString() == "0" ? (false, true) : (true, false);
-                    txtCustomer_CitizenId.Text = customer.Customer_CitizenId;
-                    txtCustomer_Address.Text = customer.Customer_Address;
-                    txtCustomer_Phone.Text = customer.Customer_Phone;
+                    Util.LoadRowToForm(
+                        dgv_Customer.CurrentRow,
+                        null,
+                        txtCustomer_FullName,
+                        null,
+                        dtpkCustomer_Birthdate,
+                        txtCustomer_CitizenId,
+                        txtCustomer_Address,
+                        txtCustomer_Phone
+                        );
+
+                    (rdCustomer_Female.Checked, rdCustomer_Male.Checked) = 
+                        customer.Customer_Sex ? (true, false) : (false, true);
 
                     dgv_Receipt.DataSource = Database.GetReceipts(customer);
                     dgv_Receipt_SelectionChanged(sender, e);
@@ -428,6 +551,9 @@ namespace NhakhoaMyNgoc_Db
             Util.DismissDirtyState(dgv_Customer);
             Util.DismissDirtyState(dgv_StockReceipt);
 
+            Util.IncludeDtpkDialog(dgv_Receipt);
+            Util.IncludeDtpkDialog(dgv_StockReceipt);
+
             // update
             msiKiemTraCapNhat.Click += (s, ev) => new frmUpdate().Show();
             btnEditStockList.Click += (s, ev) =>
@@ -444,129 +570,10 @@ namespace NhakhoaMyNgoc_Db
                 UpdateStockList();
         }
 
-        private void dgv_StockReceipt_SelectionChanged(object sender, EventArgs e)
+        private void tmProtection_Tick(object sender, EventArgs e)
         {
-            var r = dgv_StockReceipt.CurrentRow;
-            if (r == null)
-            {
-                Util.ClearForm(
-                    dtpkStockReceipt_Date,
-                    txtStockReceipt_Correspondent,
-                    txtStockReceipt_Division,
-                    txtStockReceipt_CertificateId,
-                    cboStockReceipt_StockId,
-                    dgv_StockReceipt_Content
-                );
-                return;
-            }
-
-            StockReceipt receipt = Util.MapRowTo<StockReceipt>(r);
-            DataTable details = Database.Query("StockReceiptDetail", null, new Dictionary<string, (QueryOperator, object)>
-            {
-                { "StockReceiptDetail_ReceiptId", (QueryOperator.EQUALS, receipt.StockReceipt_Id) },
-            });
-
-            details.Columns.Add("StockReceiptDetail_ItemName", typeof(string));
-
-            foreach (DataRow dr in details.Rows)
-            {
-                var itemId = Convert.ToInt32(dr["StockReceiptDetail_ItemId"]);
-                DataTable result = Database.Query("Stock", new List<string>() { "Stock_Name" },
-                    new Dictionary<string, (QueryOperator, object)> { { "Stock_Id", (QueryOperator.EQUALS, itemId) } });
-                if (result.Rows.Count > 0) {
-                    var itemName = result.Rows[0]["Stock_Name"];
-                    dr["StockReceiptDetail_ItemName"] = itemName;
-                }
-            }
-
-            Util.LoadRowToForm(r,
-                null,
-                dtpkStockReceipt_Date,
-                rb_Input,
-                txtStockReceipt_Correspondent,
-                txtStockReceipt_Division,
-                txtStockReceipt_Reason,
-                cboStockReceipt_StockId,
-                txtStockReceipt_CertificateId,
-                null
-                );
-
-            dgv_StockReceipt_Content.DataSource = details;
-        }
-
-        private void btnSaveStockReceipt_Click(object sender, EventArgs e)
-        {
-            var currentRow = dgv_StockReceipt.CurrentRow;
-            var receiptId = Convert.ToInt32(currentRow.Cells["StockReceipt_Id"].Value);
-
-            // update db
-            Database.UpdateRecord("StockReceipt", receiptId,
-                new Dictionary<string, object>
-            {
-                { "StockReceipt_IsInput"      , rb_Input.Checked ? 1 : 0                                    },
-                { "StockReceipt_Date"         , dtpkStockReceipt_Date.Value.ToString("yyyy-MM-dd HH:mm:ss") },
-                { "StockReceipt_Correspondent", txtStockReceipt_Correspondent.Text                          },
-                { "StockReceipt_Division"     , txtStockReceipt_Division.Text                               },
-                { "StockReceipt_Reason"       , txtStockReceipt_Reason.Text                                 },
-                { "StockReceipt_StockId"      , cboStockReceipt_StockId.SelectedValue                       },
-                { "StockReceipt_CertificateId", txtStockReceipt_CertificateId.Text                          }
-            });
-            foreach (DataGridViewRow row in dgv_StockReceipt_Content.Rows)
-            {
-                if (row != null && row.IsNewRow == false)
-                {
-                    var primaryValue = row.Cells["StockReceiptDetail_Id"].Value ?? DBNull.Value;
-
-                    // query kho
-                    Item newitem = new Item
-                    {
-                        Stock_Name = row.Cells["StockReceiptDetail_ItemName"].Value.ToString(),
-                        Stock_Unit = row.Cells["StockReceiptDetail_Unit"].Value.ToString(),
-                    };
-                    newitem.Stock_Total = newitem.Stock_Quantity * Convert.ToInt32(row.Cells["StockReceiptDetail_Price"].Value);
-                    DataTable checkResult = Database.Query("Stock",
-                        new List<string> { "Stock_Id" },
-                        new Dictionary<string, (QueryOperator, object)>
-                            { { "Stock_Name", (QueryOperator.COLLATE, newitem.Stock_Name) } });
-
-                    if (primaryValue == DBNull.Value)
-                    {
-                        // Nội dung vừa được thêm vào
-                        StockReceiptDetail newContent = Util.MapRowTo<StockReceiptDetail>(row);
-                        newContent.StockReceiptDetail_ReceiptId = receiptId;
-                        // Tìm lại StockId cho nó
-                        newContent.StockReceiptDetail_ItemId = checkResult.Rows.Count > 0 ?
-                            Convert.ToInt32(checkResult.Rows[0]["Stock_Id"]) :
-                            Database.AddRecord<Item>("Stock", newitem);
-
-                        Database.AddRecord<StockReceiptDetail>("StockReceiptDetail", newContent);
-                    }
-                    else
-                    {
-                        // Sửa
-                        var edits = new Dictionary<string, object>();
-                        foreach (DataGridViewColumn col in dgv_StockReceipt_Content.Columns)
-                        {
-                            if (col.Name.Contains("_Id")) continue;
-
-                            if (col.Name != "StockReceiptDetail_ItemName")
-                                edits.Add(col.Name, row.Cells[col.Name].Value);
-                            else
-                            {
-                                edits.Add("StockReceiptDetail_ItemId", checkResult.Rows.Count > 0 ?
-                                    checkResult.Rows[0]["Stock_Id"] :
-                                    Database.AddRecord<Item>("Stock", newitem)
-                                    );
-                            }
-                        }
-
-                        Database.UpdateRecord("StockReceiptDetail", Convert.ToInt32(primaryValue), edits);
-                    }
-                }
-            }
-
-            // update ui
-            LoadStockReceipts(sender, e);
+            btnSaveReceipt.Enabled = btnPrintReceipt.Enabled =
+                (dgv_Receipt.Rows.Count > 0 && dgv_Receipt.CurrentRow != null);
         }
     }
 }
