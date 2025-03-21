@@ -73,19 +73,6 @@ namespace NhakhoaMyNgoc_Db
             }
         }
 
-        public static int AddRecord(string tableName, params object[] values) {
-            string parameterList = string.Join(", ", Enumerable.Range(1, values.Length).Select(i => $"@object{i}"));
-            string sql = $"INSERT INTO {tableName} VALUES ({parameterList}) RETURNING {tableName}_Id;";
-            using (var command = new SQLiteCommand(sql, connection))
-            {
-                for (int i = 0; i < values.Length; i++)
-                    command.Parameters.AddWithValue($"@object{i}", values[i]);
-
-                object lastId = command.ExecuteScalar();
-                return Convert.ToInt32(lastId);
-            }
-        }
-
         /// <summary>
         /// Cập nhật giá trị trong bảng.
         /// </summary>

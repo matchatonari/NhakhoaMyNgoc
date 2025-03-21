@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 
 namespace NhakhoaMyNgoc_Db
 {
@@ -49,16 +50,8 @@ namespace NhakhoaMyNgoc_Db
                 {
                     { "StockReceipt_Date", (QueryOperator.BETWEEN, (from, to)) }
                 });
-            DataTable renderResult = result.Clone();
-            renderResult.Columns["StockReceipt_IsInput"].DataType = typeof(bool);
-            result.AsEnumerable().ToList().ForEach(row =>
-            {
-                var newRow = renderResult.NewRow();
-                newRow.ItemArray = row.ItemArray;
-                newRow["StockReceipt_IsInput"] = Convert.ToInt32(row["StockReceipt_IsInput"]) == 1; // Chuyển 0/1 thành bool
-                renderResult.Rows.Add(newRow);
-            });
-            dgv_StockReceipt.DataSource = renderResult;
+
+            Util.LoadTableToDataGridView(result, dgv_StockReceipt);
 
             bsStock.DataSource = Database.Query("Stock");
             dgv_StockReceipt_SelectionChanged(sender, e);
@@ -522,12 +515,22 @@ namespace NhakhoaMyNgoc_Db
             // event ngày đến >= ngày từ truy vấn đơn nhập
             dtpk_Receipt_FromDate.ValueChanged += (s, ev) =>
                 dtpk_Receipt_ToDate.MinDate = dtpk_Receipt_FromDate.Value;
+            dtpk_Expense_FromDate.ValueChanged += (s, ev) =>
+                dtpk_Expense_ToDate.MinDate = dtpk_Expense_FromDate.Value;
 
-            // reset format N0 mỗi khi cập nhật giá trị
-            Util.AttachReformatHook(dgv_Receipt_Content);
-            Util.AttachReformatHook(dgv_Receipt);
-            Util.AttachReformatHook(dgv_StockReceipt_Content);
-            Util.AttachReformatHook(dgv_StockReceipt);
+            Util.AttachHook<ReceiptDetail>(dgv_Receipt_Content,
+                Util.HOOK_REFORMAT | Util.HOOK_DELETE, "ReceiptDetail", true);
+            Util.AttachHook<StockReceiptDetail>(dgv_StockReceipt_Content,
+                Util.HOOK_REFORMAT | Util.HOOK_DELETE, "StockReceiptDetail", true);
+            Util.AttachHook<Receipt>(dgv_Receipt,
+                Util.HOOK_REFORMAT | Util.HOOK_UPDATE | Util.HOOK_DELETE | Util.HOOK_DTPKDIALOG, "Receipt", true);
+            Util.AttachHook<StockReceipt>(dgv_StockReceipt,
+                Util.HOOK_REFORMAT | Util.HOOK_UPDATE | Util.HOOK_DELETE | Util.HOOK_DISMISS | Util.HOOK_DTPKDIALOG, "StockReceipt", true);
+            Util.AttachHook<Expense>(dgv_Expense,
+                Util.HOOK_REFORMAT | Util.HOOK_UPDATE | Util.HOOK_DELETE | Util.HOOK_DTPKDIALOG | Util.HOOK_DISMISS, "Expense", true);
+            Util.AttachHook<Customer>(dgv_Customer,
+                Util.HOOK_UPDATE | Util.HOOK_DELETE | Util.HOOK_RESTORE | Util.HOOK_DISMISS, "Customer", false, tsi_Restore);
+
 
             // sửa db
             dgv_StockReceipt.CellBeginEdit += (s, ev) =>
@@ -535,24 +538,6 @@ namespace NhakhoaMyNgoc_Db
                 dgv_StockReceipt.CurrentCell.Tag =
                     (dgv_StockReceipt.Columns[ev.ColumnIndex].Name, dgv_StockReceipt.CurrentCell.Value);
             };
-
-            Util.AttachUpdateHook(dgv_Receipt, "Receipt");
-            Util.AttachUpdateHook(dgv_Customer, "Customer");
-            Util.AttachUpdateHook(dgv_StockReceipt, "StockReceipt");
-
-            Util.AttachDeleteHook(dgv_Customer, "Customer");
-            Util.AttachDeleteHook(dgv_Receipt, "Receipt", true);
-            Util.AttachDeleteHook(dgv_StockReceipt, "StockReceipt", true);
-            Util.AttachDeleteHook(dgv_Receipt_Content, "ReceiptDetail");
-            Util.AttachDeleteHook(dgv_StockReceipt_Content, "StockReceiptDetail");
-
-            tsi_Restore.Click += (s, ev) => Util.AttachRestoreHook(dgv_Customer, "Customer");
-
-            Util.DismissDirtyState(dgv_Customer);
-            Util.DismissDirtyState(dgv_StockReceipt);
-
-            Util.IncludeDtpkDialog(dgv_Receipt);
-            Util.IncludeDtpkDialog(dgv_StockReceipt);
 
             // update
             msiKiemTraCapNhat.Click += (s, ev) => new frmUpdate().Show();
@@ -562,6 +547,8 @@ namespace NhakhoaMyNgoc_Db
                     UpdateStockList();
             };
             btn_SearchStockReceipt.Click += (s, ev) => LoadStockReceipts(s, ev);
+
+            btnSearchExpenses_Click(sender, e);
         }
 
         private void tbcMain_SelectedIndexChanged(object sender, EventArgs e)
@@ -574,6 +561,28 @@ namespace NhakhoaMyNgoc_Db
         {
             btnSaveReceipt.Enabled = btnPrintReceipt.Enabled =
                 (dgv_Receipt.Rows.Count > 0 && dgv_Receipt.CurrentRow != null);
+        }
+
+        private void btnSearchExpenses_Click(object sender, EventArgs e)
+        {
+            DateTime from = dtpk_Expense_FromDate.Value.Date;
+            DateTime to = dtpk_Expense_ToDate.Value.AddDays(1).AddSeconds(-1).Date;
+            DataTable result = Database.Query("Expense", conditions: new Dictionary<string, (QueryOperator, object)> 
+                { { "Expense_Date", (QueryOperator.BETWEEN, (from, to)) } });
+
+            Util.LoadTableToDataGridView(result, dgv_Expense);
+
+            int income = dgv_Expense.Rows.Cast<DataGridViewRow>()
+                .Where(dr => Convert.ToBoolean(dr.Cells["Expense_IsInput"].Value))
+                .Sum(dr => Convert.ToInt32(dr.Cells["Expense_Amount"].Value));
+            int expense = dgv_Expense.Rows.Cast<DataGridViewRow>()
+                .Where(dr => !Convert.ToBoolean(dr.Cells["Expense_IsInput"].Value))
+                .Sum(dr => Convert.ToInt32(dr.Cells["Expense_Amount"].Value));
+            int revenue = income - expense;
+
+            lblIncome.Text = string.Format("{0:N0}₫", income);
+            lblExpense.Text = string.Format("{0:N0}₫", expense);
+            lblRevenue.Text = string.Format("{0:N0}₫", revenue);
         }
     }
 }

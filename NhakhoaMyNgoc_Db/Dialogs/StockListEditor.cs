@@ -1,12 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace NhakhoaMyNgoc_Db
@@ -25,9 +17,7 @@ namespace NhakhoaMyNgoc_Db
             bsStockList.DataSource = Database.Query("StockList");
             dgv_StockList.DataSource = bsStockList;
 
-            Util.AttachUpdateHook(dgv_StockList, "StockList");
-            Util.AttachDeleteHook(dgv_StockList, "StockList", false);
-            tsi_Restore.Click += (s, ev) => Util.AttachRestoreHook(dgv_StockList, "StockList");
+            Util.AttachHook<Stock>(dgv_StockList, Util.HOOK_UPDATE | Util.HOOK_DELETE | Util.HOOK_RESTORE, "StockList", false, tsi_Restore);
 
             cbStockList_IsActive_CheckedChanged(sender, e);
         }

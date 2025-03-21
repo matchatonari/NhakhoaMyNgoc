@@ -4,7 +4,6 @@ using System.Data;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace NhakhoaMyNgoc_Db
@@ -80,9 +79,26 @@ namespace NhakhoaMyNgoc_Db
         public string StockList_Address { get; set; }
     };
 
+    public class Expense
+    {
+        public int Expense_Id { get; set; }
+        public string Expense_Date { get; set; }
+        public bool Expense_IsInput { get; set; }
+        public string Expense_Participant { get; set; }
+        public string Expense_Content { get; set; }
+        public string Expense_Amount { get; set; }
+    };
+
     public static class Util
     {
-        public static void AttachReformatHook(DataGridView dgv)
+        public const int HOOK_REFORMAT = 0b000001;
+        public const int HOOK_UPDATE = 0b000010;
+        public const int HOOK_DELETE = 0b000100;
+        public const int HOOK_RESTORE = 0b001000;
+        public const int HOOK_DISMISS = 0b010000;
+        public const int HOOK_DTPKDIALOG = 0b100000;
+
+        private static void AttachReformatHook(DataGridView dgv)
         {
             dgv.CellFormatting += (sender, e) =>
             {
@@ -95,7 +111,20 @@ namespace NhakhoaMyNgoc_Db
             };
         }
 
-        public static void AttachUpdateHook(DataGridView dgv, string tableName)
+        private static bool IsRecordFullyEntered<T>(T record)
+        {
+            foreach (var prop in typeof(T).GetProperties())
+            {
+                if (prop.Name.EndsWith("_Id")) continue; // Bỏ qua cột có "_Id"
+
+                var value = prop.GetValue(record);
+                if (value == null || value is DBNull || (value is string str && str.Length == 0))
+                    return false; // Nếu có giá trị null, DBNull hoặc chuỗi rỗng => chưa nhập đủ
+            }
+            return true;
+        }
+
+        private static void AttachUpdateHook<T>(DataGridView dgv, string tableName) where T : new()
         {
             dgv.CellValueChanged += (sender, e) => {
                 if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
@@ -113,12 +142,17 @@ namespace NhakhoaMyNgoc_Db
                         newValue = ((newValue != DBNull.Value && Convert.ToBoolean(newValue)) ? 1 : 0);
                     // ghi đè dữ liệu vào db
                     DataTable result = Database.UpdateRecord(tableName, Convert.ToInt32(id), new Dictionary<string, object>
-                    { { currentColumn.Name, newValue } });
+                        { { currentColumn.Name, newValue } });
+                } else
+                {
+                    T record = MapRowTo<T>(dgv.CurrentRow);
+                    if (IsRecordFullyEntered<T>(record))
+                        Database.AddRecord(tableName, record);
                 }
             };
         }
 
-        public static void AttachDeleteHook(DataGridView dgv, string tableName, bool deletePermanently = false)
+        private static void AttachDeleteHook(DataGridView dgv, string tableName, bool deletePermanently = false)
         {
             dgv.KeyDown += (sender, e) => {
                 if (e.KeyCode == Keys.Delete)
@@ -169,7 +203,7 @@ namespace NhakhoaMyNgoc_Db
                                     deleteIndices.Add(cell.OwningRow);
                                     primaryValues.Add(Convert.ToInt32(dgv.Rows[cell.RowIndex].Cells[$"{tableName}_Id"].Value));
                                 }
-                                foreach (DataGridViewRow row in deleteIndices.OrderByDescending(i => i))
+                                foreach (DataGridViewRow row in deleteIndices.OrderByDescending(i => i.Index))
                                     dgv.Rows.Remove(row);
                                 Database.DeleteRecord(tableName, primaryValues);
                                 break;
@@ -179,27 +213,46 @@ namespace NhakhoaMyNgoc_Db
             };
         }
 
-        public static void AttachRestoreHook(DataGridView dgv, string tableName)
+        private static void AttachRestoreHook(ToolStripMenuItem ctl, DataGridView dgv, string tableName)
         {
-            DataTable dt = (DataTable)((BindingSource)dgv.DataSource).DataSource;
-            foreach (DataGridViewRow row in dgv.SelectedRows)
+            ctl.Click += (sender, e) =>
             {
-                Database.UpdateRecord(tableName,
-                    Convert.ToInt32(row.Cells[$"{tableName}_Id"].Value),
-                    new Dictionary<string, object>
+                DataTable dt = (DataTable)((BindingSource)dgv.DataSource).DataSource;
+                foreach (DataGridViewRow row in dgv.SelectedRows)
                 {
+                    Database.UpdateRecord(tableName,
+                        Convert.ToInt32(row.Cells[$"{tableName}_Id"].Value),
+                        new Dictionary<string, object>
+                    {
                     { $"{tableName}_IsActive", 1 }
-                });
+                    });
 
-                DataRow[] selectedRow = dt.Select($"{tableName}_Id = " + row.Cells[$"{tableName}_Id"].Value);
-                selectedRow[0][$"{tableName}_IsActive"] = 1;
-            }
+                    DataRow[] selectedRow = dt.Select($"{tableName}_Id = " + row.Cells[$"{tableName}_Id"].Value);
+                    selectedRow[0][$"{tableName}_IsActive"] = 1;
+                }
+            };
         }
 
-        public static void DismissDirtyState(DataGridView dgv) {
+        public static void AttachHook<T>(DataGridView dgv, int hook, string tableName = null, bool unrecoverable = false, ToolStripMenuItem ctl = null) where T : new()
+        {
+            if ((hook & HOOK_REFORMAT) > 0)
+                AttachReformatHook(dgv);
+            if ((hook & HOOK_UPDATE) > 0)
+                AttachUpdateHook<T>(dgv, tableName);
+            if ((hook & HOOK_DELETE) > 0)
+                AttachDeleteHook(dgv, tableName, unrecoverable);
+            if ((hook & HOOK_RESTORE) > 0)
+                AttachRestoreHook(ctl, dgv, tableName);
+            if ((hook & HOOK_DISMISS) > 0)
+                DismissDirtyState(dgv);
+            if ((hook & HOOK_DTPKDIALOG) > 0)
+                IncludeDtpkDialog(dgv);
+        }
+
+        private static void DismissDirtyState(DataGridView dgv) {
             dgv.CurrentCellDirtyStateChanged += (sender, e) =>
             {
-                if (dgv.CurrentCell is DataGridViewComboBoxCell)
+                if (dgv.CurrentCell is DataGridViewComboBoxCell || dgv.CurrentCell is DataGridViewCheckBoxCell)
                     dgv.CommitEdit(DataGridViewDataErrorContexts.Commit);
             };
         }
@@ -216,6 +269,24 @@ namespace NhakhoaMyNgoc_Db
                     row.Cells[prop.Name].Value != DBNull.Value)
                 {
                     object value = row.Cells[prop.Name].Value;
+                    prop.SetValue(obj, Convert.ChangeType(value, prop.PropertyType));
+                }
+            }
+            return obj;
+        }
+
+        public static T MapRowTo<T>(DataRow row) where T : new()
+        {
+            T obj = new T();
+            var properties = typeof(T).GetProperties();
+
+            foreach (var prop in properties)
+            {
+                if (row.Table.Columns.Contains(prop.Name) &&
+                    row[prop.Name] != null &&
+                    row[prop.Name] != DBNull.Value)
+                {
+                    object value = row[prop.Name];
                     prop.SetValue(obj, Convert.ChangeType(value, prop.PropertyType));
                 }
             }
@@ -281,7 +352,7 @@ namespace NhakhoaMyNgoc_Db
             }
         }
 
-        public static void IncludeDtpkDialog(DataGridView dgv)
+        private static void IncludeDtpkDialog(DataGridView dgv)
         {
             dgv.CellBeginEdit += (sender, e) =>
             {
@@ -291,7 +362,7 @@ namespace NhakhoaMyNgoc_Db
                 e.Cancel = true;
                 // Lấy giá trị ngày hiện tại trong ô
                 DateTime currentDate = DateTime.Now;
-                if (dgv.CurrentCell.Value != null)
+                if (dgv.CurrentCell.Value != DBNull.Value)
                     DateTime.TryParse(dgv.CurrentCell.Value.ToString(), out currentDate);
 
                 // Mở form chọn ngày
@@ -304,6 +375,31 @@ namespace NhakhoaMyNgoc_Db
                     }
                 }
             };
+        }
+        
+        public static void LoadTableToDataGridView(DataTable dt, DataGridView dgv)
+        {
+            DataTable renderResult = dt.Clone();
+
+            foreach (DataGridViewColumn c in dgv.Columns)
+                if (c is DataGridViewCheckBoxColumn)
+                    renderResult.Columns[c.Name].DataType = typeof(bool);
+
+            foreach (DataRow r in dt.Rows)
+            {
+                var newRow = renderResult.NewRow();
+                foreach (DataGridViewColumn c in dgv.Columns)
+                {
+                    if (c is DataGridViewCheckBoxColumn)
+                        newRow[c.Name] = (Convert.ToInt32(r[c.Name]) == 1);
+                    else
+                        newRow[c.Name] = r[c.Name];
+                }
+                renderResult.Rows.Add(newRow);
+            }
+
+            dgv.DataSource = renderResult;
+            renderResult.AcceptChanges();
         }
     }
 

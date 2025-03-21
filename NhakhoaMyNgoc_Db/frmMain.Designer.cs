@@ -171,10 +171,29 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.panel9 = new System.Windows.Forms.Panel();
+            this.dgv_Expense = new System.Windows.Forms.DataGridView();
+            this.Expense_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Expense_Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Expense_IsInput = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Expense_Participant = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Expense_Content = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Expense_Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel8 = new System.Windows.Forms.Panel();
+            this.btnSearchExpenses = new System.Windows.Forms.Button();
+            this.dtpk_Expense_ToDate = new System.Windows.Forms.DateTimePicker();
+            this.dtpk_Expense_FromDate = new System.Windows.Forms.DateTimePicker();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblIncome = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblExpense = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblRevenue = new System.Windows.Forms.ToolStripStatusLabel();
             this.tmProtection = new System.Windows.Forms.Timer(this.components);
-            this.dataGridView3 = new System.Windows.Forms.DataGridView();
-            this.a = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button1 = new System.Windows.Forms.Button();
             this.cmsCustomer.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -207,8 +226,10 @@
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_StockReceipt_Content)).BeginInit();
             this.tabPage3.SuspendLayout();
+            this.panel9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Expense)).BeginInit();
             this.panel8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
+            this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmsCustomer
@@ -455,10 +476,10 @@
             // 
             this.tabPage5.Controls.Add(this.panel7);
             this.tabPage5.Controls.Add(this.panel4);
-            this.tabPage5.Location = new System.Drawing.Point(4, 29);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(1078, 877);
+            this.tabPage5.Size = new System.Drawing.Size(1078, 884);
             this.tabPage5.TabIndex = 1;
             this.tabPage5.Text = "Khách hàng";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -469,7 +490,7 @@
             this.panel7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel7.Location = new System.Drawing.Point(3, 37);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(1072, 837);
+            this.panel7.Size = new System.Drawing.Size(1072, 844);
             this.panel7.TabIndex = 1;
             // 
             // dgv_Customer
@@ -503,7 +524,7 @@
             this.dgv_Customer.Name = "dgv_Customer";
             this.dgv_Customer.RowHeadersWidth = 43;
             this.dgv_Customer.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_Customer.Size = new System.Drawing.Size(1072, 837);
+            this.dgv_Customer.Size = new System.Drawing.Size(1072, 844);
             this.dgv_Customer.TabIndex = 45;
             this.dgv_Customer.SelectionChanged += new System.EventHandler(this.dgv_Customer_SelectionChanged);
             // 
@@ -1153,10 +1174,10 @@
             // tabPage7
             // 
             this.tabPage7.Controls.Add(this.dgv_Stock);
-            this.tabPage7.Location = new System.Drawing.Point(4, 29);
+            this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(1138, 877);
+            this.tabPage7.Size = new System.Drawing.Size(1138, 884);
             this.tabPage7.TabIndex = 1;
             this.tabPage7.Text = "Tồn kho";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -1178,7 +1199,7 @@
             this.dgv_Stock.Name = "dgv_Stock";
             this.dgv_Stock.RowHeadersWidth = 43;
             this.dgv_Stock.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_Stock.Size = new System.Drawing.Size(1132, 871);
+            this.dgv_Stock.Size = new System.Drawing.Size(1132, 878);
             this.dgv_Stock.TabIndex = 17;
             // 
             // Stock_Id
@@ -1506,7 +1527,9 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.panel9);
             this.tabPage3.Controls.Add(this.panel8);
+            this.tabPage3.Controls.Add(this.statusStrip);
             this.tabPage3.Location = new System.Drawing.Point(4, 29);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -1515,14 +1538,187 @@
             this.tabPage3.Text = "Quyết toán thu chi";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // panel9
+            // 
+            this.panel9.Controls.Add(this.dgv_Expense);
+            this.panel9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel9.Location = new System.Drawing.Point(3, 50);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(1898, 838);
+            this.panel9.TabIndex = 2;
+            // 
+            // dgv_Expense
+            // 
+            this.dgv_Expense.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_Expense.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Expense_Id,
+            this.Expense_Date,
+            this.Expense_IsInput,
+            this.Expense_Participant,
+            this.Expense_Content,
+            this.Expense_Amount});
+            this.dgv_Expense.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_Expense.Location = new System.Drawing.Point(0, 0);
+            this.dgv_Expense.Name = "dgv_Expense";
+            this.dgv_Expense.Size = new System.Drawing.Size(1898, 838);
+            this.dgv_Expense.TabIndex = 0;
+            // 
+            // Expense_Id
+            // 
+            this.Expense_Id.DataPropertyName = "Expense_Id";
+            this.Expense_Id.HeaderText = "Mã đơn";
+            this.Expense_Id.Name = "Expense_Id";
+            this.Expense_Id.ReadOnly = true;
+            // 
+            // Expense_Date
+            // 
+            this.Expense_Date.DataPropertyName = "Expense_Date";
+            this.Expense_Date.HeaderText = "Ngày";
+            this.Expense_Date.Name = "Expense_Date";
+            this.Expense_Date.Width = 200;
+            // 
+            // Expense_IsInput
+            // 
+            this.Expense_IsInput.DataPropertyName = "Expense_IsInput";
+            this.Expense_IsInput.HeaderText = "Thu";
+            this.Expense_IsInput.Name = "Expense_IsInput";
+            this.Expense_IsInput.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Expense_IsInput.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Expense_IsInput.Width = 50;
+            // 
+            // Expense_Participant
+            // 
+            this.Expense_Participant.DataPropertyName = "Expense_Participant";
+            this.Expense_Participant.HeaderText = "Đối tượng";
+            this.Expense_Participant.Name = "Expense_Participant";
+            this.Expense_Participant.Width = 200;
+            // 
+            // Expense_Content
+            // 
+            this.Expense_Content.DataPropertyName = "Expense_Content";
+            this.Expense_Content.HeaderText = "Nội dung";
+            this.Expense_Content.Name = "Expense_Content";
+            this.Expense_Content.Width = 400;
+            // 
+            // Expense_Amount
+            // 
+            this.Expense_Amount.DataPropertyName = "Expense_Amount";
+            this.Expense_Amount.HeaderText = "Số tiền";
+            this.Expense_Amount.Name = "Expense_Amount";
+            this.Expense_Amount.Width = 150;
+            // 
             // panel8
             // 
-            this.panel8.Controls.Add(this.dataGridView3);
-            this.panel8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel8.Controls.Add(this.button1);
+            this.panel8.Controls.Add(this.btnSearchExpenses);
+            this.panel8.Controls.Add(this.dtpk_Expense_ToDate);
+            this.panel8.Controls.Add(this.dtpk_Expense_FromDate);
+            this.panel8.Controls.Add(this.label13);
+            this.panel8.Controls.Add(this.label19);
+            this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel8.Location = new System.Drawing.Point(3, 3);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(1898, 910);
-            this.panel8.TabIndex = 45;
+            this.panel8.Size = new System.Drawing.Size(1898, 47);
+            this.panel8.TabIndex = 1;
+            // 
+            // btnSearchExpenses
+            // 
+            this.btnSearchExpenses.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.SEARCH;
+            this.btnSearchExpenses.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSearchExpenses.Location = new System.Drawing.Point(488, 1);
+            this.btnSearchExpenses.Name = "btnSearchExpenses";
+            this.btnSearchExpenses.Size = new System.Drawing.Size(37, 40);
+            this.btnSearchExpenses.TabIndex = 30;
+            this.btnSearchExpenses.UseVisualStyleBackColor = true;
+            this.btnSearchExpenses.Click += new System.EventHandler(this.btnSearchExpenses_Click);
+            // 
+            // dtpk_Expense_ToDate
+            // 
+            this.dtpk_Expense_ToDate.CustomFormat = "dd/MM/yyyy";
+            this.dtpk_Expense_ToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpk_Expense_ToDate.Location = new System.Drawing.Point(282, 8);
+            this.dtpk_Expense_ToDate.Name = "dtpk_Expense_ToDate";
+            this.dtpk_Expense_ToDate.Size = new System.Drawing.Size(200, 27);
+            this.dtpk_Expense_ToDate.TabIndex = 16;
+            // 
+            // dtpk_Expense_FromDate
+            // 
+            this.dtpk_Expense_FromDate.CustomFormat = "dd/MM/yyyy";
+            this.dtpk_Expense_FromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpk_Expense_FromDate.Location = new System.Drawing.Point(34, 8);
+            this.dtpk_Expense_FromDate.Name = "dtpk_Expense_FromDate";
+            this.dtpk_Expense_FromDate.Size = new System.Drawing.Size(200, 27);
+            this.dtpk_Expense_FromDate.TabIndex = 16;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(240, 14);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(34, 20);
+            this.label13.TabIndex = 15;
+            this.label13.Text = "đến";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(1, 14);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(26, 20);
+            this.label19.TabIndex = 15;
+            this.label19.Text = "Từ";
+            // 
+            // statusStrip
+            // 
+            this.statusStrip.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1,
+            this.lblIncome,
+            this.toolStripStatusLabel3,
+            this.lblExpense,
+            this.toolStripStatusLabel5,
+            this.lblRevenue});
+            this.statusStrip.Location = new System.Drawing.Point(3, 888);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(1898, 25);
+            this.statusStrip.TabIndex = 0;
+            this.statusStrip.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(71, 20);
+            this.toolStripStatusLabel1.Text = "Tổng thu:";
+            // 
+            // lblIncome
+            // 
+            this.lblIncome.Name = "lblIncome";
+            this.lblIncome.Size = new System.Drawing.Size(17, 20);
+            this.lblIncome.Text = "0";
+            // 
+            // toolStripStatusLabel3
+            // 
+            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(69, 20);
+            this.toolStripStatusLabel3.Text = "Tổng chi:";
+            // 
+            // lblExpense
+            // 
+            this.lblExpense.Name = "lblExpense";
+            this.lblExpense.Size = new System.Drawing.Size(17, 20);
+            this.lblExpense.Text = "0";
+            // 
+            // toolStripStatusLabel5
+            // 
+            this.toolStripStatusLabel5.Name = "toolStripStatusLabel5";
+            this.toolStripStatusLabel5.Size = new System.Drawing.Size(58, 20);
+            this.toolStripStatusLabel5.Text = "Còn lại:";
+            // 
+            // lblRevenue
+            // 
+            this.lblRevenue.Name = "lblRevenue";
+            this.lblRevenue.Size = new System.Drawing.Size(17, 20);
+            this.lblRevenue.Text = "0";
             // 
             // tmProtection
             // 
@@ -1530,22 +1726,16 @@
             this.tmProtection.Interval = 500;
             this.tmProtection.Tick += new System.EventHandler(this.tmProtection_Tick);
             // 
-            // dataGridView3
+            // button1
             // 
-            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView3.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.a});
-            this.dataGridView3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView3.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView3.Name = "dataGridView3";
-            this.dataGridView3.RowHeadersWidth = 43;
-            this.dataGridView3.Size = new System.Drawing.Size(1898, 910);
-            this.dataGridView3.TabIndex = 36;
-            // 
-            // a
-            // 
-            this.a.HeaderText = "Column1";
-            this.a.Name = "a";
+            this.button1.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.reshot_icon_print_math_sheet_Y8RFCP23N4;
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button1.Enabled = false;
+            this.button1.Location = new System.Drawing.Point(531, 1);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(40, 40);
+            this.button1.TabIndex = 31;
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // frm_Main
             // 
@@ -1601,8 +1791,13 @@
             this.panel6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_StockReceipt_Content)).EndInit();
             this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            this.panel9.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Expense)).EndInit();
             this.panel8.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
+            this.panel8.PerformLayout();
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1695,7 +1890,6 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.Panel panel8;
         private System.Windows.Forms.BindingSource bsStock;
         private System.Windows.Forms.BindingSource bsCustomer;
         private System.Windows.Forms.DataGridViewTextBoxColumn Customer_Id;
@@ -1754,8 +1948,28 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn StockReceipt_StockId;
         private System.Windows.Forms.DataGridViewTextBoxColumn StockReceipt_CertificateId;
         private System.Windows.Forms.DataGridViewTextBoxColumn StockReceipt_Total;
-        private System.Windows.Forms.DataGridView dataGridView3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn a;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel lblIncome;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
+        private System.Windows.Forms.ToolStripStatusLabel lblExpense;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel5;
+        private System.Windows.Forms.ToolStripStatusLabel lblRevenue;
+        private System.Windows.Forms.Panel panel8;
+        private System.Windows.Forms.Button btnSearchExpenses;
+        private System.Windows.Forms.DateTimePicker dtpk_Expense_ToDate;
+        private System.Windows.Forms.DateTimePicker dtpk_Expense_FromDate;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Panel panel9;
+        private System.Windows.Forms.DataGridView dgv_Expense;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Expense_Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Expense_Date;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Expense_IsInput;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Expense_Participant;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Expense_Content;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Expense_Amount;
+        private System.Windows.Forms.Button button1;
     }
 }
 

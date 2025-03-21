@@ -17,6 +17,7 @@ namespace NhakhoaMyNgoc_Db
         public DateTimePickerDialog(DateTime initialDateTime)
         {
             InitializeComponent();
+
             mcCalendar.SelectionStart = initialDateTime.Date;
             dtpkTime.Value = new DateTime(2000, 1, 1).Add(initialDateTime.TimeOfDay);
         }

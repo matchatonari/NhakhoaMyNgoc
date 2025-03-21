@@ -211,6 +211,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\SAVE.png" />
     <None Include="Resources\TRASH.png" />
     <None Include="Resources\reshot-icon-print-math-sheet-Y8RFCP23N4.png" />
     <None Include="Resources\ADD.png" />
