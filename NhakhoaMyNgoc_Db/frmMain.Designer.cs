@@ -47,12 +47,10 @@
             this.tsi_Restore = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.giúpĐỡToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hướngDẫnSửDụngToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsiHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.msiKiemTraCapNhat = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label26 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tbcMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -76,15 +74,12 @@
             this.Customer_CitizenId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Customer_Address = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Customer_Phone = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bsCustomer = new System.Windows.Forms.BindingSource(this.components);
             this.panel4 = new System.Windows.Forms.Panel();
             this.cb_Customer_IsActive = new System.Windows.Forms.CheckBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.rdCustomer_Female = new System.Windows.Forms.RadioButton();
             this.rdCustomer_Male = new System.Windows.Forms.RadioButton();
-            this.btn_DeleteDetails = new System.Windows.Forms.Button();
-            this.btn_SearchReceipt = new System.Windows.Forms.Button();
             this.txtCustomer_Address = new System.Windows.Forms.TextBox();
             this.txtCustomer_Phone = new System.Windows.Forms.TextBox();
             this.txtCustomer_FullName = new System.Windows.Forms.TextBox();
@@ -104,9 +99,6 @@
             this.ReceiptDetail_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ReceiptDetail_Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ReceiptDetail_Discount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnPrintReceipt = new System.Windows.Forms.Button();
-            this.btnSaveReceipt = new System.Windows.Forms.Button();
-            this.btn_AddReceipt = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.dtpkReceipt_RevisitDate = new System.Windows.Forms.DateTimePicker();
             this.dtpkReceipt_Date = new System.Windows.Forms.DateTimePicker();
@@ -129,7 +121,6 @@
             this.StockReceipt_CertificateId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StockReceipt_Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel10 = new System.Windows.Forms.Panel();
-            this.btn_SearchStockReceipt = new System.Windows.Forms.Button();
             this.dtpk_Receipt_ToDate = new System.Windows.Forms.DateTimePicker();
             this.dtpk_Receipt_FromDate = new System.Windows.Forms.DateTimePicker();
             this.label9 = new System.Windows.Forms.Label();
@@ -141,10 +132,7 @@
             this.Stock_Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Stock_Unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Stock_Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bsStock = new System.Windows.Forms.BindingSource(this.components);
             this.panel6 = new System.Windows.Forms.Panel();
-            this.btnPrintStockReceipt = new System.Windows.Forms.Button();
-            this.btnSaveStockReceipt = new System.Windows.Forms.Button();
             this.btnEditStockList = new System.Windows.Forms.Button();
             this.cboStockReceipt_StockId = new System.Windows.Forms.ComboBox();
             this.txtStockReceipt_Division = new System.Windows.Forms.TextBox();
@@ -166,15 +154,21 @@
             this.StockReceiptDetail_Demand = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StockReceiptDetail_Unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label7 = new System.Windows.Forms.Label();
-            this.btn_AddStockReceipt = new System.Windows.Forms.Button();
             this.dtpkStockReceipt_Date = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.panel9 = new System.Windows.Forms.Panel();
             this.dgv_Expense = new System.Windows.Forms.DataGridView();
+            this.Expense_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Expense_Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Expense_IsInput = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Expense_Participant = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Expense_Address = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Expense_Content = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Expense_Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Expense_CertificateId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel8 = new System.Windows.Forms.Panel();
-            this.btnSearchExpenses = new System.Windows.Forms.Button();
             this.dtpk_Expense_ToDate = new System.Windows.Forms.DateTimePicker();
             this.dtpk_Expense_FromDate = new System.Windows.Forms.DateTimePicker();
             this.label13 = new System.Windows.Forms.Label();
@@ -187,21 +181,26 @@
             this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblRevenue = new System.Windows.Forms.ToolStripStatusLabel();
             this.tmProtection = new System.Windows.Forms.Timer(this.components);
-            this.btnPrintExpense = new System.Windows.Forms.Button();
-            this.Expense_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Expense_Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Expense_IsInput = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Expense_Participant = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Expense_Address = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Expense_Content = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Expense_Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Expense_CertificateId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tsiAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this.btn_SearchReceipt = new System.Windows.Forms.Button();
+            this.bsCustomer = new System.Windows.Forms.BindingSource(this.components);
             this.btnPrintCustomerHistory = new System.Windows.Forms.Button();
+            this.btn_DeleteDetails = new System.Windows.Forms.Button();
+            this.btnPrintReceipt = new System.Windows.Forms.Button();
+            this.btnSaveReceipt = new System.Windows.Forms.Button();
+            this.btn_AddReceipt = new System.Windows.Forms.Button();
             this.btnPrintStock = new System.Windows.Forms.Button();
+            this.btn_SearchStockReceipt = new System.Windows.Forms.Button();
+            this.bsStock = new System.Windows.Forms.BindingSource(this.components);
+            this.btnPrintStockReceipt = new System.Windows.Forms.Button();
+            this.btnSaveStockReceipt = new System.Windows.Forms.Button();
+            this.btn_AddStockReceipt = new System.Windows.Forms.Button();
+            this.btnPrintExpense = new System.Windows.Forms.Button();
+            this.btnSearchExpenses = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.cmsCustomer.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tbcMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -211,7 +210,6 @@
             this.tabPage5.SuspendLayout();
             this.panel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Customer)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bsCustomer)).BeginInit();
             this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -226,7 +224,6 @@
             this.panel10.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Stock)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bsStock)).BeginInit();
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_StockReceipt_Content)).BeginInit();
             this.tabPage3.SuspendLayout();
@@ -234,6 +231,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Expense)).BeginInit();
             this.panel8.SuspendLayout();
             this.statusStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bsCustomer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bsStock)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // cmsCustomer
@@ -265,28 +265,24 @@
             // giúpĐỡToolStripMenuItem
             // 
             this.giúpĐỡToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.hướngDẫnSửDụngToolStripMenuItem,
-            this.toolStripMenuItem1,
-            this.msiKiemTraCapNhat});
+            this.tsiHelp,
+            this.msiKiemTraCapNhat,
+            this.tsiAbout});
             this.giúpĐỡToolStripMenuItem.Name = "giúpĐỡToolStripMenuItem";
             this.giúpĐỡToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
             this.giúpĐỡToolStripMenuItem.Text = "Trợ giúp";
             // 
-            // hướngDẫnSửDụngToolStripMenuItem
+            // tsiHelp
             // 
-            this.hướngDẫnSửDụngToolStripMenuItem.Name = "hướngDẫnSửDụngToolStripMenuItem";
-            this.hướngDẫnSửDụngToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
-            this.hướngDẫnSửDụngToolStripMenuItem.Text = "Hướng dẫn";
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(131, 6);
+            this.tsiHelp.Name = "tsiHelp";
+            this.tsiHelp.Size = new System.Drawing.Size(180, 22);
+            this.tsiHelp.Text = "Hướng dẫn";
+            this.tsiHelp.Click += new System.EventHandler(this.tsiHelp_Click);
             // 
             // msiKiemTraCapNhat
             // 
             this.msiKiemTraCapNhat.Name = "msiKiemTraCapNhat";
-            this.msiKiemTraCapNhat.Size = new System.Drawing.Size(134, 22);
+            this.msiKiemTraCapNhat.Size = new System.Drawing.Size(180, 22);
             this.msiKiemTraCapNhat.Text = "Cập nhật";
             // 
             // panel1
@@ -309,17 +305,6 @@
             this.label26.Size = new System.Drawing.Size(272, 32);
             this.label26.TabIndex = 1;
             this.label26.Text = "NHA KHOA MỸ NGỌC";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.pictureBox1.Image = global::NhakhoaMyNgoc_Db.Properties.Resources.LOGO;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(67, 67);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
             // 
             // tbcMain
             // 
@@ -677,28 +662,6 @@
             this.rdCustomer_Male.Text = "Nam";
             this.rdCustomer_Male.UseVisualStyleBackColor = true;
             // 
-            // btn_DeleteDetails
-            // 
-            this.btn_DeleteDetails.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.CROSS1;
-            this.btn_DeleteDetails.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_DeleteDetails.Location = new System.Drawing.Point(380, 25);
-            this.btn_DeleteDetails.Name = "btn_DeleteDetails";
-            this.btn_DeleteDetails.Size = new System.Drawing.Size(19, 20);
-            this.btn_DeleteDetails.TabIndex = 29;
-            this.btn_DeleteDetails.UseVisualStyleBackColor = true;
-            this.btn_DeleteDetails.Click += new System.EventHandler(this.btn_DeleteDetails_Click);
-            // 
-            // btn_SearchReceipt
-            // 
-            this.btn_SearchReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.SEARCH;
-            this.btn_SearchReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_SearchReceipt.Location = new System.Drawing.Point(749, 207);
-            this.btn_SearchReceipt.Name = "btn_SearchReceipt";
-            this.btn_SearchReceipt.Size = new System.Drawing.Size(40, 40);
-            this.btn_SearchReceipt.TabIndex = 29;
-            this.btn_SearchReceipt.UseVisualStyleBackColor = true;
-            this.btn_SearchReceipt.Click += new System.EventHandler(this.btn_SearchReceipt_Click);
-            // 
             // txtCustomer_Address
             // 
             this.txtCustomer_Address.Font = new System.Drawing.Font("Segoe UI", 11F);
@@ -884,41 +847,6 @@
             this.ReceiptDetail_Discount.MinimumWidth = 6;
             this.ReceiptDetail_Discount.Name = "ReceiptDetail_Discount";
             this.ReceiptDetail_Discount.Width = 105;
-            // 
-            // btnPrintReceipt
-            // 
-            this.btnPrintReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.reshot_icon_print_math_sheet_Y8RFCP23N4;
-            this.btnPrintReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnPrintReceipt.Enabled = false;
-            this.btnPrintReceipt.Location = new System.Drawing.Point(139, 545);
-            this.btnPrintReceipt.Name = "btnPrintReceipt";
-            this.btnPrintReceipt.Size = new System.Drawing.Size(40, 40);
-            this.btnPrintReceipt.TabIndex = 29;
-            this.btnPrintReceipt.UseVisualStyleBackColor = true;
-            this.btnPrintReceipt.Click += new System.EventHandler(this.btnPrintReceipt_Click);
-            // 
-            // btnSaveReceipt
-            // 
-            this.btnSaveReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.CHECK;
-            this.btnSaveReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnSaveReceipt.Enabled = false;
-            this.btnSaveReceipt.Location = new System.Drawing.Point(703, 545);
-            this.btnSaveReceipt.Name = "btnSaveReceipt";
-            this.btnSaveReceipt.Size = new System.Drawing.Size(40, 40);
-            this.btnSaveReceipt.TabIndex = 29;
-            this.btnSaveReceipt.UseVisualStyleBackColor = true;
-            this.btnSaveReceipt.Click += new System.EventHandler(this.btnSaveReceipt_Click);
-            // 
-            // btn_AddReceipt
-            // 
-            this.btn_AddReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.ADD;
-            this.btn_AddReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_AddReceipt.Location = new System.Drawing.Point(749, 545);
-            this.btn_AddReceipt.Name = "btn_AddReceipt";
-            this.btn_AddReceipt.Size = new System.Drawing.Size(40, 40);
-            this.btn_AddReceipt.TabIndex = 29;
-            this.btn_AddReceipt.UseVisualStyleBackColor = true;
-            this.btn_AddReceipt.Click += new System.EventHandler(this.btn_AddReceipt_Click);
             // 
             // label1
             // 
@@ -1131,16 +1059,6 @@
             this.panel10.Size = new System.Drawing.Size(1132, 47);
             this.panel10.TabIndex = 0;
             // 
-            // btn_SearchStockReceipt
-            // 
-            this.btn_SearchStockReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.SEARCH;
-            this.btn_SearchStockReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_SearchStockReceipt.Location = new System.Drawing.Point(488, 1);
-            this.btn_SearchStockReceipt.Name = "btn_SearchStockReceipt";
-            this.btn_SearchStockReceipt.Size = new System.Drawing.Size(37, 40);
-            this.btn_SearchStockReceipt.TabIndex = 30;
-            this.btn_SearchStockReceipt.UseVisualStyleBackColor = true;
-            // 
             // dtpk_Receipt_ToDate
             // 
             this.dtpk_Receipt_ToDate.CustomFormat = "dd/MM/yyyy";
@@ -1180,10 +1098,10 @@
             // tabPage7
             // 
             this.tabPage7.Controls.Add(this.dgv_Stock);
-            this.tabPage7.Location = new System.Drawing.Point(4, 29);
+            this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(1138, 877);
+            this.tabPage7.Size = new System.Drawing.Size(1138, 884);
             this.tabPage7.TabIndex = 1;
             this.tabPage7.Text = "Tồn kho";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -1205,7 +1123,7 @@
             this.dgv_Stock.Name = "dgv_Stock";
             this.dgv_Stock.RowHeadersWidth = 43;
             this.dgv_Stock.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_Stock.Size = new System.Drawing.Size(1132, 871);
+            this.dgv_Stock.Size = new System.Drawing.Size(1132, 878);
             this.dgv_Stock.TabIndex = 17;
             // 
             // Stock_Id
@@ -1282,28 +1200,6 @@
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(752, 910);
             this.panel6.TabIndex = 45;
-            // 
-            // btnPrintStockReceipt
-            // 
-            this.btnPrintStockReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.reshot_icon_print_math_sheet_Y8RFCP23N4;
-            this.btnPrintStockReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnPrintStockReceipt.Location = new System.Drawing.Point(169, 611);
-            this.btnPrintStockReceipt.Name = "btnPrintStockReceipt";
-            this.btnPrintStockReceipt.Size = new System.Drawing.Size(40, 40);
-            this.btnPrintStockReceipt.TabIndex = 78;
-            this.btnPrintStockReceipt.UseVisualStyleBackColor = true;
-            this.btnPrintStockReceipt.Click += new System.EventHandler(this.btnPrintStockReceipt_Click);
-            // 
-            // btnSaveStockReceipt
-            // 
-            this.btnSaveStockReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.CHECK;
-            this.btnSaveStockReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnSaveStockReceipt.Location = new System.Drawing.Point(660, 611);
-            this.btnSaveStockReceipt.Name = "btnSaveStockReceipt";
-            this.btnSaveStockReceipt.Size = new System.Drawing.Size(40, 40);
-            this.btnSaveStockReceipt.TabIndex = 77;
-            this.btnSaveStockReceipt.UseVisualStyleBackColor = true;
-            this.btnSaveStockReceipt.Click += new System.EventHandler(this.btnSaveStockReceipt_Click);
             // 
             // btnEditStockList
             // 
@@ -1493,17 +1389,6 @@
             this.label7.TabIndex = 70;
             this.label7.Text = "Chi tiết:";
             // 
-            // btn_AddStockReceipt
-            // 
-            this.btn_AddStockReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.ADD;
-            this.btn_AddStockReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_AddStockReceipt.Location = new System.Drawing.Point(706, 611);
-            this.btn_AddStockReceipt.Name = "btn_AddStockReceipt";
-            this.btn_AddStockReceipt.Size = new System.Drawing.Size(40, 40);
-            this.btn_AddStockReceipt.TabIndex = 31;
-            this.btn_AddStockReceipt.UseVisualStyleBackColor = true;
-            this.btn_AddStockReceipt.Click += new System.EventHandler(this.btn_AddStockReceipt_Click);
-            // 
             // dtpkStockReceipt_Date
             // 
             this.dtpkStockReceipt_Date.CustomFormat = "dd/MM/yyyy";
@@ -1571,6 +1456,64 @@
             this.dgv_Expense.Size = new System.Drawing.Size(1898, 838);
             this.dgv_Expense.TabIndex = 0;
             // 
+            // Expense_Id
+            // 
+            this.Expense_Id.DataPropertyName = "Expense_Id";
+            this.Expense_Id.HeaderText = "Mã đơn";
+            this.Expense_Id.Name = "Expense_Id";
+            this.Expense_Id.ReadOnly = true;
+            // 
+            // Expense_Date
+            // 
+            this.Expense_Date.DataPropertyName = "Expense_Date";
+            this.Expense_Date.HeaderText = "Ngày";
+            this.Expense_Date.Name = "Expense_Date";
+            this.Expense_Date.Width = 200;
+            // 
+            // Expense_IsInput
+            // 
+            this.Expense_IsInput.DataPropertyName = "Expense_IsInput";
+            this.Expense_IsInput.HeaderText = "Thu";
+            this.Expense_IsInput.Name = "Expense_IsInput";
+            this.Expense_IsInput.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Expense_IsInput.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Expense_IsInput.Width = 50;
+            // 
+            // Expense_Participant
+            // 
+            this.Expense_Participant.DataPropertyName = "Expense_Participant";
+            this.Expense_Participant.HeaderText = "Đối tượng";
+            this.Expense_Participant.Name = "Expense_Participant";
+            this.Expense_Participant.Width = 200;
+            // 
+            // Expense_Address
+            // 
+            this.Expense_Address.DataPropertyName = "Expense_Address";
+            this.Expense_Address.HeaderText = "Địa chỉ";
+            this.Expense_Address.Name = "Expense_Address";
+            this.Expense_Address.Width = 700;
+            // 
+            // Expense_Content
+            // 
+            this.Expense_Content.DataPropertyName = "Expense_Content";
+            this.Expense_Content.HeaderText = "Nội dung";
+            this.Expense_Content.Name = "Expense_Content";
+            this.Expense_Content.Width = 300;
+            // 
+            // Expense_Amount
+            // 
+            this.Expense_Amount.DataPropertyName = "Expense_Amount";
+            this.Expense_Amount.HeaderText = "Số tiền";
+            this.Expense_Amount.Name = "Expense_Amount";
+            this.Expense_Amount.Width = 150;
+            // 
+            // Expense_CertificateId
+            // 
+            this.Expense_CertificateId.DataPropertyName = "Expense_CertificateId";
+            this.Expense_CertificateId.HeaderText = "Số chứng từ";
+            this.Expense_CertificateId.Name = "Expense_CertificateId";
+            this.Expense_CertificateId.Width = 200;
+            // 
             // panel8
             // 
             this.panel8.Controls.Add(this.btnPrintExpense);
@@ -1584,17 +1527,6 @@
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(1898, 47);
             this.panel8.TabIndex = 1;
-            // 
-            // btnSearchExpenses
-            // 
-            this.btnSearchExpenses.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.SEARCH;
-            this.btnSearchExpenses.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnSearchExpenses.Location = new System.Drawing.Point(488, 1);
-            this.btnSearchExpenses.Name = "btnSearchExpenses";
-            this.btnSearchExpenses.Size = new System.Drawing.Size(37, 40);
-            this.btnSearchExpenses.TabIndex = 30;
-            this.btnSearchExpenses.UseVisualStyleBackColor = true;
-            this.btnSearchExpenses.Click += new System.EventHandler(this.btnSearchExpenses_Click);
             // 
             // dtpk_Expense_ToDate
             // 
@@ -1690,75 +1622,22 @@
             this.tmProtection.Interval = 500;
             this.tmProtection.Tick += new System.EventHandler(this.tmProtection_Tick);
             // 
-            // btnPrintExpense
+            // tsiAbout
             // 
-            this.btnPrintExpense.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.reshot_icon_print_math_sheet_Y8RFCP23N4;
-            this.btnPrintExpense.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnPrintExpense.Enabled = false;
-            this.btnPrintExpense.Location = new System.Drawing.Point(531, 1);
-            this.btnPrintExpense.Name = "btnPrintExpense";
-            this.btnPrintExpense.Size = new System.Drawing.Size(40, 40);
-            this.btnPrintExpense.TabIndex = 31;
-            this.btnPrintExpense.UseVisualStyleBackColor = true;
-            this.btnPrintExpense.Click += new System.EventHandler(this.btnPrintExpense_Click);
+            this.tsiAbout.Name = "tsiAbout";
+            this.tsiAbout.Size = new System.Drawing.Size(180, 22);
+            this.tsiAbout.Text = "Về phần mềm";
             // 
-            // Expense_Id
+            // btn_SearchReceipt
             // 
-            this.Expense_Id.DataPropertyName = "Expense_Id";
-            this.Expense_Id.HeaderText = "Mã đơn";
-            this.Expense_Id.Name = "Expense_Id";
-            this.Expense_Id.ReadOnly = true;
-            // 
-            // Expense_Date
-            // 
-            this.Expense_Date.DataPropertyName = "Expense_Date";
-            this.Expense_Date.HeaderText = "Ngày";
-            this.Expense_Date.Name = "Expense_Date";
-            this.Expense_Date.Width = 200;
-            // 
-            // Expense_IsInput
-            // 
-            this.Expense_IsInput.DataPropertyName = "Expense_IsInput";
-            this.Expense_IsInput.HeaderText = "Thu";
-            this.Expense_IsInput.Name = "Expense_IsInput";
-            this.Expense_IsInput.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Expense_IsInput.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Expense_IsInput.Width = 50;
-            // 
-            // Expense_Participant
-            // 
-            this.Expense_Participant.DataPropertyName = "Expense_Participant";
-            this.Expense_Participant.HeaderText = "Đối tượng";
-            this.Expense_Participant.Name = "Expense_Participant";
-            this.Expense_Participant.Width = 200;
-            // 
-            // Expense_Address
-            // 
-            this.Expense_Address.DataPropertyName = "Expense_Address";
-            this.Expense_Address.HeaderText = "Địa chỉ";
-            this.Expense_Address.Name = "Expense_Address";
-            this.Expense_Address.Width = 700;
-            // 
-            // Expense_Content
-            // 
-            this.Expense_Content.DataPropertyName = "Expense_Content";
-            this.Expense_Content.HeaderText = "Nội dung";
-            this.Expense_Content.Name = "Expense_Content";
-            this.Expense_Content.Width = 300;
-            // 
-            // Expense_Amount
-            // 
-            this.Expense_Amount.DataPropertyName = "Expense_Amount";
-            this.Expense_Amount.HeaderText = "Số tiền";
-            this.Expense_Amount.Name = "Expense_Amount";
-            this.Expense_Amount.Width = 150;
-            // 
-            // Expense_CertificateId
-            // 
-            this.Expense_CertificateId.DataPropertyName = "Expense_CertificateId";
-            this.Expense_CertificateId.HeaderText = "Số chứng từ";
-            this.Expense_CertificateId.Name = "Expense_CertificateId";
-            this.Expense_CertificateId.Width = 200;
+            this.btn_SearchReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.SEARCH;
+            this.btn_SearchReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_SearchReceipt.Location = new System.Drawing.Point(749, 207);
+            this.btn_SearchReceipt.Name = "btn_SearchReceipt";
+            this.btn_SearchReceipt.Size = new System.Drawing.Size(40, 40);
+            this.btn_SearchReceipt.TabIndex = 29;
+            this.btn_SearchReceipt.UseVisualStyleBackColor = true;
+            this.btn_SearchReceipt.Click += new System.EventHandler(this.btn_SearchReceipt_Click);
             // 
             // btnPrintCustomerHistory
             // 
@@ -1772,6 +1651,52 @@
             this.btnPrintCustomerHistory.UseVisualStyleBackColor = true;
             this.btnPrintCustomerHistory.Click += new System.EventHandler(this.btnPrintCustomerHistory_Click);
             // 
+            // btn_DeleteDetails
+            // 
+            this.btn_DeleteDetails.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.CROSS1;
+            this.btn_DeleteDetails.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_DeleteDetails.Location = new System.Drawing.Point(380, 25);
+            this.btn_DeleteDetails.Name = "btn_DeleteDetails";
+            this.btn_DeleteDetails.Size = new System.Drawing.Size(19, 20);
+            this.btn_DeleteDetails.TabIndex = 29;
+            this.btn_DeleteDetails.UseVisualStyleBackColor = true;
+            this.btn_DeleteDetails.Click += new System.EventHandler(this.btn_DeleteDetails_Click);
+            // 
+            // btnPrintReceipt
+            // 
+            this.btnPrintReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.reshot_icon_print_math_sheet_Y8RFCP23N4;
+            this.btnPrintReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnPrintReceipt.Enabled = false;
+            this.btnPrintReceipt.Location = new System.Drawing.Point(139, 545);
+            this.btnPrintReceipt.Name = "btnPrintReceipt";
+            this.btnPrintReceipt.Size = new System.Drawing.Size(40, 40);
+            this.btnPrintReceipt.TabIndex = 29;
+            this.btnPrintReceipt.UseVisualStyleBackColor = true;
+            this.btnPrintReceipt.Click += new System.EventHandler(this.btnPrintReceipt_Click);
+            // 
+            // btnSaveReceipt
+            // 
+            this.btnSaveReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.CHECK;
+            this.btnSaveReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSaveReceipt.Enabled = false;
+            this.btnSaveReceipt.Location = new System.Drawing.Point(703, 545);
+            this.btnSaveReceipt.Name = "btnSaveReceipt";
+            this.btnSaveReceipt.Size = new System.Drawing.Size(40, 40);
+            this.btnSaveReceipt.TabIndex = 29;
+            this.btnSaveReceipt.UseVisualStyleBackColor = true;
+            this.btnSaveReceipt.Click += new System.EventHandler(this.btnSaveReceipt_Click);
+            // 
+            // btn_AddReceipt
+            // 
+            this.btn_AddReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.ADD;
+            this.btn_AddReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_AddReceipt.Location = new System.Drawing.Point(749, 545);
+            this.btn_AddReceipt.Name = "btn_AddReceipt";
+            this.btn_AddReceipt.Size = new System.Drawing.Size(40, 40);
+            this.btn_AddReceipt.TabIndex = 29;
+            this.btn_AddReceipt.UseVisualStyleBackColor = true;
+            this.btn_AddReceipt.Click += new System.EventHandler(this.btn_AddReceipt_Click);
+            // 
             // btnPrintStock
             // 
             this.btnPrintStock.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.reshot_icon_print_math_sheet_Y8RFCP23N4;
@@ -1782,6 +1707,83 @@
             this.btnPrintStock.TabIndex = 31;
             this.btnPrintStock.UseVisualStyleBackColor = true;
             this.btnPrintStock.Click += new System.EventHandler(this.btnPrintStock_Click);
+            // 
+            // btn_SearchStockReceipt
+            // 
+            this.btn_SearchStockReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.SEARCH;
+            this.btn_SearchStockReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_SearchStockReceipt.Location = new System.Drawing.Point(488, 1);
+            this.btn_SearchStockReceipt.Name = "btn_SearchStockReceipt";
+            this.btn_SearchStockReceipt.Size = new System.Drawing.Size(37, 40);
+            this.btn_SearchStockReceipt.TabIndex = 30;
+            this.btn_SearchStockReceipt.UseVisualStyleBackColor = true;
+            // 
+            // btnPrintStockReceipt
+            // 
+            this.btnPrintStockReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.reshot_icon_print_math_sheet_Y8RFCP23N4;
+            this.btnPrintStockReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnPrintStockReceipt.Location = new System.Drawing.Point(169, 611);
+            this.btnPrintStockReceipt.Name = "btnPrintStockReceipt";
+            this.btnPrintStockReceipt.Size = new System.Drawing.Size(40, 40);
+            this.btnPrintStockReceipt.TabIndex = 78;
+            this.btnPrintStockReceipt.UseVisualStyleBackColor = true;
+            this.btnPrintStockReceipt.Click += new System.EventHandler(this.btnPrintStockReceipt_Click);
+            // 
+            // btnSaveStockReceipt
+            // 
+            this.btnSaveStockReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.CHECK;
+            this.btnSaveStockReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSaveStockReceipt.Location = new System.Drawing.Point(660, 611);
+            this.btnSaveStockReceipt.Name = "btnSaveStockReceipt";
+            this.btnSaveStockReceipt.Size = new System.Drawing.Size(40, 40);
+            this.btnSaveStockReceipt.TabIndex = 77;
+            this.btnSaveStockReceipt.UseVisualStyleBackColor = true;
+            this.btnSaveStockReceipt.Click += new System.EventHandler(this.btnSaveStockReceipt_Click);
+            // 
+            // btn_AddStockReceipt
+            // 
+            this.btn_AddStockReceipt.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.ADD;
+            this.btn_AddStockReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_AddStockReceipt.Location = new System.Drawing.Point(706, 611);
+            this.btn_AddStockReceipt.Name = "btn_AddStockReceipt";
+            this.btn_AddStockReceipt.Size = new System.Drawing.Size(40, 40);
+            this.btn_AddStockReceipt.TabIndex = 31;
+            this.btn_AddStockReceipt.UseVisualStyleBackColor = true;
+            this.btn_AddStockReceipt.Click += new System.EventHandler(this.btn_AddStockReceipt_Click);
+            // 
+            // btnPrintExpense
+            // 
+            this.btnPrintExpense.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.reshot_icon_print_math_sheet_Y8RFCP23N4;
+            this.btnPrintExpense.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnPrintExpense.Enabled = false;
+            this.btnPrintExpense.Location = new System.Drawing.Point(531, 1);
+            this.btnPrintExpense.Name = "btnPrintExpense";
+            this.btnPrintExpense.Size = new System.Drawing.Size(40, 40);
+            this.btnPrintExpense.TabIndex = 31;
+            this.btnPrintExpense.UseVisualStyleBackColor = true;
+            this.btnPrintExpense.Click += new System.EventHandler(this.btnPrintExpense_Click);
+            // 
+            // btnSearchExpenses
+            // 
+            this.btnSearchExpenses.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.SEARCH;
+            this.btnSearchExpenses.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSearchExpenses.Location = new System.Drawing.Point(488, 1);
+            this.btnSearchExpenses.Name = "btnSearchExpenses";
+            this.btnSearchExpenses.Size = new System.Drawing.Size(37, 40);
+            this.btnSearchExpenses.TabIndex = 30;
+            this.btnSearchExpenses.UseVisualStyleBackColor = true;
+            this.btnSearchExpenses.Click += new System.EventHandler(this.btnSearchExpenses_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.pictureBox1.Image = global::NhakhoaMyNgoc_Db.Properties.Resources.LOGO;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(67, 67);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // frm_Main
             // 
@@ -1803,7 +1805,6 @@
             this.menuStrip.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tbcMain.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
@@ -1813,7 +1814,6 @@
             this.tabPage5.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Customer)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bsCustomer)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -1832,7 +1832,6 @@
             this.panel10.PerformLayout();
             this.tabPage7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Stock)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bsStock)).EndInit();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_StockReceipt_Content)).EndInit();
@@ -1844,6 +1843,9 @@
             this.panel8.PerformLayout();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bsCustomer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bsStock)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1858,8 +1860,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn MaDonNhapVatLieu;
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem giúpĐỡToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem hướngDẫnSửDụngToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem tsiHelp;
         private System.Windows.Forms.ToolStripMenuItem msiKiemTraCapNhat;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label26;
@@ -2020,6 +2021,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Expense_CertificateId;
         private System.Windows.Forms.Button btnPrintCustomerHistory;
         private System.Windows.Forms.Button btnPrintStock;
+        private System.Windows.Forms.ToolStripMenuItem tsiAbout;
     }
 }
 

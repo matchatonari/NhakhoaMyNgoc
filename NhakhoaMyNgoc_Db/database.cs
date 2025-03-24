@@ -22,7 +22,7 @@ namespace NhakhoaMyNgoc_Db
 
     public class Database
     {
-        private static readonly string databaseFile = Path.Combine(Application.StartupPath, "res", "database.db");
+        private static readonly string databaseFile = Path.Combine(Application.StartupPath, "database.db");
         static SQLiteConnection connection;
 
         public static void Initialize()

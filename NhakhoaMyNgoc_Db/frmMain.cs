@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
@@ -260,6 +262,95 @@ namespace NhakhoaMyNgoc_Db
             StockIO invoice = new StockIO(receipt, details);
             new PrintDialog(invoice).Show();
         }
+
+        DataTable GetStockChanges(DateTime fromDate, DateTime toDate)
+        {
+            DataTable result = new DataTable();
+            result.Columns.AddRange(new[]
+            {
+                new DataColumn("Stock_Id", typeof(int)),
+                new DataColumn("Stock_Name", typeof(string)),
+                new DataColumn("Stock_Unit", typeof(string)),
+                new DataColumn("Quantity_Before", typeof(int)),
+                new DataColumn("Input", typeof(int)),
+                new DataColumn("Output", typeof(int)),
+                new DataColumn("Quantity_After", typeof(int))
+            });
+
+            DataTable receipts = new DataTable();
+
+            receipts = Database.Query("StockReceipt", new List<string>
+                { "StockReceipt_Id", "StockReceipt_IsInput" }, conditions: new Dictionary<string, (QueryOperator, object)>
+                { { "StockReceipt_Date", (QueryOperator.BETWEEN, (fromDate, toDate)) } });
+
+            IDictionary<Item, (int, int)> transactionCount = new Dictionary<Item, (int, int)>();
+
+            foreach (DataRow receipt in receipts.Rows)
+            {
+                var receiptId = receipt["StockReceipt_Id"];
+                DataTable details = Database.Query("StockReceiptDetail", new List<string> { "StockReceiptDetail_ItemId", "StockReceiptDetail_Quantity" },
+                    conditions: new Dictionary<string, (QueryOperator, object)>
+                    { { "StockReceiptDetail_ReceiptId", (QueryOperator.EQUALS, receiptId) } });
+                bool isInput = Convert.ToBoolean(receipt["StockReceipt_IsInput"]);
+                foreach (DataRow detail in details.Rows)
+                {
+                    Item item = new Item();
+
+                    int quantity = Convert.ToInt32(detail["StockReceiptDetail_Quantity"]);
+                    int productId = Convert.ToInt32(detail["StockReceiptDetail_ItemId"]);
+                    DataTable itemResult = Database.Query("Stock", new List<string> { "Stock_Name", "Stock_Unit" }, conditions: new Dictionary<string, (QueryOperator, object)>
+                        { { "Stock_Id", (QueryOperator.EQUALS, productId) } });
+
+                    item.Stock_Id = productId;
+                    item.Stock_Name = itemResult.Rows[0]["Stock_Name"].ToString();
+                    item.Stock_Unit = itemResult.Rows[0]["Stock_Unit"].ToString();
+
+                    ValueTuple<int, int> oldValue;
+                    if (!transactionCount.TryGetValue(item, out oldValue)) oldValue = (0, 0);
+
+                    transactionCount[item] = isInput ? (oldValue.Item1 + quantity, oldValue.Item2) : (oldValue.Item1, oldValue.Item2 + quantity);
+                }
+            }
+
+            foreach (KeyValuePair<Item, (int, int)> kvp in transactionCount)
+            {
+                Item k = kvp.Key;
+                int input = kvp.Value.Item1;
+                int output = kvp.Value.Item2;
+                result.Rows.Add(k.Stock_Id, k.Stock_Name, k.Stock_Unit, 0, input, output, input - output);
+            }
+
+            return result;
+        }
+
+        private void btnPrintStock_Click(object sender, EventArgs e)
+        {
+            DateTime from = dtpk_Receipt_FromDate.Value.Date;
+            DateTime to = dtpk_Receipt_ToDate.Value.AddDays(1).AddSeconds(-1).Date;
+
+            DataTable between = GetStockChanges(from, to);
+            DataTable before = GetStockChanges(DateTime.MinValue, from);
+
+            foreach (DataRow item in between.Rows)
+            {
+                DataRow[] itemResult = before.Select($"Stock_Id = {item["Stock_Id"]}");
+                if (itemResult.Length > 0)
+                {
+                    int got = Convert.ToInt32(item["Quantity_Before"]);
+                    int current = Convert.ToInt32(itemResult[0]["Quantity_After"]);
+                    int willGet = Convert.ToInt32(item["Quantity_After"]);
+                    item["Quantity_Before"] = got + current;
+                    item["Quantity_After"] = willGet + got + current;
+                }
+            }
+
+            var sumConditions = new List<string> { "StockReceipt_Total" };
+            DataTable sum = Database.Query("StockReceipt", sumConditions, sumConditions, new Dictionary<string, (QueryOperator, object)>
+                { { "StockReceipt_Date", (QueryOperator.LESS_THAN_OR_EQUAL, to) } });
+
+            StockReport sr = new StockReport(from, to, between, Convert.ToInt32(sum.Rows[0]["SUM(StockReceipt_Total)"]));
+            new PrintDialog(sr).Show();
+        }
         #endregion
 
         #region DON_HANG
@@ -498,7 +589,51 @@ namespace NhakhoaMyNgoc_Db
             else
                 bsCustomer.RemoveFilter();
         }
+
+        private void btnPrintCustomerHistory_Click(object sender, EventArgs e)
+        {
+            Customer c = Util.MapRowTo<Customer>(dgv_Customer.CurrentRow);
+            DataTable dt = Database.GetCustomerHistory(c);
+            CustomerHistory ch = new CustomerHistory(c, dt);
+            new PrintDialog(ch).Show();
+        }
         #endregion
+
+        #region QUYET_TOAN_THU_CHI
+        private void btnSearchExpenses_Click(object sender, EventArgs e)
+        {
+            DateTime from = dtpk_Expense_FromDate.Value.Date;
+            DateTime to = dtpk_Expense_ToDate.Value.AddDays(1).AddSeconds(-1).Date;
+            DataTable result = Database.Query("Expense", conditions: new Dictionary<string, (QueryOperator, object)>
+                { { "Expense_Date", (QueryOperator.BETWEEN, (from, to)) } });
+
+            Util.LoadTableToDataGridView(result, dgv_Expense);
+
+            int income = dgv_Expense.Rows.Cast<DataGridViewRow>()
+                .Where(dr => Convert.ToBoolean(dr.Cells["Expense_IsInput"].Value))
+                .Sum(dr => Convert.ToInt32(dr.Cells["Expense_Amount"].Value));
+            int expense = dgv_Expense.Rows.Cast<DataGridViewRow>()
+                .Where(dr => !Convert.ToBoolean(dr.Cells["Expense_IsInput"].Value))
+                .Sum(dr => Convert.ToInt32(dr.Cells["Expense_Amount"].Value));
+            int revenue = income - expense;
+
+            lblIncome.Text = string.Format("{0:N0}₫", income);
+            lblExpense.Text = string.Format("{0:N0}₫", expense);
+            lblRevenue.Text = string.Format("{0:N0}₫", revenue);
+        }
+
+        private void btnPrintExpense_Click(object sender, EventArgs e)
+        {
+            Expense ex = Util.MapRowTo<Expense>(dgv_Expense.CurrentRow);
+            if (ex != null)
+            {
+                ExpenseReceipt p = new ExpenseReceipt(ex);
+                p.Landscape = true;
+                new PrintDialog(p).Show();
+            }
+        }
+        #endregion
+
         private void frm_Main_Load(object sender, EventArgs e)
         {
             // khởi tạo db
@@ -552,9 +687,11 @@ namespace NhakhoaMyNgoc_Db
             };
             btn_SearchStockReceipt.Click += (s, ev) => LoadStockReceipts(s, ev);
 
+            btn_SearchReceipt_Click(sender, e);
             btnSearchExpenses_Click(sender, e);
 
             this.FormClosing += (s, ev) => Database.Close();
+            tsiAbout.Click += (s, ev) => new frmAbout().Show();
         }
 
         private void tbcMain_SelectedIndexChanged(object sender, EventArgs e)
@@ -570,134 +707,13 @@ namespace NhakhoaMyNgoc_Db
             btnPrintCustomerHistory.Enabled = IsRowValid(dgv_Customer);
         }
 
-        private void btnSearchExpenses_Click(object sender, EventArgs e)
+        private void tsiHelp_Click(object sender, EventArgs e)
         {
-            DateTime from = dtpk_Expense_FromDate.Value.Date;
-            DateTime to = dtpk_Expense_ToDate.Value.AddDays(1).AddSeconds(-1).Date;
-            DataTable result = Database.Query("Expense", conditions: new Dictionary<string, (QueryOperator, object)> 
-                { { "Expense_Date", (QueryOperator.BETWEEN, (from, to)) } });
-
-            Util.LoadTableToDataGridView(result, dgv_Expense);
-
-            int income = dgv_Expense.Rows.Cast<DataGridViewRow>()
-                .Where(dr => Convert.ToBoolean(dr.Cells["Expense_IsInput"].Value))
-                .Sum(dr => Convert.ToInt32(dr.Cells["Expense_Amount"].Value));
-            int expense = dgv_Expense.Rows.Cast<DataGridViewRow>()
-                .Where(dr => !Convert.ToBoolean(dr.Cells["Expense_IsInput"].Value))
-                .Sum(dr => Convert.ToInt32(dr.Cells["Expense_Amount"].Value));
-            int revenue = income - expense;
-
-            lblIncome.Text = string.Format("{0:N0}₫", income);
-            lblExpense.Text = string.Format("{0:N0}₫", expense);
-            lblRevenue.Text = string.Format("{0:N0}₫", revenue);
-        }
-
-        private void btnPrintExpense_Click(object sender, EventArgs e)
-        {
-            Expense ex = Util.MapRowTo<Expense>(dgv_Expense.CurrentRow);
-            if (ex != null)
-            {
-                ExpenseReceipt p = new ExpenseReceipt(ex);
-                p.Landscape = true;
-                new PrintDialog(p).Show();
-            }
-        }
-
-        private void btnPrintCustomerHistory_Click(object sender, EventArgs e)
-        {
-            Customer c = Util.MapRowTo<Customer>(dgv_Customer.CurrentRow);
-            DataTable dt = Database.GetCustomerHistory(c);
-            CustomerHistory ch = new CustomerHistory(c, dt);
-            new PrintDialog(ch).Show();
-        }
-
-        DataTable GetStockChanges(DateTime fromDate, DateTime toDate)
-        {
-            DataTable result = new DataTable();
-            result.Columns.AddRange(new[]
-            {
-                new DataColumn("Stock_Id", typeof(int)),
-                new DataColumn("Stock_Name", typeof(string)),
-                new DataColumn("Stock_Unit", typeof(string)),
-                new DataColumn("Quantity_Before", typeof(int)),
-                new DataColumn("Input", typeof(int)),
-                new DataColumn("Output", typeof(int)),
-                new DataColumn("Quantity_After", typeof(int))
-            });
-
-            DataTable receipts = new DataTable();
-
-            receipts = Database.Query("StockReceipt", new List<string>
-                { "StockReceipt_Id", "StockReceipt_IsInput" }, conditions: new Dictionary<string, (QueryOperator, object)>
-                { { "StockReceipt_Date", (QueryOperator.BETWEEN, (fromDate, toDate)) } });
-
-            IDictionary<Item, (int, int)> transactionCount = new Dictionary<Item, (int, int)>();
-
-            foreach (DataRow receipt in receipts.Rows)
-            {
-                var receiptId = receipt["StockReceipt_Id"];
-                DataTable details = Database.Query("StockReceiptDetail", new List<string> { "StockReceiptDetail_ItemId", "StockReceiptDetail_Quantity" },
-                    conditions: new Dictionary<string, (QueryOperator, object)>
-                    { { "StockReceiptDetail_ReceiptId", (QueryOperator.EQUALS, receiptId) } });
-                bool isInput = Convert.ToBoolean(receipt["StockReceipt_IsInput"]);
-                foreach (DataRow detail in details.Rows)
-                {
-                    Item item = new Item();
-
-                    int quantity = Convert.ToInt32(detail["StockReceiptDetail_Quantity"]);
-                    int productId = Convert.ToInt32(detail["StockReceiptDetail_ItemId"]);
-                    DataTable itemResult = Database.Query("Stock", new List<string> { "Stock_Name", "Stock_Unit" }, conditions: new Dictionary<string, (QueryOperator, object)>
-                        { { "Stock_Id", (QueryOperator.EQUALS, productId) } });
-
-                    item.Stock_Id = productId;
-                    item.Stock_Name = itemResult.Rows[0]["Stock_Name"].ToString();
-                    item.Stock_Unit = itemResult.Rows[0]["Stock_Unit"].ToString();
-
-                    ValueTuple<int, int> oldValue;
-                    if (!transactionCount.TryGetValue(item, out oldValue)) oldValue = (0, 0);
-
-                    transactionCount[item] = isInput ? (oldValue.Item1 + quantity, oldValue.Item2) : (oldValue.Item1, oldValue.Item2 + quantity);
-                }
-            }
-
-            foreach (KeyValuePair<Item, (int, int)> kvp in transactionCount)
-            {
-                Item k = kvp.Key;
-                int input = kvp.Value.Item1;
-                int output = kvp.Value.Item2;
-                result.Rows.Add(k.Stock_Id, k.Stock_Name, k.Stock_Unit, 0, input, output, input - output);
-            }
-
-            return result;
-        }
-
-        private void btnPrintStock_Click(object sender, EventArgs e)
-        {
-            DateTime from = dtpk_Receipt_FromDate.Value.Date;
-            DateTime to = dtpk_Receipt_ToDate.Value.AddDays(1).AddSeconds(-1).Date;
-
-            DataTable between = GetStockChanges(from, to);
-            DataTable before = GetStockChanges(DateTime.MinValue, from);
-
-            foreach (DataRow item in between.Rows)
-            {
-                DataRow[] itemResult = before.Select($"Stock_Id = {item["Stock_Id"]}");
-                if (itemResult.Length > 0)
-                {
-                    int got = Convert.ToInt32(item["Quantity_Before"]);
-                    int current = Convert.ToInt32(itemResult[0]["Quantity_After"]);
-                    int willGet = Convert.ToInt32(item["Quantity_After"]);
-                    item["Quantity_Before"] = got + current;
-                    item["Quantity_After"] = willGet + got + current;
-                }
-            }
-
-            var sumConditions = new List<string> { "StockReceipt_Total" };
-            DataTable sum = Database.Query("StockReceipt", sumConditions, sumConditions, new Dictionary<string, (QueryOperator, object)>
-                { { "StockReceipt_Date", (QueryOperator.LESS_THAN_OR_EQUAL, to) } });
-
-            StockReport sr = new StockReport(from, to, between, Convert.ToInt32(sum.Rows[0]["SUM(StockReceipt_Total)"]));
-            new PrintDialog(sr).Show();
+            string pdfPath = Path.Combine(Application.StartupPath, "UserGuide.pdf");
+            if (File.Exists(pdfPath))
+                Process.Start(new ProcessStartInfo(pdfPath) { UseShellExecute = true });
+            else
+                MessageBox.Show("Không tìm thấy hướng dẫn! Vui lòng kiểm tra lại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

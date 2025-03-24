@@ -17,12 +17,15 @@ namespace NhakhoaMyNgoc_Db
 
         private void frmCapNhat_Load(object sender, EventArgs e)
         {
+            string xmlLocation = Path.Combine(Application.StartupPath, "CheckForUpdates.xml");
+
             int newVersionMajor, newVersionMinor, newVersionBuild;
             WebClient client = new WebClient();
-            client.DownloadFile("https://gist.githubusercontent.com/matchatonari/809e7cbabbf91269fca9d9735352db22/raw/cb7c8cd374aad12774cffd09c5861f23897a1d54/checkForUpdates.xml",
-                    Application.StartupPath + "\\res\\checkForUpdates.xml");
+            client.DownloadFile(
+                "https://gist.githubusercontent.com/matchatonari/809e7cbabbf91269fca9d9735352db22/raw/cb7c8cd374aad12774cffd09c5861f23897a1d54/checkForUpdates.xml",
+                xmlLocation);
 
-            string xmlContent = File.ReadAllText(Application.StartupPath + "\\res\\checkForUpdates.xml");
+            string xmlContent = File.ReadAllText(xmlLocation);
             xmlContent = xmlContent.Replace("&", "&amp;");
 
             XmlDocument oDom = new XmlDocument();
@@ -61,7 +64,7 @@ namespace NhakhoaMyNgoc_Db
                         File.Move(oldExePath, backupPath);
 
                         // Replace with the new executable
-                        File.Move(Application.StartupPath + "\\newVersion.exe", oldExePath);
+                        File.Move(Path.Combine(Application.StartupPath, "newVersion.exe"), oldExePath);
 
                         // Restart the application
                         Process.Start(oldExePath);
