@@ -1,12 +1,10 @@
-﻿using System;
+﻿using NhakhoaMyNgoc_Db.Templates;
+using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Windows.Forms;
 using System.Linq;
 using System.Reflection;
-using System.Collections.Generic;
-using System.Data.SqlTypes;
-using NhakhoaMyNgoc_Db.Templates;
-using System.Security.Cryptography;
+using System.Windows.Forms;
 
 namespace NhakhoaMyNgoc_Db
 {

@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NhakhoaMyNgoc_Db.Templates
+﻿namespace NhakhoaMyNgoc_Db.Templates
 {
     class ExpenseReceipt : PrintablePaper
     {
