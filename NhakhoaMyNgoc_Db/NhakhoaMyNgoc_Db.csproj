@@ -155,6 +155,8 @@
     <Compile Include="frmUpdate.Designer.cs">
       <DependentUpon>frmUpdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Templates\CustomerHistory.cs" />
+    <Compile Include="Templates\ExpenseReceipt.cs" />
     <Compile Include="Templates\Invoice.cs" />
     <Compile Include="Dialogs\PrintDialog.cs">
       <SubType>Form</SubType>
@@ -171,6 +173,7 @@
     <Compile Include="Dialogs\StockListEditor.Designer.cs">
       <DependentUpon>StockListEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Templates\StockReport.cs" />
     <Compile Include="util.cs" />
     <EmbeddedResource Include="Dialogs\DateTimePickerDialog.resx">
       <DependentUpon>DateTimePickerDialog.cs</DependentUpon>

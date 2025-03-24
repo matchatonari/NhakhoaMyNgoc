@@ -173,12 +173,6 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.panel9 = new System.Windows.Forms.Panel();
             this.dgv_Expense = new System.Windows.Forms.DataGridView();
-            this.Expense_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Expense_Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Expense_IsInput = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Expense_Participant = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Expense_Content = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Expense_Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel8 = new System.Windows.Forms.Panel();
             this.btnSearchExpenses = new System.Windows.Forms.Button();
             this.dtpk_Expense_ToDate = new System.Windows.Forms.DateTimePicker();
@@ -193,7 +187,17 @@
             this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblRevenue = new System.Windows.Forms.ToolStripStatusLabel();
             this.tmProtection = new System.Windows.Forms.Timer(this.components);
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnPrintExpense = new System.Windows.Forms.Button();
+            this.Expense_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Expense_Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Expense_IsInput = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Expense_Participant = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Expense_Address = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Expense_Content = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Expense_Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Expense_CertificateId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnPrintCustomerHistory = new System.Windows.Forms.Button();
+            this.btnPrintStock = new System.Windows.Forms.Button();
             this.cmsCustomer.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -629,6 +633,7 @@
             // 
             this.groupBox4.Controls.Add(this.rdCustomer_Female);
             this.groupBox4.Controls.Add(this.rdCustomer_Male);
+            this.groupBox4.Controls.Add(this.btnPrintCustomerHistory);
             this.groupBox4.Controls.Add(this.btn_DeleteDetails);
             this.groupBox4.Controls.Add(this.btn_SearchReceipt);
             this.groupBox4.Controls.Add(this.txtCustomer_Address);
@@ -1114,6 +1119,7 @@
             // 
             // panel10
             // 
+            this.panel10.Controls.Add(this.btnPrintStock);
             this.panel10.Controls.Add(this.btn_SearchStockReceipt);
             this.panel10.Controls.Add(this.dtpk_Receipt_ToDate);
             this.panel10.Controls.Add(this.dtpk_Receipt_FromDate);
@@ -1174,10 +1180,10 @@
             // tabPage7
             // 
             this.tabPage7.Controls.Add(this.dgv_Stock);
-            this.tabPage7.Location = new System.Drawing.Point(4, 22);
+            this.tabPage7.Location = new System.Drawing.Point(4, 29);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(1138, 884);
+            this.tabPage7.Size = new System.Drawing.Size(1138, 877);
             this.tabPage7.TabIndex = 1;
             this.tabPage7.Text = "Tồn kho";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -1199,7 +1205,7 @@
             this.dgv_Stock.Name = "dgv_Stock";
             this.dgv_Stock.RowHeadersWidth = 43;
             this.dgv_Stock.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_Stock.Size = new System.Drawing.Size(1132, 878);
+            this.dgv_Stock.Size = new System.Drawing.Size(1132, 871);
             this.dgv_Stock.TabIndex = 17;
             // 
             // Stock_Id
@@ -1555,61 +1561,19 @@
             this.Expense_Date,
             this.Expense_IsInput,
             this.Expense_Participant,
+            this.Expense_Address,
             this.Expense_Content,
-            this.Expense_Amount});
+            this.Expense_Amount,
+            this.Expense_CertificateId});
             this.dgv_Expense.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_Expense.Location = new System.Drawing.Point(0, 0);
             this.dgv_Expense.Name = "dgv_Expense";
             this.dgv_Expense.Size = new System.Drawing.Size(1898, 838);
             this.dgv_Expense.TabIndex = 0;
             // 
-            // Expense_Id
-            // 
-            this.Expense_Id.DataPropertyName = "Expense_Id";
-            this.Expense_Id.HeaderText = "Mã đơn";
-            this.Expense_Id.Name = "Expense_Id";
-            this.Expense_Id.ReadOnly = true;
-            // 
-            // Expense_Date
-            // 
-            this.Expense_Date.DataPropertyName = "Expense_Date";
-            this.Expense_Date.HeaderText = "Ngày";
-            this.Expense_Date.Name = "Expense_Date";
-            this.Expense_Date.Width = 200;
-            // 
-            // Expense_IsInput
-            // 
-            this.Expense_IsInput.DataPropertyName = "Expense_IsInput";
-            this.Expense_IsInput.HeaderText = "Thu";
-            this.Expense_IsInput.Name = "Expense_IsInput";
-            this.Expense_IsInput.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Expense_IsInput.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Expense_IsInput.Width = 50;
-            // 
-            // Expense_Participant
-            // 
-            this.Expense_Participant.DataPropertyName = "Expense_Participant";
-            this.Expense_Participant.HeaderText = "Đối tượng";
-            this.Expense_Participant.Name = "Expense_Participant";
-            this.Expense_Participant.Width = 200;
-            // 
-            // Expense_Content
-            // 
-            this.Expense_Content.DataPropertyName = "Expense_Content";
-            this.Expense_Content.HeaderText = "Nội dung";
-            this.Expense_Content.Name = "Expense_Content";
-            this.Expense_Content.Width = 400;
-            // 
-            // Expense_Amount
-            // 
-            this.Expense_Amount.DataPropertyName = "Expense_Amount";
-            this.Expense_Amount.HeaderText = "Số tiền";
-            this.Expense_Amount.Name = "Expense_Amount";
-            this.Expense_Amount.Width = 150;
-            // 
             // panel8
             // 
-            this.panel8.Controls.Add(this.button1);
+            this.panel8.Controls.Add(this.btnPrintExpense);
             this.panel8.Controls.Add(this.btnSearchExpenses);
             this.panel8.Controls.Add(this.dtpk_Expense_ToDate);
             this.panel8.Controls.Add(this.dtpk_Expense_FromDate);
@@ -1726,16 +1690,98 @@
             this.tmProtection.Interval = 500;
             this.tmProtection.Tick += new System.EventHandler(this.tmProtection_Tick);
             // 
-            // button1
+            // btnPrintExpense
             // 
-            this.button1.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.reshot_icon_print_math_sheet_Y8RFCP23N4;
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(531, 1);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(40, 40);
-            this.button1.TabIndex = 31;
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnPrintExpense.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.reshot_icon_print_math_sheet_Y8RFCP23N4;
+            this.btnPrintExpense.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnPrintExpense.Enabled = false;
+            this.btnPrintExpense.Location = new System.Drawing.Point(531, 1);
+            this.btnPrintExpense.Name = "btnPrintExpense";
+            this.btnPrintExpense.Size = new System.Drawing.Size(40, 40);
+            this.btnPrintExpense.TabIndex = 31;
+            this.btnPrintExpense.UseVisualStyleBackColor = true;
+            this.btnPrintExpense.Click += new System.EventHandler(this.btnPrintExpense_Click);
+            // 
+            // Expense_Id
+            // 
+            this.Expense_Id.DataPropertyName = "Expense_Id";
+            this.Expense_Id.HeaderText = "Mã đơn";
+            this.Expense_Id.Name = "Expense_Id";
+            this.Expense_Id.ReadOnly = true;
+            // 
+            // Expense_Date
+            // 
+            this.Expense_Date.DataPropertyName = "Expense_Date";
+            this.Expense_Date.HeaderText = "Ngày";
+            this.Expense_Date.Name = "Expense_Date";
+            this.Expense_Date.Width = 200;
+            // 
+            // Expense_IsInput
+            // 
+            this.Expense_IsInput.DataPropertyName = "Expense_IsInput";
+            this.Expense_IsInput.HeaderText = "Thu";
+            this.Expense_IsInput.Name = "Expense_IsInput";
+            this.Expense_IsInput.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Expense_IsInput.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Expense_IsInput.Width = 50;
+            // 
+            // Expense_Participant
+            // 
+            this.Expense_Participant.DataPropertyName = "Expense_Participant";
+            this.Expense_Participant.HeaderText = "Đối tượng";
+            this.Expense_Participant.Name = "Expense_Participant";
+            this.Expense_Participant.Width = 200;
+            // 
+            // Expense_Address
+            // 
+            this.Expense_Address.DataPropertyName = "Expense_Address";
+            this.Expense_Address.HeaderText = "Địa chỉ";
+            this.Expense_Address.Name = "Expense_Address";
+            this.Expense_Address.Width = 700;
+            // 
+            // Expense_Content
+            // 
+            this.Expense_Content.DataPropertyName = "Expense_Content";
+            this.Expense_Content.HeaderText = "Nội dung";
+            this.Expense_Content.Name = "Expense_Content";
+            this.Expense_Content.Width = 300;
+            // 
+            // Expense_Amount
+            // 
+            this.Expense_Amount.DataPropertyName = "Expense_Amount";
+            this.Expense_Amount.HeaderText = "Số tiền";
+            this.Expense_Amount.Name = "Expense_Amount";
+            this.Expense_Amount.Width = 150;
+            // 
+            // Expense_CertificateId
+            // 
+            this.Expense_CertificateId.DataPropertyName = "Expense_CertificateId";
+            this.Expense_CertificateId.HeaderText = "Số chứng từ";
+            this.Expense_CertificateId.Name = "Expense_CertificateId";
+            this.Expense_CertificateId.Width = 200;
+            // 
+            // btnPrintCustomerHistory
+            // 
+            this.btnPrintCustomerHistory.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.reshot_icon_print_math_sheet_Y8RFCP23N4;
+            this.btnPrintCustomerHistory.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnPrintCustomerHistory.Enabled = false;
+            this.btnPrintCustomerHistory.Location = new System.Drawing.Point(703, 207);
+            this.btnPrintCustomerHistory.Name = "btnPrintCustomerHistory";
+            this.btnPrintCustomerHistory.Size = new System.Drawing.Size(40, 40);
+            this.btnPrintCustomerHistory.TabIndex = 29;
+            this.btnPrintCustomerHistory.UseVisualStyleBackColor = true;
+            this.btnPrintCustomerHistory.Click += new System.EventHandler(this.btnPrintCustomerHistory_Click);
+            // 
+            // btnPrintStock
+            // 
+            this.btnPrintStock.BackgroundImage = global::NhakhoaMyNgoc_Db.Properties.Resources.reshot_icon_print_math_sheet_Y8RFCP23N4;
+            this.btnPrintStock.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnPrintStock.Location = new System.Drawing.Point(531, 1);
+            this.btnPrintStock.Name = "btnPrintStock";
+            this.btnPrintStock.Size = new System.Drawing.Size(40, 40);
+            this.btnPrintStock.TabIndex = 31;
+            this.btnPrintStock.UseVisualStyleBackColor = true;
+            this.btnPrintStock.Click += new System.EventHandler(this.btnPrintStock_Click);
             // 
             // frm_Main
             // 
@@ -1963,13 +2009,17 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.DataGridView dgv_Expense;
+        private System.Windows.Forms.Button btnPrintExpense;
         private System.Windows.Forms.DataGridViewTextBoxColumn Expense_Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn Expense_Date;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Expense_IsInput;
         private System.Windows.Forms.DataGridViewTextBoxColumn Expense_Participant;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Expense_Address;
         private System.Windows.Forms.DataGridViewTextBoxColumn Expense_Content;
         private System.Windows.Forms.DataGridViewTextBoxColumn Expense_Amount;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Expense_CertificateId;
+        private System.Windows.Forms.Button btnPrintCustomerHistory;
+        private System.Windows.Forms.Button btnPrintStock;
     }
 }
 

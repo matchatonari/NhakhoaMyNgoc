@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using Microsoft.Web.WebView2.Core;
 using System.Diagnostics;
+using System.IO;
 
 namespace NhakhoaMyNgoc_Db
 {
@@ -16,12 +17,11 @@ namespace NhakhoaMyNgoc_Db
 
         private async void PrintDialog_Load(object sender, EventArgs e)
         {
-            string receiptPath = Document.GetResultPath();
             Document.Render();
 
             webView.CoreWebView2InitializationCompleted += (s, ev) => {
                 if (ev.IsSuccess)
-                    webView.CoreWebView2.Navigate("file:///" + receiptPath.Replace("\\", "/"));
+                    webView.CoreWebView2.Navigate("file:///" + Path.Combine(Path.GetTempPath(), Document.GetFileName().ToString() + ".html").Replace("\\", "/"));
                 else
                     MessageBox.Show(ev.InitializationException.Message, "Lỗi khởi tạo WebView2");
             };
@@ -30,11 +30,13 @@ namespace NhakhoaMyNgoc_Db
 
         private async void btnPrint_Click(object sender, EventArgs e)
         {
-            string receiptPath = Document.GetResultPath();
+            string receiptPath = Path.Combine(Path.GetTempPath(), Document.GetFileName().ToString(), ".html");
             string pdfPath = receiptPath.Replace(".html", ".pdf");
 
             var options = webView.CoreWebView2.Environment.CreatePrintSettings();
-            options.Orientation = CoreWebView2PrintOrientation.Portrait;
+            options.Orientation = Document.Landscape ?
+                CoreWebView2PrintOrientation.Landscape : CoreWebView2PrintOrientation.Portrait;
+            
             options.ScaleFactor = 1.0;
 
             bool success = await webView.CoreWebView2.PrintToPdfAsync(pdfPath, options);

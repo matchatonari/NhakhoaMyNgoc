@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -10,6 +11,7 @@ namespace NhakhoaMyNgoc_Db
 {
     public class Customer
     {
+        public int Customer_Id { get; set; }
         public string Customer_FullName { get; set; }
         public bool Customer_Sex { get; set; }
         public DateTime Customer_Birthdate { get; set; }
@@ -65,11 +67,24 @@ namespace NhakhoaMyNgoc_Db
 
     public class Item
     {
-        public int Stock_Id { get; set; }
+        public int Stock_Id { get; set; } = -1;
         public string Stock_Name { get; set; }
         public int Stock_Quantity { get; set; } = 0;
         public int Stock_Total { get; set; } = 0;
         public string Stock_Unit { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Item i && (Stock_Id == i.Stock_Id || Stock_Name == i.Stock_Name);
+        }
+
+        public override int GetHashCode()
+        {
+            if (Stock_Id > 0)
+                return Stock_Id.GetHashCode();
+            else
+                return Stock_Name.GetHashCode();
+        }
     };
 
     public class Stock
@@ -85,24 +100,29 @@ namespace NhakhoaMyNgoc_Db
         public string Expense_Date { get; set; }
         public bool Expense_IsInput { get; set; }
         public string Expense_Participant { get; set; }
+        public string Expense_Address { get; set; }
         public string Expense_Content { get; set; }
         public string Expense_Amount { get; set; }
+        public int Expense_CertificateId { get; set; }
     };
 
     public static class Util
     {
-        public const int HOOK_REFORMAT = 0b000001;
-        public const int HOOK_UPDATE = 0b000010;
-        public const int HOOK_DELETE = 0b000100;
-        public const int HOOK_RESTORE = 0b001000;
-        public const int HOOK_DISMISS = 0b010000;
-        public const int HOOK_DTPKDIALOG = 0b100000;
+        public const int HOOK_REFORMAT = 0b0000001;
+        public const int HOOK_UPDATE = 0b0000010;
+        public const int HOOK_DELETE = 0b0000100;
+        public const int HOOK_RESTORE = 0b0001000;
+        public const int HOOK_DISMISS = 0b0010000;
+        public const int HOOK_DTPKDIALOG = 0b0100000;
+        public const int HOOK_RTIP = 0b1000000; // restrict input
 
         private static void AttachReformatHook(DataGridView dgv)
         {
             dgv.CellFormatting += (sender, e) =>
             {
                 string columnName = dgv.Columns[e.ColumnIndex].Name;
+                if (columnName.Contains("Id")) return;
+
                 if (e.Value != null && decimal.TryParse(e.Value.ToString(), out decimal value))
                 {
                     e.Value = value.ToString("N0");
@@ -233,6 +253,23 @@ namespace NhakhoaMyNgoc_Db
             };
         }
 
+        public static void AttachRestrictInputHook(DataGridView dgv)
+        {
+            dgv.CellValidating += (s, ev) =>
+            {
+                if ((dgv.Columns[ev.ColumnIndex].ValueType == typeof(int) ||
+                    dgv.Columns[ev.ColumnIndex].ValueType == typeof(long)) &&
+                    !dgv.CurrentRow.IsNewRow)
+                {
+                    if (!int.TryParse(ev.FormattedValue.ToString(), NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out _))
+                    {
+                        MessageBox.Show("Chỉ được nhập số!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        ev.Cancel = true; // Ngăn không cho rời khỏi ô
+                    }
+                }
+            };
+        }
+
         public static void AttachHook<T>(DataGridView dgv, int hook, string tableName = null, bool unrecoverable = false, ToolStripMenuItem ctl = null) where T : new()
         {
             if ((hook & HOOK_REFORMAT) > 0)
@@ -247,6 +284,8 @@ namespace NhakhoaMyNgoc_Db
                 DismissDirtyState(dgv);
             if ((hook & HOOK_DTPKDIALOG) > 0)
                 IncludeDtpkDialog(dgv);
+            if ((hook & HOOK_RTIP) > 0)
+                AttachRestrictInputHook(dgv);
         }
 
         private static void DismissDirtyState(DataGridView dgv) {
@@ -346,7 +385,7 @@ namespace NhakhoaMyNgoc_Db
                 else if (control is TextBox txt)
                     txt.Text = string.Empty;
                 else if (control is ComboBox cb)
-                    cb.SelectedIndex = -1;
+                    cb.SelectedIndex = (cb.Items.Count > 0) ? 0 : -1;
                 else if (control is DataGridView dgv)
                     dgv.DataSource = null;
             }
@@ -356,8 +395,8 @@ namespace NhakhoaMyNgoc_Db
         {
             dgv.CellBeginEdit += (sender, e) =>
             {
-                if (!dgv.Columns[e.ColumnIndex].Name.Contains("Date"))
-                    return;
+                bool result = dgv.Columns[e.ColumnIndex].Name.ToLower().Contains("date".ToLower());
+                if (!result) return;
 
                 e.Cancel = true;
                 // Lấy giá trị ngày hiện tại trong ô
@@ -401,12 +440,47 @@ namespace NhakhoaMyNgoc_Db
             dgv.DataSource = renderResult;
             renderResult.AcceptChanges();
         }
+
+        public static void CopyDirectory(string sourceDir, string destinationDir)
+        {
+            if (!Directory.Exists(sourceDir))
+                throw new DirectoryNotFoundException($"Thư mục nguồn không tồn tại: {sourceDir}");
+
+            // Tạo thư mục đích nếu chưa có
+            Directory.CreateDirectory(destinationDir);
+
+            // Copy tất cả các file
+            foreach (string file in Directory.GetFiles(sourceDir))
+            {
+                string destFile = Path.Combine(destinationDir, Path.GetFileName(file));
+                File.Copy(file, destFile, true); // `true` để ghi đè nếu file đã tồn tại
+            }
+
+            // Đệ quy copy các thư mục con
+            foreach (string subDir in Directory.GetDirectories(sourceDir))
+            {
+                string destSubDir = Path.Combine(destinationDir, Path.GetFileName(subDir));
+                CopyDirectory(subDir, destSubDir);
+            }
+        }
     }
 
     public abstract class PrintablePaper
     {
-        public static readonly string RESOURCE_PATH = Path.Combine(Application.StartupPath, "res");
-        public abstract string GetResultPath();
-        public abstract void Render();
+        public static readonly string RESOURCE_PATH = Path.Combine(Application.StartupPath, "Templates");
+        public bool Landscape { get; set; }
+        public PrintablePaper()
+        {
+            Util.CopyDirectory(RESOURCE_PATH, Path.GetTempPath());
+        }
+        public abstract string GetTemplateName();
+        public abstract object GetFileName();
+        public abstract void Edit(ref string templateSrc);
+        public void Render()
+        {
+            string templateSrc = File.ReadAllText(Path.Combine(RESOURCE_PATH, GetTemplateName() + ".html"));
+            Edit(ref templateSrc);
+            File.WriteAllText(Path.Combine(Path.GetTempPath(), GetFileName().ToString() + ".html"), templateSrc);
+        }
     }
 }

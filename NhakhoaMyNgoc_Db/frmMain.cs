@@ -5,6 +5,8 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
+using NhakhoaMyNgoc_Db.Templates;
+using System.Security.Cryptography;
 
 namespace NhakhoaMyNgoc_Db
 {
@@ -18,7 +20,7 @@ namespace NhakhoaMyNgoc_Db
         #region UTIL
         DataTable QueryCustomer()
         {
-            return Database.Query("Customer", null, new Dictionary<string, (QueryOperator, object)>
+            return Database.Query("Customer", conditions: new Dictionary<string, (QueryOperator, object)>
             {
                 { "Customer_FullName", (QueryOperator.LIKE, txtCustomer_FullName.Text) },
                 { "Customer_CitizenId", (QueryOperator.EQUALS, txtCustomer_CitizenId.Text) },
@@ -55,6 +57,11 @@ namespace NhakhoaMyNgoc_Db
 
             bsStock.DataSource = Database.Query("Stock");
             dgv_StockReceipt_SelectionChanged(sender, e);
+        }
+
+        bool IsRowValid(DataGridView dgv)
+        {
+            return (dgv.Rows.Count > 0 && dgv.CurrentRow != null);
         }
         #endregion
 
@@ -94,8 +101,8 @@ namespace NhakhoaMyNgoc_Db
                     Stock_Name = stockName,
                     Stock_Unit = detail.StockReceiptDetail_Unit
                 };
-                DataTable search = Database.Query("Stock", new List<string> { stockName },
-                                  new Dictionary<string, (QueryOperator, object)> { { "Stock_Name", (QueryOperator.COLLATE, stockName) } });
+                DataTable search = Database.Query("Stock", new List<string> { "Stock_Id", "Stock_Name" },
+                                  conditions: new Dictionary<string, (QueryOperator, object)> { { "Stock_Name", (QueryOperator.COLLATE, stockName) } });
                 item.Stock_Id = search.Rows.Count > 0 ? Convert.ToInt32(search.Rows[0]["Stock_Id"]) : Database.AddRecord("Stock", item);
 
                 // Tính tổng
@@ -137,7 +144,7 @@ namespace NhakhoaMyNgoc_Db
             }
 
             StockReceipt receipt = Util.MapRowTo<StockReceipt>(r);
-            DataTable details = Database.Query("StockReceiptDetail", null, new Dictionary<string, (QueryOperator, object)>
+            DataTable details = Database.Query("StockReceiptDetail", conditions: new Dictionary<string, (QueryOperator, object)>
             {
                 { "StockReceiptDetail_ReceiptId", (QueryOperator.EQUALS, receipt.StockReceipt_Id) },
             });
@@ -149,7 +156,7 @@ namespace NhakhoaMyNgoc_Db
                 // Tìm itemName
                 var itemId = Convert.ToInt32(dr["StockReceiptDetail_ItemId"]);
                 DataTable result = Database.Query("Stock", new List<string>() { "Stock_Name" },
-                    new Dictionary<string, (QueryOperator, object)> { { "Stock_Id", (QueryOperator.EQUALS, itemId) } });
+                    conditions: new Dictionary<string, (QueryOperator, object)> { { "Stock_Id", (QueryOperator.EQUALS, itemId) } });
                 if (result.Rows.Count > 0)
                 {
                     var itemName = result.Rows[0]["Stock_Name"];
@@ -207,7 +214,7 @@ namespace NhakhoaMyNgoc_Db
                     newitem.Stock_Total = newitem.Stock_Quantity * Convert.ToInt32(row.Cells["StockReceiptDetail_Price"].Value);
                     DataTable checkResult = Database.Query("Stock",
                         new List<string> { "Stock_Id" },
-                        new Dictionary<string, (QueryOperator, object)>
+                        conditions: new Dictionary<string, (QueryOperator, object)>
                             { { "Stock_Name", (QueryOperator.COLLATE, newitem.Stock_Name) } });
 
                     if (primaryValue == DBNull.Value)
@@ -274,6 +281,7 @@ namespace NhakhoaMyNgoc_Db
             }
 
             Customer customer = Util.GenerateObject<Customer>(
+                null,
                 txtCustomer_FullName,
                 rdCustomer_Male,
                 dtpkCustomer_Birthdate,
@@ -282,17 +290,16 @@ namespace NhakhoaMyNgoc_Db
                 txtCustomer_Phone
             );
             DataTable customerTable = QueryCustomer();
-            int customerId = 0;
 
             if (customerTable.Rows.Count == 0)
-                customerId = Database.AddRecord("Customer", customer);
+                customer.Customer_Id = Database.AddRecord("Customer", customer);
             else
-                customerId = Convert.ToInt32(customerTable.Rows[0]["Customer_Id"]);
+                customer.Customer_Id = Convert.ToInt32(customerTable.Rows[0]["Customer_Id"]);
 
             // tạo hoá đơn mới
             Receipt receipt = new Receipt
             {
-                Receipt_CustomerId = customerId,
+                Receipt_CustomerId = customer.Customer_Id,
                 Receipt_Date = dtpkReceipt_Date.Value,
                 Receipt_RevisitDate = dtpkReceipt_RevisitDate.Value.Date,
                 Receipt_Notes = txtReceipt_Notes.Text
@@ -363,10 +370,8 @@ namespace NhakhoaMyNgoc_Db
             }
 
             Receipt receipt = Util.MapRowTo<Receipt>(dgv_Receipt.CurrentRow);
-            DataTable details = Database.Query("ReceiptDetail", null, new Dictionary<string, (QueryOperator, object)>
-            {
-                { "ReceiptDetail_ReceiptId", (QueryOperator.EQUALS, receipt.Receipt_Id) },
-            });
+            DataTable details = Database.Query("ReceiptDetail", conditions: new Dictionary<string, (QueryOperator, object)>
+                { { "ReceiptDetail_ReceiptId", (QueryOperator.EQUALS, receipt.Receipt_Id) } });
 
             dtpkReceipt_Date.Value = receipt.Receipt_Date;
             dtpkReceipt_RevisitDate.Value = receipt.Receipt_RevisitDate;
@@ -444,11 +449,12 @@ namespace NhakhoaMyNgoc_Db
         #region KHACH_HANG
         private void btn_DeleteDetails_Click(object sender, EventArgs e)
         {
-            txtCustomer_FullName.Text
-                = txtCustomer_CitizenId.Text
-                = txtCustomer_Address.Text
-                = txtCustomer_Phone.Text
-                = string.Empty;
+            Util.ClearForm(
+                txtCustomer_FullName,
+                txtCustomer_CitizenId,
+                txtCustomer_Address,
+                txtCustomer_Phone
+                );
             txtCustomer_FullName.Focus();
         }
         /// <summary>
@@ -519,9 +525,9 @@ namespace NhakhoaMyNgoc_Db
                 dtpk_Expense_ToDate.MinDate = dtpk_Expense_FromDate.Value;
 
             Util.AttachHook<ReceiptDetail>(dgv_Receipt_Content,
-                Util.HOOK_REFORMAT | Util.HOOK_DELETE, "ReceiptDetail", true);
+                Util.HOOK_REFORMAT | Util.HOOK_DELETE | Util.HOOK_RTIP, "ReceiptDetail", true);
             Util.AttachHook<StockReceiptDetail>(dgv_StockReceipt_Content,
-                Util.HOOK_REFORMAT | Util.HOOK_DELETE, "StockReceiptDetail", true);
+                Util.HOOK_REFORMAT | Util.HOOK_DELETE | Util.HOOK_RTIP, "StockReceiptDetail", true);
             Util.AttachHook<Receipt>(dgv_Receipt,
                 Util.HOOK_REFORMAT | Util.HOOK_UPDATE | Util.HOOK_DELETE | Util.HOOK_DTPKDIALOG, "Receipt", true);
             Util.AttachHook<StockReceipt>(dgv_StockReceipt,
@@ -529,7 +535,7 @@ namespace NhakhoaMyNgoc_Db
             Util.AttachHook<Expense>(dgv_Expense,
                 Util.HOOK_REFORMAT | Util.HOOK_UPDATE | Util.HOOK_DELETE | Util.HOOK_DTPKDIALOG | Util.HOOK_DISMISS, "Expense", true);
             Util.AttachHook<Customer>(dgv_Customer,
-                Util.HOOK_UPDATE | Util.HOOK_DELETE | Util.HOOK_RESTORE | Util.HOOK_DISMISS, "Customer", false, tsi_Restore);
+                Util.HOOK_UPDATE | Util.HOOK_DELETE | Util.HOOK_RESTORE | Util.HOOK_DISMISS | Util.HOOK_DTPKDIALOG, "Customer", false, tsi_Restore);
 
 
             // sửa db
@@ -549,6 +555,8 @@ namespace NhakhoaMyNgoc_Db
             btn_SearchStockReceipt.Click += (s, ev) => LoadStockReceipts(s, ev);
 
             btnSearchExpenses_Click(sender, e);
+
+            this.FormClosing += (s, ev) => Database.Close();
         }
 
         private void tbcMain_SelectedIndexChanged(object sender, EventArgs e)
@@ -559,8 +567,9 @@ namespace NhakhoaMyNgoc_Db
 
         private void tmProtection_Tick(object sender, EventArgs e)
         {
-            btnSaveReceipt.Enabled = btnPrintReceipt.Enabled =
-                (dgv_Receipt.Rows.Count > 0 && dgv_Receipt.CurrentRow != null);
+            btnSaveReceipt.Enabled = btnPrintReceipt.Enabled = IsRowValid(dgv_Receipt);
+            btnPrintExpense.Enabled = IsRowValid(dgv_Expense);
+            btnPrintCustomerHistory.Enabled = IsRowValid(dgv_Customer);
         }
 
         private void btnSearchExpenses_Click(object sender, EventArgs e)
@@ -583,6 +592,114 @@ namespace NhakhoaMyNgoc_Db
             lblIncome.Text = string.Format("{0:N0}₫", income);
             lblExpense.Text = string.Format("{0:N0}₫", expense);
             lblRevenue.Text = string.Format("{0:N0}₫", revenue);
+        }
+
+        private void btnPrintExpense_Click(object sender, EventArgs e)
+        {
+            Expense ex = Util.MapRowTo<Expense>(dgv_Expense.CurrentRow);
+            if (ex != null)
+            {
+                ExpenseReceipt p = new ExpenseReceipt(ex);
+                p.Landscape = true;
+                new PrintDialog(p).Show();
+            }
+        }
+
+        private void btnPrintCustomerHistory_Click(object sender, EventArgs e)
+        {
+            Customer c = Util.MapRowTo<Customer>(dgv_Customer.CurrentRow);
+            DataTable dt = Database.GetCustomerHistory(c);
+            CustomerHistory ch = new CustomerHistory(c, dt);
+            new PrintDialog(ch).Show();
+        }
+
+        DataTable GetStockChanges(DateTime fromDate, DateTime toDate)
+        {
+            DataTable result = new DataTable();
+            result.Columns.AddRange(new[]
+            {
+                new DataColumn("Stock_Id", typeof(int)),
+                new DataColumn("Stock_Name", typeof(string)),
+                new DataColumn("Stock_Unit", typeof(string)),
+                new DataColumn("Quantity_Before", typeof(int)),
+                new DataColumn("Input", typeof(int)),
+                new DataColumn("Output", typeof(int)),
+                new DataColumn("Quantity_After", typeof(int))
+            });
+
+            DataTable receipts = new DataTable();
+
+            receipts = Database.Query("StockReceipt", new List<string>
+                { "StockReceipt_Id", "StockReceipt_IsInput" }, conditions: new Dictionary<string, (QueryOperator, object)>
+                { { "StockReceipt_Date", (QueryOperator.BETWEEN, (fromDate, toDate)) } });
+
+            IDictionary<Item, (int, int)> transactionCount = new Dictionary<Item, (int, int)>();
+
+            foreach (DataRow receipt in receipts.Rows)
+            {
+                var receiptId = receipt["StockReceipt_Id"];
+                DataTable details = Database.Query("StockReceiptDetail", new List<string> { "StockReceiptDetail_ItemId", "StockReceiptDetail_Quantity" },
+                    conditions: new Dictionary<string, (QueryOperator, object)>
+                    { { "StockReceiptDetail_ReceiptId", (QueryOperator.EQUALS, receiptId) } });
+                bool isInput = Convert.ToBoolean(receipt["StockReceipt_IsInput"]);
+                foreach (DataRow detail in details.Rows)
+                {
+                    Item item = new Item();
+
+                    int quantity = Convert.ToInt32(detail["StockReceiptDetail_Quantity"]);
+                    int productId = Convert.ToInt32(detail["StockReceiptDetail_ItemId"]);
+                    DataTable itemResult = Database.Query("Stock", new List<string> { "Stock_Name", "Stock_Unit" }, conditions: new Dictionary<string, (QueryOperator, object)>
+                        { { "Stock_Id", (QueryOperator.EQUALS, productId) } });
+
+                    item.Stock_Id = productId;
+                    item.Stock_Name = itemResult.Rows[0]["Stock_Name"].ToString();
+                    item.Stock_Unit = itemResult.Rows[0]["Stock_Unit"].ToString();
+
+                    ValueTuple<int, int> oldValue;
+                    if (!transactionCount.TryGetValue(item, out oldValue)) oldValue = (0, 0);
+
+                    transactionCount[item] = isInput ? (oldValue.Item1 + quantity, oldValue.Item2) : (oldValue.Item1, oldValue.Item2 + quantity);
+                }
+            }
+
+            foreach (KeyValuePair<Item, (int, int)> kvp in transactionCount)
+            {
+                Item k = kvp.Key;
+                int input = kvp.Value.Item1;
+                int output = kvp.Value.Item2;
+                result.Rows.Add(k.Stock_Id, k.Stock_Name, k.Stock_Unit, 0, input, output, input - output);
+            }
+
+            return result;
+        }
+
+        private void btnPrintStock_Click(object sender, EventArgs e)
+        {
+            DateTime from = dtpk_Receipt_FromDate.Value.Date;
+            DateTime to = dtpk_Receipt_ToDate.Value.AddDays(1).AddSeconds(-1).Date;
+
+            DataTable between = GetStockChanges(from, to);
+            DataTable before = GetStockChanges(DateTime.MinValue, from);
+
+            foreach (DataRow item in between.Rows)
+            {
+                DataRow[] itemResult = before.Select($"Stock_Id = {item["Stock_Id"]}");
+                if (itemResult.Length > 0)
+                {
+                    int got = Convert.ToInt32(item["Quantity_Before"]);
+                    int current = Convert.ToInt32(itemResult[0]["Quantity_After"]);
+                    int willGet = Convert.ToInt32(item["Quantity_After"]);
+                    item["Quantity_Before"] = got + current;
+                    item["Quantity_After"] = willGet + got + current;
+                }
+            }
+
+            var sumConditions = new List<string> { "StockReceipt_Total" };
+            DataTable sum = Database.Query("StockReceipt", sumConditions, sumConditions, new Dictionary<string, (QueryOperator, object)>
+                { { "StockReceipt_Date", (QueryOperator.LESS_THAN_OR_EQUAL, to) } });
+
+            StockReport sr = new StockReport(from, to, between, Convert.ToInt32(sum.Rows[0]["SUM(StockReceipt_Total)"]));
+            new PrintDialog(sr).Show();
         }
     }
 }

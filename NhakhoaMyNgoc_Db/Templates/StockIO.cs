@@ -13,18 +13,22 @@ namespace NhakhoaMyNgoc_Db
     {
         StockReceipt receipt;
         DataTable details;
-        bool isInput;
         public StockIO(StockReceipt receipt, DataTable details)
         {
             this.receipt = receipt;
             this.details = details;
         }
 
-        public override string GetResultPath()
+        public override string GetTemplateName()
         {
-            return Path.Combine(Path.GetTempPath(), receipt.StockReceipt_Id + ".html");
+            return receipt.StockReceipt_IsInput ? "StockI" : "StockO";
         }
-        public override void Render()
+
+        public override object GetFileName()
+        {
+            return receipt.StockReceipt_Id;
+        }
+        public override void Edit(ref string templateSrc)
         {
             string serviceList = string.Empty;
             foreach (DataRow row in details.Rows)
@@ -45,29 +49,20 @@ namespace NhakhoaMyNgoc_Db
                 serviceList += "</tr>";
             }
 
-            string receiptPath = GetResultPath();
-
-            File.Copy(Path.Combine(PrintablePaper.RESOURCE_PATH, (receipt.StockReceipt_IsInput ? "stock_input.html" : "stock_output.html")), receiptPath, true);
-            File.Copy(Path.Combine(PrintablePaper.RESOURCE_PATH, "logo.png"), Path.Combine(Path.GetTempPath(), "logo.png"), true);
-            File.Copy(Path.Combine(PrintablePaper.RESOURCE_PATH, "docTien.js"), Path.Combine(Path.GetTempPath(), "docTien.js"), true);
-
             DataTable stockList = Database.Query("StockList", conditions: new Dictionary<string, (QueryOperator, object)>
                 { { "StockList_Id", (QueryOperator.EQUALS, receipt.StockReceipt_StockId) } });
             DataRow stock = stockList.Rows[0];
             string stockAlias = stock["StockList_Alias"].ToString();
             string stockAddress = stock["StockList_Address"].ToString();
 
-            string receiptContent = File.ReadAllText(receiptPath);
             var receiptProperties = typeof(StockReceipt).GetProperties();
             foreach (var prop in receiptProperties)
-                receiptContent = receiptContent.Replace($"{{{{{prop.Name}}}}}", prop.GetValue(receipt).ToString());
+                templateSrc = templateSrc.Replace($"{{{{{prop.Name}}}}}", prop.GetValue(receipt).ToString());
 
-            receiptContent = receiptContent
+            templateSrc = templateSrc
                 .Replace("{{StockList_Alias}}", stockAlias)
                 .Replace("{{StockList_Address}}", stockAddress)
                 .Replace("{{StockReceiptDetail}}", serviceList);
-
-            File.WriteAllText(receiptPath, receiptContent);
         }
     }
 }

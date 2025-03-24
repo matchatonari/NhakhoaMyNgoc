@@ -6,6 +6,7 @@ using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace NhakhoaMyNgoc_Db
@@ -13,6 +14,8 @@ namespace NhakhoaMyNgoc_Db
     public enum QueryOperator
     {
         EQUALS,
+        LESS_THAN,
+        LESS_THAN_OR_EQUAL,
         LIKE,
         BETWEEN,
         COLLATE
@@ -23,14 +26,21 @@ namespace NhakhoaMyNgoc_Db
         private static readonly string databaseFile = Path.Combine(Application.StartupPath, "res", "database.db");
         static SQLiteConnection connection;
 
-        public static void Initialize() {
+        public static void Initialize()
+        {
+            if (!File.Exists(databaseFile))
+                SQLiteConnection.CreateFile(databaseFile);
+
             connection = new SQLiteConnection($"Data Source={databaseFile};Version=3;");
             connection.Open();
-
-            // Cho phép thay đổi khoá ngoại
-            using (var command = new SQLiteCommand("PRAGMA foreign_keys = ON;", connection))
-                command.ExecuteNonQuery();
         }
+
+        public static void Close()
+        {
+            if (connection != null && connection.State == ConnectionState.Open)
+                connection.Close();
+        }
+
         /// <summary>
         /// Thêm hàng vào bảng.
         /// </summary>
@@ -67,7 +77,7 @@ namespace NhakhoaMyNgoc_Db
                         value = DBNull.Value;
 
                     command.Parameters.AddWithValue(parameterName, value);
-                }    
+                }
                 object lastId = command.ExecuteScalar();
                 return Convert.ToInt32(lastId);
             }
@@ -83,7 +93,7 @@ namespace NhakhoaMyNgoc_Db
         public static DataTable UpdateRecord(string tableName, int primaryValue, Dictionary<string, object> edits)
         {
             DataTable rowsEdited = new DataTable();
-            
+
             string editExpr = string.Join(", ", edits.Keys.Select(k => $"{k} = @{k}"));
 
             string sql = $"UPDATE {tableName} SET {editExpr} WHERE {tableName}_Id = @PrimaryKey RETURNING *";
@@ -139,7 +149,7 @@ namespace NhakhoaMyNgoc_Db
         /// <param name="conditions">Map chứa key là tên cột, value là (bool, object) với object là giá trị tìm,
         ///     QueryOperator là toán tử sử dụng theo enum.</param>
         /// <returns>DataTable chứa kết quả truy vấn.</returns>
-        public static DataTable Query(string tableName, List<string> queryProperties = null, Dictionary<string, (QueryOperator, object)> conditions = null)
+        public static DataTable Query(string tableName, List<string> queryProperties = null, List<string> sumColumns = null, Dictionary<string, (QueryOperator, object)> conditions = null)
         {
             DataTable result = new DataTable();
             var tokens = new List<string>();
@@ -164,6 +174,10 @@ namespace NhakhoaMyNgoc_Db
                     {
                         case QueryOperator.EQUALS:
                             opResult = "="; break;
+                        case QueryOperator.LESS_THAN:
+                            opResult = "<"; break;
+                        case QueryOperator.LESS_THAN_OR_EQUAL:
+                            opResult = "<="; break;
                         case QueryOperator.COLLATE:
                             opResult = "=";
                             extraCommand = "COLLATE NOCASE";
@@ -205,7 +219,27 @@ namespace NhakhoaMyNgoc_Db
             }
 
             string expression = string.Join(" AND ", tokens);
-            string sql = $"SELECT * FROM {tableName}";
+            string sql = "SELECT ";
+            if (queryProperties != null)
+            {
+                foreach (string property in queryProperties)
+                {
+                    if (sql != "SELECT ")
+                        sql += ", ";
+
+                    if (sumColumns != null)
+                    {
+                        if (sumColumns.Contains(property))
+                            sql += $"SUM({property})";
+                    }
+                    else
+                        sql += property;
+                }
+            }
+            else
+                sql += '*';
+
+            sql += $" FROM {tableName}";
 
             if (expression != string.Empty)
                 sql += " WHERE " + expression;
@@ -228,7 +262,7 @@ namespace NhakhoaMyNgoc_Db
         /// <returns>Bảng các đơn hàng của khách hàng.</returns>
         public static DataTable GetReceipts(Customer customer)
         {
-            DataTable customers = Query("Customer", null, new Dictionary<string, (QueryOperator, object)>
+            DataTable customers = Query("Customer", conditions: new Dictionary<string, (QueryOperator, object)>
             {
                 { "Customer_FullName", (QueryOperator.LIKE, customer.Customer_FullName) },
                 { "Customer_CitizenId", (QueryOperator.EQUALS, customer.Customer_CitizenId) },
@@ -236,8 +270,27 @@ namespace NhakhoaMyNgoc_Db
                 { "Customer_Phone", (QueryOperator.EQUALS, customer.Customer_Phone) }
             });
 
+            if (customers.Rows.Count == 0)
+                return new DataTable();
+
             DataRow bestResult = customers.Rows[0];
-            return Query("Receipt", null, new Dictionary<string, (QueryOperator, object)> { { "Receipt_CustomerId", (QueryOperator.EQUALS, bestResult["Customer_Id"]) } });
+            return Query("Receipt", conditions: new Dictionary<string, (QueryOperator, object)> { { "Receipt_CustomerId", (QueryOperator.EQUALS, bestResult["Customer_Id"]) } });
+        }
+
+        public static DataTable GetCustomerHistory(Customer customer)
+        {
+            string sql = "SELECT r.Receipt_Date, d.ReceiptDetail_Content, r.Receipt_Total, r.Receipt_Remaining " +
+                "FROM Receipt r " +
+                "JOIN ReceiptDetail d ON d.ReceiptDetail_ReceiptId = r.Receipt_Id " +
+                "WHERE Receipt_CustomerId = @Customer_Id;";
+            DataTable result = new DataTable();
+            using (var cmd = new SQLiteCommand(sql, connection))
+            {
+                cmd.Parameters.AddWithValue("@Customer_Id", customer.Customer_Id);
+                using (SQLiteDataAdapter adapter = new SQLiteDataAdapter(cmd))
+                    adapter.Fill(result);
+            }
+            return result;
         }
     }
 }
