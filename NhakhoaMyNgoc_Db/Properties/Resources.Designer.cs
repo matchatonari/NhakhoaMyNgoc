@@ -113,9 +113,9 @@ namespace NhakhoaMyNgoc_Db.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap reshot_icon_print_math_sheet_Y8RFCP23N4 {
+        internal static System.Drawing.Bitmap PRINT {
             get {
-                object obj = ResourceManager.GetObject("reshot-icon-print-math-sheet-Y8RFCP23N4", resourceCulture);
+                object obj = ResourceManager.GetObject("PRINT", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -1,0 +1,118 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.4.1/paper.css">
+    <style>
+        @page { size: A5 }
+        .sheet {
+            padding: 5mm;
+            background-color: #fafafa;
+			font-family: "Times New Roman", "Times", serif;
+        }
+        body {
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .header h1, .header p {
+            margin: 0 0 10px;
+        }
+        .header img {
+		    width: 100px; /* Hoặc kích thước mong muốn */
+		    height: auto;
+		}
+		#frontmatter h1 {
+		    font-size: 30px; /* Giảm kích thước */
+		    margin-bottom: 0px; /* Giảm khoảng cách dưới */
+		    margin-top: 10px;
+		}
+		#frontmatter p {
+		    margin-top: 0;
+		    margin-bottom: 0px; /* Giảm khoảng cách */
+		}
+		@media print {
+		    body {
+		        background: none; /* Xóa nền xám */
+		    }
+		    .sheet {
+		        box-shadow: none; /* Xóa hiệu ứng đổ bóng nếu có */
+		        page-break-after: always; /* Đảm bảo không bị cắt ngang trang */
+		    }
+		}
+    </style>
+</head>
+<body class="A5 landscape">
+    <section class="sheet">
+    	<div class="content">
+	        <div class="header" style="display: flex; align-items: center">
+				<div style="width: 100px;"><img src="img/logo.png"></div>
+				<div style="width: 40%;">
+					<h1>NHA KHOA MỸ NGỌC</h1>
+					<p>268 Lý Thường Kiệt, P. 14, Q. 10, TP. HCM</p>
+					<p>Điện thoại: <b>0775 162 982</b></p>
+				</div>
+			</div>
+			<div style="display: block">
+				<div id="frontmatter" style="text-align: center;">
+					<h1>PHIẾU THU</h1>
+					<i><p id="date">{{date}}</p></i>
+				</div>
+				<div>
+					<p>Người nộp tiền: <b>{{Expense_Participant}}</b></p>
+					<p>Địa chỉ: <b>{{Expense_Address}}</b></p>
+					<p>Lý do nộp: <b>{{Expense_Content}}</b></p>
+					<p>Số tiền: <b id="TotalAmount">{{Expense_Amount}}</b> <i id="Receipt_Total_Pronunciation"></i></p>
+				</div>
+			</div>
+			<div class="footer">
+				<p>Số chứng từ gốc kèm theo: <b>{{Expense_CertificateId}}</b></p>
+				<div id="signatures" style="display: flex; text-align: center;">
+					<div id="writer" style="width: 20%">
+						<b>Người lập phiếu<br/></b>
+						<i>(Ký, họ tên)</i>
+					</div>
+					<div id="receiver" style="width: 20%">
+						<b>Người nộp tiền<br/></b>
+						<i>(Ký, họ tên)</i>
+					</div>
+					<div id="keeper" style="width: 20%">
+						<b>Thủ quỹ<br/></b>
+						<i>(Ký, họ tên)</i>
+					</div>
+					<div id="accountant" style="width: 20%">
+						<b>Kế toán trưởng<br/></b>
+						<i>(Ký, họ tên)</i>
+					</div>
+					<div id="director" style="width: 20%">
+						<b>Giám đốc<br/></b>
+						<i>(Ký, họ tên)</i>
+					</div>
+				</div>
+			</div>
+		</div>
+    </section>
+
+    <script src="js/docTien.js"></script>
+    <script type="text/javascript">
+    	let rows = document.querySelectorAll("#main-table tbody tr");
+    	rows.forEach((row, index) => {
+    		row.cells[0].innerText = index + 1;
+    		for (var i = 6; i < 8; i++)
+    			row.cells[i].innerText = Number(row.cells[i].innerText).toLocaleString();
+    	});
+
+    	const today = new Date();
+		const formattedDate = `Ngày ${today.getDate()} tháng ${today.getMonth() + 1} năm ${today.getFullYear()}`;
+		document.getElementById("date").innerText = formattedDate;
+
+		var total = Number(document.getElementById("TotalAmount").innerText);
+		document.getElementById("TotalAmount").innerText = Number(total).toLocaleString();
+
+		var docTien = new DocTienBangChu();
+		var pronunciation = docTien.doc(total);
+		document.getElementById("Receipt_Total_Pronunciation").innerText = "(" + pronunciation + ")";
+    </script>
+</body>
+</html>

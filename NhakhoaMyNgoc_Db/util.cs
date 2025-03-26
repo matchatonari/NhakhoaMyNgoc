@@ -131,15 +131,28 @@ namespace NhakhoaMyNgoc_Db
             };
         }
 
+        public static bool IsNumeric(object value)
+        {
+            return value is byte || value is sbyte || value is short || value is ushort ||
+                   value is int || value is uint || value is long || value is ulong ||
+                   value is float || value is double || value is decimal;
+        }
+
         private static bool IsRecordFullyEntered<T>(T record)
         {
             foreach (var prop in typeof(T).GetProperties())
             {
                 if (prop.Name.EndsWith("_Id")) continue; // Bỏ qua cột có "_Id"
-
                 var value = prop.GetValue(record);
-                if (value == null || value is DBNull || (value is string str && str.Length == 0))
-                    return false; // Nếu có giá trị null, DBNull hoặc chuỗi rỗng => chưa nhập đủ
+                if (IsNumeric(value))
+                {
+                    if (Convert.ToDouble(value) == 0)
+                        return false;
+                } else
+                {
+                    if (value == null || value is DBNull || (value is string str && str.Length == 0))
+                        return false; // Nếu có giá trị null, DBNull hoặc chuỗi rỗng => chưa nhập đủ
+                }
             }
             return true;
         }
@@ -467,7 +480,7 @@ namespace NhakhoaMyNgoc_Db
 
     public abstract class PrintablePaper
     {
-        public static readonly string RESOURCE_PATH = Path.Combine(Application.StartupPath, "Templates");
+        public static readonly string RESOURCE_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NhakhoaMyNgoc", "Templates");
         public bool Landscape { get; set; }
         public PrintablePaper()
         {

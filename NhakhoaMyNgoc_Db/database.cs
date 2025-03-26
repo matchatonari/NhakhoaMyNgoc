@@ -6,6 +6,7 @@ using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace NhakhoaMyNgoc_Db
@@ -22,16 +23,41 @@ namespace NhakhoaMyNgoc_Db
 
     public class Database
     {
-        private static readonly string databaseFile = Path.Combine(Application.StartupPath, "database.db");
+        private static readonly string databaseFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "NhakhoaMyNgoc", "database.db");
         static SQLiteConnection connection;
 
         public static void Initialize()
         {
+            string folderPath = Path.GetDirectoryName(databaseFile);
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
+
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+            string schema = string.Empty;
             if (!File.Exists(databaseFile))
+            {
                 SQLiteConnection.CreateFile(databaseFile);
 
-            connection = new SQLiteConnection($"Data Source={databaseFile};Version=3;");
-            connection.Open();
+                connection = new SQLiteConnection($"Data Source={databaseFile};Version=3;");
+                connection.Open();
+
+                schema = File.ReadAllText(Path.Combine(Application.StartupPath, $"{version.Major}.{version.Minor}.{version.Build}.sql"));
+            }
+            else
+            {
+                connection = new SQLiteConnection($"Data Source={databaseFile};Version=3;");
+                connection.Open();
+
+                using (var command = new SQLiteCommand("PRAGMA user_version;", connection))
+                {
+                    int dataVersion = Convert.ToInt32(command.ExecuteScalar());
+                    schema = File.ReadAllText(Path.Combine(Application.StartupPath, $"DB{dataVersion}.sql"));
+                }
+            }
+
+            using (var cmd = new SQLiteCommand(schema, connection))
+                cmd.ExecuteNonQuery();
         }
 
         public static void Close()

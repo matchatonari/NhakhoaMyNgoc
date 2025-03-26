@@ -639,6 +639,10 @@ namespace NhakhoaMyNgoc_Db
             // khởi tạo db
             Database.Initialize();
 
+            // kiểm tra thư mục Templates
+            if (!Directory.Exists(PrintablePaper.RESOURCE_PATH))
+                Util.CopyDirectory(Path.Combine(Application.StartupPath, "Templates"), PrintablePaper.RESOURCE_PATH);
+
             // set phiên bản
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             this.Text = $"Nha khoa Mỹ Ngọc v{version.Major}.{version.Minor}.{version.Build}";
@@ -678,8 +682,6 @@ namespace NhakhoaMyNgoc_Db
                     (dgv_StockReceipt.Columns[ev.ColumnIndex].Name, dgv_StockReceipt.CurrentCell.Value);
             };
 
-            // update
-            msiKiemTraCapNhat.Click += (s, ev) => new frmUpdate().Show();
             btnEditStockList.Click += (s, ev) =>
             {
                 if (new StockListEditor().ShowDialog() == DialogResult.OK)
@@ -709,11 +711,13 @@ namespace NhakhoaMyNgoc_Db
 
         private void tsiHelp_Click(object sender, EventArgs e)
         {
-            string pdfPath = Path.Combine(Application.StartupPath, "UserGuide.pdf");
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+
+            string pdfPath = Path.Combine(Application.StartupPath, $"{version.Major}.{version.Minor}.{version.Build}_UserGuide.pdf");
             if (File.Exists(pdfPath))
                 Process.Start(new ProcessStartInfo(pdfPath) { UseShellExecute = true });
             else
-                MessageBox.Show("Không tìm thấy hướng dẫn! Vui lòng kiểm tra lại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Không tìm thấy hướng dẫn tại {pdfPath}! Vui lòng kiểm tra lại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

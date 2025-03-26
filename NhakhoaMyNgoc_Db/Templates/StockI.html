@@ -1,0 +1,136 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.4.1/paper.css">
+    <style>
+        @page { size: A4 }
+        .sheet {
+            padding: 20mm;
+            background-color: #fafafa;
+			font-family: "Times New Roman", "Times", serif;
+        }
+        body {
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .header h1, .header p {
+            margin: 0 0 10px;
+        }
+        #main-table td:nth-child(n+4):nth-child(-n+6) {
+		    text-align: right;
+		}
+		#main-table td:nth-child(3), #main-table td:nth-child(1) {
+			text-align: center;
+		}
+		#main-table td {
+			padding: 5px;
+			border: 1px solid black;
+			border-bottom: 1px dashed black;
+		}
+		#main-table th {
+			text-align: center;
+			padding: 5px;
+			background-color: black !important;
+			color: white !important;
+			border: 1px solid white;
+			background-color: black !important;
+		    -webkit-print-color-adjust: exact;
+		    print-color-adjust: exact;
+		}
+    </style>
+</head>
+<body class="A4">
+    <section class="sheet">
+        <div class="header" style="display: flex; align-items: center">
+			<div style="width: 30%; text-align: center"><img src="img/logo.png" style="width: 100%; max-width: 150px; height: auto;"></div>
+			<div style="width: 70%; padding-left: 20px">
+				<h1>NHA KHOA MỸ NGỌC</h1>
+				<p>268 Lý Thường Kiệt, P. 14, Q. 10, TP. HCM</p>
+				<p>Điện thoại: <b>0775 162 982</b></p>
+			</div>
+		</div>
+		<div style="display: block">
+			<div id="frontmatter" style="text-align: center;">
+				<h1 style="font-size: 34px;">PHIẾU NHẬP KHO</h1>
+				<i><p id="date">{{date}}</p></i>
+			</div>
+			<div>
+				<p>Người xuất hàng: <b>{{StockReceipt_Correspondent}} - {{StockReceipt_Division}}</b></p>
+				<p>Lý do nhập: <b>{{StockReceipt_Reason}}</b></p>
+				<p>Nhập tại kho: <b>{{StockList_Alias}} - {{StockList_Address}}</b></p>
+			</div>
+			<div>
+				<table id="main-table" style="width: 100%; border-collapse: collapse; border: 1px solid black">
+					<thead>
+							<th width="20px" rowspan="2">#</th>
+							<th width="200px"rowspan="2">Hàng hoá</th>
+							<th width="20px" rowspan="2">Mã số</th>
+							<th width="30px" rowspan="2">Đ.vị tính</th>
+							<th width="20px" colspan="2">Số lượng</th>
+							<th width="60px" rowspan="2">Đơn giá</th>
+							<th width="60px" rowspan="2">Thành tiền</th>
+						</tr>
+						<tr>
+							<th width="20px">Yêu cầu</th>
+							<th width="20px">Thực xuất</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{StockReceiptDetail}}
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="footer">
+			<p><b>Tổng cộng: <span id="Receipt_Total">{{StockReceipt_Total}}</span>₫</b> <i id="Receipt_Total_Pronunciation"></i></p>
+			<p>Số chứng từ gốc kèm theo: <b>{{StockReceipt_CertificateId}}</b></p>
+			<div id="signatures" style="display: flex; text-align: center;">
+				<div id="writer" style="width: 20%">
+					<b>Người lập phiếu<br/></b>
+					<i>(Ký, họ tên)</i>
+				</div>
+				<div id="receiver" style="width: 20%">
+					<b>Người nhận hàng<br/></b>
+					<i>(Ký, họ tên)</i>
+				</div>
+				<div id="keeper" style="width: 20%">
+					<b>Thủ kho<br/></b>
+					<i>(Ký, họ tên)</i>
+				</div>
+				<div id="accountant" style="width: 20%">
+					<b>Kế toán trưởng<br/></b>
+					<i>(Ký, họ tên)</i>
+				</div>
+				<div id="director" style="width: 20%">
+					<b>Giám đốc<br/></b>
+					<i>(Ký, họ tên)</i>
+				</div>
+			</div>
+		</div>
+    </section>
+
+    <script src="js/docTien.js"></script>
+    <script type="text/javascript">
+    	let rows = document.querySelectorAll("#main-table tbody tr");
+    	rows.forEach((row, index) => {
+    		row.cells[0].innerText = index + 1;
+    		for (var i = 6; i < 8; i++)
+    			row.cells[i].innerText = Number(row.cells[i].innerText).toLocaleString();
+    	});
+
+    	const today = new Date();
+		const formattedDate = `Ngày ${today.getDate()} tháng ${today.getMonth() + 1} năm ${today.getFullYear()}`;
+		document.getElementById("date").innerText = formattedDate;
+
+		var total = Number(document.getElementById("Receipt_Total").innerText);
+		document.getElementById("Receipt_Total").innerText = Number(total).toLocaleString();
+
+		var docTien = new DocTienBangChu();
+		var pronunciation = docTien.doc(total);
+		document.getElementById("Receipt_Total_Pronunciation").innerText = "(" + pronunciation + ")";
+    </script>
+</body>
+</html>
